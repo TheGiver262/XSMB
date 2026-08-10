@@ -1,0 +1,29 @@
+import datetime as dt
+from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'src'))
+
+from xsmb_probability import P0, load_draws, matrices, next_probabilities
+
+
+def test_baseline():
+    assert 0.237 < P0 < 0.238
+
+
+def test_data_shape():
+    draws = load_draws(ROOT / 'data' / 'xsmb_2025-08-11_2026-08-10.csv')
+    presence, counts = matrices(draws)
+    assert len(draws) == 361
+    assert presence.shape == (361, 100)
+    assert counts.shape == (361, 100)
+    assert (counts.sum(axis=1) == 27).all()
+
+
+def test_prediction_bounds():
+    draws = load_draws(ROOT / 'data' / 'xsmb_2025-08-11_2026-08-10.csv')
+    rows, metrics = next_probabilities(draws, dt.date(2026, 8, 11))
+    assert len(rows) == 100
+    assert all(0 < r['probability'] < 1 for r in rows)
+    assert 0 <= metrics['selected_blend'] <= 1
