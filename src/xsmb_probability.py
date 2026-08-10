@@ -45,13 +45,22 @@ FEATURE_NAMES = [
 
 
 def load_draws(path: str | Path) -> list[dict]:
+    path = Path(path)
+    if path.is_dir():
+        csv_paths = sorted(path.glob('xsmb_part_*.csv'))
+        if not csv_paths:
+            raise FileNotFoundError(f'No xsmb_part_*.csv files found in {path}')
+    else:
+        csv_paths = [path]
+
     draws = []
-    with open(path, encoding='utf-8') as f:
-        for row in csv.DictReader(f):
-            item = {'date': dt.date.fromisoformat(row['date'])}
-            for col, width in PRIZE_LENGTHS.items():
-                item[col] = str(row[col]).zfill(width)
-            draws.append(item)
+    for csv_path in csv_paths:
+        with csv_path.open(encoding='utf-8') as f:
+            for row in csv.DictReader(f):
+                item = {'date': dt.date.fromisoformat(row['date'])}
+                for col, width in PRIZE_LENGTHS.items():
+                    item[col] = str(row[col]).zfill(width)
+                draws.append(item)
     draws.sort(key=lambda x: x['date'])
     return draws
 
@@ -281,7 +290,7 @@ def write_prediction(rows: list[dict], metrics: dict, out_path: str | Path) -> N
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data', required=True, help='Raw XSMB CSV')
+    parser.add_argument('--data', required=True, help='Raw XSMB CSV file or directory of xsmb_part_*.csv files')
     parser.add_argument('--target-date', required=True, help='YYYY-MM-DD')
     parser.add_argument('--out', required=True, help='Prediction CSV output')
     args = parser.parse_args()
