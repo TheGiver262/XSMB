@@ -9,6 +9,8 @@ xuất hiện ít nhất một lần trong 27 kết quả của kỳ kế tiếp
 - Số ngày lịch: **365**
 - Số kỳ XSMB có dữ liệu: **361**
 - Không có kỳ trong nguồn: **2026-02-16 → 2026-02-19**
+- Dataset trong repo: `data/parts/xsmb_part_01.csv` → `xsmb_part_04.csv` (361 kỳ)
+- SHA-256 khi ghép đúng thứ tự: `81457351b380daf0d87f3cf533d2a0980f4d21da02d1f3007a8522d656d9f879`
 - Nguồn chính: `khiemdoan/vietnam-lottery-xsmb-analysis`
 - Nguồn raw: https://raw.githubusercontent.com/khiemdoan/vietnam-lottery-xsmb-analysis/refs/heads/main/data/xsmb.csv
 
@@ -49,8 +51,9 @@ baseline lý thuyết thay vì bịa ra “cầu”.
 
 ```bash
 python -m pip install -r requirements.txt
+pytest -q
 python src/xsmb_probability.py \
-  --data data/xsmb_2025-08-11_2026-08-10.csv \
+  --data data/parts \
   --target-date 2026-08-11 \
   --out output/prediction_2026-08-11.csv
 ```
