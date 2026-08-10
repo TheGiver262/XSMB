@@ -13,7 +13,7 @@ def test_baseline():
 
 
 def test_data_shape():
-    draws = load_draws(ROOT / 'data' / 'xsmb_2025-08-11_2026-08-10.csv')
+    draws = load_draws(ROOT / 'data' / 'parts')
     presence, counts = matrices(draws)
     assert len(draws) == 361
     assert presence.shape == (361, 100)
@@ -22,7 +22,7 @@ def test_data_shape():
 
 
 def test_prediction_bounds():
-    draws = load_draws(ROOT / 'data' / 'xsmb_2025-08-11_2026-08-10.csv')
+    draws = load_draws(ROOT / 'data' / 'parts')
     rows, metrics = next_probabilities(draws, dt.date(2026, 8, 11))
     assert len(rows) == 100
     assert all(0 < r['probability'] < 1 for r in rows)
