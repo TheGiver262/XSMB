@@ -8,6 +8,14 @@ on:
       - 'src/xsmb_probability.py'
       - 'tests/**'
       - '.github/workflows/rebuild-two-year.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - '.rebuild-trigger'
+      - 'src/extend_history.py'
+      - 'src/xsmb_probability.py'
+      - 'tests/**'
+      - '.github/workflows/rebuild-two-year.yml'
   workflow_dispatch:
 
 permissions:
@@ -19,6 +27,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
