@@ -1,0 +1,52 @@
+name: Full-history predictive research
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Sunday 22:15 Vietnam time.
+    - cron: '15 15 * * 0'
+  push:
+    branches: [main]
+    paths:
+      - 'src/sync_upstream.py'
+      - 'src/research_predictive.py'
+      - 'src/xsmb_probability_v2.py'
+      - 'src/xsmb_3digit.py'
+      - '.github/workflows/full-research.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: xsmb-research-write
+  cancel-in-progress: false
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - run: pytest -q
+      - name: Mirror full upstream history
+        run: python src/sync_upstream.py
+      - name: Run predictive walk-forward research
+        run: python src/research_predictive.py
+      - name: Commit research outputs and feature gate
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/upstream research
+          if git diff --cached --quiet; then
+            echo "No research changes to commit"
+          else
+            git commit -m "Refresh full-history XSMB predictive research"
+            git pull --rebase origin main
+            git push origin main
+          fi
