@@ -1,18 +1,27 @@
 # XSMB 2-digit probability estimator
 
-Dự án thống kê 365 ngày lịch Xổ số Miền Bắc và ước lượng xác suất một bộ **00–99**
+Dự án thống kê **2 năm** Xổ số Miền Bắc và ước lượng xác suất một bộ **00–99**
 xuất hiện ít nhất một lần trong 27 kết quả của kỳ kế tiếp.
 
 ## Dữ liệu
 
-- Cửa sổ: **2025-08-11 → 2026-08-10**
-- Số ngày lịch: **365**
-- Số kỳ XSMB có dữ liệu: **361**
-- Không có kỳ trong nguồn: **2026-02-16 → 2026-02-19**
-- Dataset trong repo: `data/parts/xsmb_part_01.csv` → `xsmb_part_04.csv` (361 kỳ)
-- SHA-256 khi ghép đúng thứ tự: `81457351b380daf0d87f3cf533d2a0980f4d21da02d1f3007a8522d656d9f879`
+- Cửa sổ: **2024-08-11 → 2026-08-10**
+- Số ngày lịch: **730**
+- Số kỳ XSMB có dữ liệu: **722**
+- Năm trước: **361 kỳ** (2024-08-11 → 2025-08-10)
+- Năm gần nhất: **361 kỳ** (2025-08-11 → 2026-08-10)
+- Các ngày không có kỳ trong cửa sổ: 2025-01-28 → 2025-01-31 và 2026-02-16 → 2026-02-19
+- Dataset trong repo: `data/parts/xsmb_part_01.csv` → `xsmb_part_08.csv`
+- Metadata: `data/dataset_summary.json`
 - Nguồn chính: `khiemdoan/vietnam-lottery-xsmb-analysis`
 - Nguồn raw: https://raw.githubusercontent.com/khiemdoan/vietnam-lottery-xsmb-analysis/refs/heads/main/data/xsmb.csv
+
+## Thống kê mô tả
+
+Các file sinh tự động:
+
+- `output/statistics_2y_00_99.csv`: thống kê đầy đủ 00–99, gồm tần suất theo kỳ, tổng số nháy, so sánh hai năm, 30/90/180 kỳ, gan hiện tại, gan tối đa, chuỗi liên tiếp và giải đặc biệt.
+- `output/statistics_2y_summary.csv`: các chỉ số tổng quan và cực trị nổi bật.
 
 ## Định nghĩa xác suất
 
@@ -44,13 +53,24 @@ Thuật toán dùng một mô hình **ridge logistic pooled** cho 100 bộ số,
 3. chọn hệ số blend `lambda` bằng Brier score;
 4. xác suất cuối = `p0 + lambda * (p_model - p0)`.
 
-Nếu lịch sử không tạo tín hiệu out-of-sample, `lambda` sẽ tiến về 0 và mô hình trở về
-baseline lý thuyết thay vì bịa ra “cầu”.
+### Kết quả khi dùng 722 kỳ
+
+Backtest chọn:
+
+- `selected_l2 = 10`
+- `selected_blend = 0.00`
+- `CV Brier = 0.1810720336`
+- `Baseline Brier = 0.1810720336`
+- `Brier improvement = 0`
+
+Nghĩa là với bộ dữ liệu 2 năm này, các feature lịch sử **không cải thiện dự báo ngoài mẫu** so với baseline. Vì vậy mô hình được thiết kế để tự quay về xác suất lý thuyết **23.765729% cho mỗi bộ 00–99**, thay vì ép nhiễu lịch sử thành tín hiệu dự báo.
 
 ## Chạy
 
 ```bash
 python -m pip install -r requirements.txt
+python src/extend_history.py
+python src/build_statistics.py
 pytest -q
 python src/xsmb_probability.py \
   --data data/parts \
