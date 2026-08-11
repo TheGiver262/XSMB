@@ -66,12 +66,35 @@ def main():
     fields=sorted(set().union(*(r.keys() for r in ally+allo))); OUT.mkdir(exist_ok=True)
     with (OUT/'walk_forward_summary.csv').open('w',newline='',encoding='utf-8') as f:w=csv.DictWriter(f,fieldnames=fields,lineterminator='\n');w.writeheader();w.writerows(ally+allo)
     approved={t:[r['recipe'] for r in allo if r['target']==t and r['approved']] for t in ['two_digit','suffix3_any','g6_exact']}
-    for t in approved:
-        if 'long_only' not in approved[t]:approved[t].insert(0,'long_only')
-    sets=['long_only']
-    if 'recency' in approved['two_digit']:sets.append('recency')
-    if 'gap' in approved['two_digit']:sets.append('recency_gap')
-    if 'weekday' in approved['two_digit'] and 'gap' in approved['two_digit']:sets.append('full')
-    gate={'generated_from':'full-history walk-forward recipe screening','criteria':'overall Brier improvement > 0 and positive in >=60% of year folds','two_digit':{'allowed_feature_sets':sets,'approved_signal_recipes':approved['two_digit']},'suffix3_any':{'allowed_recipes':approved['suffix3_any']},'g6_exact':{'allowed_recipes':approved['g6_exact']}}
+    approved_2d=approved['two_digit']
+    sets=[]
+    if 'long_only' in approved_2d:sets.append('long_only')
+    if 'recency' in approved_2d:sets.append('recency')
+    if 'gap' in approved_2d:sets.append('recency_gap')
+    if 'weekday' in approved_2d and 'gap' in approved_2d:sets.append('full')
+    # Every live model needs a numerical candidate so validation can estimate a
+    # blend. long_only is a technical fallback, NOT an approved predictive edge.
+    if not sets:sets=['long_only']
+    allowed_3d={t:(approved[t] if approved[t] else ['long_only']) for t in ['suffix3_any','g6_exact']}
+    gate={
+        'generated_from':'full-history walk-forward recipe screening',
+        'criteria':'overall Brier improvement > 0 and positive in >=60% of year folds',
+        'fallback_policy':'If nothing is approved, long_only remains as a technical candidate and live calibration may set blend=0 to return exactly to baseline.',
+        'two_digit':{
+            'allowed_feature_sets':sets,
+            'approved_signal_recipes':approved_2d,
+            'fallback_feature_set':'long_only' if not approved_2d else None,
+        },
+        'suffix3_any':{
+            'allowed_recipes':allowed_3d['suffix3_any'],
+            'approved_recipes':approved['suffix3_any'],
+            'fallback_recipe':'long_only' if not approved['suffix3_any'] else None,
+        },
+        'g6_exact':{
+            'allowed_recipes':allowed_3d['g6_exact'],
+            'approved_recipes':approved['g6_exact'],
+            'fallback_recipe':'long_only' if not approved['g6_exact'] else None,
+        },
+    }
     (OUT/'feature_gate.json').write_text(json.dumps(gate,indent=2,ensure_ascii=False)+'\n',encoding='utf-8'); print(json.dumps(gate,indent=2))
 if __name__=='__main__':main()
