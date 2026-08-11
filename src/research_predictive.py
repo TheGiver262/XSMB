@@ -21,18 +21,6 @@ def bh(p):
     for r0 in range(m-1,-1,-1):
         i=order[r0]; run=min(run,p[i]*m/(r0+1)); q[i]=min(1.,run)
     return q
-def rates(i,weekday,dates,presence,spec,last=None):
-    p0=spec.baseline; hist=presence[:i]
-    long=(hist.sum(0)+spec.prior*p0)/(i+spec.prior)
-    hs=hist[max(0,i-spec.short):]; short=(hs.sum(0)+spec.short*p0)/(len(hs)+spec.short)
-    hl=hist[max(0,i-spec.long):]; recent=(hl.sum(0)+spec.long*p0)/(len(hl)+spec.long)
-    wi=[k for k in range(i) if dates[k].weekday()==weekday]
-    wr=((hist[wi].sum(0)+spec.weekday_prior*p0)/(len(wi)+spec.weekday_prior)) if wi else np.full(spec.universe,p0)
-    if last is None:
-        last=np.full(spec.universe,-1,dtype=int)
-        for k in range(i):last[np.flatnonzero(hist[k])]=k
-    gaps=np.where(last>=0,i-1-last,i); centered=np.clip(gaps/spec.gap_cap,0,1)-.5; gap=np.clip(p0*(1+.12*centered),p0*.5,min(.999,p0*1.5))
-    return {'long':long,'short':short,'recent_long':recent,'weekday':wr,'gap':gap}
 def recipe(f,name,u):
     p=np.zeros(u)
     for k,w in RECIPES[name].items():p+=w*f[k]
@@ -47,28 +35,35 @@ def stats(name,spec,dates,presence,counts):
     OUT.mkdir(exist_ok=True); p=OUT/f'{name}_number_stats.csv'
     with p.open('w',newline='',encoding='utf-8') as f:w=csv.DictWriter(f,fieldnames=list(rows[0]),lineterminator='\n');w.writeheader();w.writerows(rows)
 def walk(name,spec,dates,presence):
-    years=sorted(set(d.year for d in dates))[-6:]; first=years[0]; start=next((i for i,d in enumerate(dates) if d.year>=first),max(365,len(dates)-1825)); start=max(start,365)
-    last=np.full(spec.universe,-1,dtype=int)
-    for k in range(start):last[np.flatnonzero(presence[k])]=k
-    by={}; scores={r:[] for r in RECIPES}; base=[]
-    for i in range(start,len(dates)):
-        f=rates(i,dates[i].weekday(),dates,presence,spec,last); y=presence[i].astype(float); bb=brier(y,np.full(spec.universe,spec.baseline)); rec={'baseline':bb};base.append(bb)
-        for r in RECIPES:rec[r]=brier(y,recipe(f,r,spec.universe));scores[r].append(rec[r])
-        by.setdefault(dates[i].year,[]).append(rec);last[np.flatnonzero(presence[i])]=i
+    years=sorted(set(d.year for d in dates))[-6:]; first=years[0]; start=next((i for i,d in enumerate(dates) if d.year>=first),max(365,len(dates)-1825)); start=max(start,365); n=len(dates); u=spec.universe
+    prefix=np.zeros((n+1,u),dtype=np.int32); np.cumsum(presence,axis=0,dtype=np.int32,out=prefix[1:])
+    last=np.full(u,-1,dtype=np.int32); weekday_hits=np.zeros((7,u),dtype=np.int32); weekday_counts=np.zeros(7,dtype=np.int32)
+    for k in range(start):
+        hit=np.flatnonzero(presence[k]); last[hit]=k; wd=dates[k].weekday(); weekday_hits[wd]+=presence[k]; weekday_counts[wd]+=1
+    by={}; scores={r:[] for r in RECIPES}; base=[]; p0=spec.baseline
+    for i in range(start,n):
+        wd=dates[i].weekday(); long=(prefix[i]+spec.prior*p0)/(i+spec.prior)
+        ss=max(0,i-spec.short); ls=max(0,i-spec.long); short_hits=prefix[i]-prefix[ss]; long_hits=prefix[i]-prefix[ls]
+        short=(short_hits+spec.short*p0)/((i-ss)+spec.short); recent=(long_hits+spec.long*p0)/((i-ls)+spec.long)
+        wr=(weekday_hits[wd]+spec.weekday_prior*p0)/(weekday_counts[wd]+spec.weekday_prior)
+        gaps=np.where(last>=0,i-1-last,i); centered=np.clip(gaps/spec.gap_cap,0,1)-.5; gap=np.clip(p0*(1+.12*centered),p0*.5,min(.999,p0*1.5)); f={'long':long,'short':short,'recent_long':recent,'weekday':wr,'gap':gap}
+        y=presence[i].astype(float); bb=brier(y,np.full(u,p0)); rec={'baseline':bb}; base.append(bb)
+        for r in RECIPES:rec[r]=brier(y,recipe(f,r,u)); scores[r].append(rec[r])
+        by.setdefault(dates[i].year,[]).append(rec); hit=np.flatnonzero(presence[i]); last[hit]=i; weekday_hits[wd]+=presence[i]; weekday_counts[wd]+=1
     yr=[]
     for year,recs in sorted(by.items()):
         bb=sum(x['baseline'] for x in recs)/len(recs)
         for r in RECIPES:
-            mb=sum(x[r] for x in recs)/len(recs);yr.append({'target':name,'year':year,'recipe':r,'draws':len(recs),'model_brier':mb,'baseline_brier':bb,'brier_improvement':bb-mb})
-    overall=[];bb=sum(base)/len(base)
+            mb=sum(x[r] for x in recs)/len(recs); yr.append({'target':name,'year':year,'recipe':r,'draws':len(recs),'model_brier':mb,'baseline_brier':bb,'brier_improvement':bb-mb})
+    overall=[]; bb=sum(base)/len(base)
     for r in RECIPES:
-        mb=sum(scores[r])/len(scores[r]); ys=[x for x in yr if x['recipe']==r];wins=sum(float(x['brier_improvement'])>0 for x in ys);need=max(1,math.ceil(.60*len(ys)));overall.append({'target':name,'year':'ALL','recipe':r,'draws':len(base),'model_brier':mb,'baseline_brier':bb,'brier_improvement':bb-mb,'positive_years':wins,'required_positive_years':need,'approved':bool(bb-mb>0 and wins>=need)})
+        mb=sum(scores[r])/len(scores[r]); ys=[x for x in yr if x['recipe']==r]; wins=sum(float(x['brier_improvement'])>0 for x in ys); need=max(1,math.ceil(.60*len(ys))); overall.append({'target':name,'year':'ALL','recipe':r,'draws':len(base),'model_brier':mb,'baseline_brier':bb,'brier_improvement':bb-mb,'positive_years':wins,'required_positive_years':need,'approved':bool(bb-mb>0 and wins>=need)})
     return yr,overall
 def main():
     if not RAW.exists():raise SystemExit('Run src/sync_upstream.py first')
-    draws=load2(RAW);dates=[d['date'] for d in draws];p2,c2=matrices2(draws);p3,c3=matrices3(draws,SPECS['suffix3_any']);pg,cg=matrices3(draws,SPECS['g6_exact']);targets=[('two_digit',S2,p2,c2),('suffix3_any',S3A,p3,c3),('g6_exact',SG6,pg,cg)];ally=[];allo=[]
-    for name,spec,p,c in targets:print('research',name);stats(name,spec,dates,p,c);y,o=walk(name,spec,dates,p);ally+=y;allo+=o
-    fields=sorted(set().union(*(r.keys() for r in ally+allo)));OUT.mkdir(exist_ok=True)
+    draws=load2(RAW); dates=[d['date'] for d in draws]; p2,c2=matrices2(draws); p3,c3=matrices3(draws,SPECS['suffix3_any']); pg,cg=matrices3(draws,SPECS['g6_exact']); targets=[('two_digit',S2,p2,c2),('suffix3_any',S3A,p3,c3),('g6_exact',SG6,pg,cg)]; ally=[]; allo=[]
+    for name,spec,p,c in targets:print('research',name); stats(name,spec,dates,p,c); y,o=walk(name,spec,dates,p); ally+=y; allo+=o
+    fields=sorted(set().union(*(r.keys() for r in ally+allo))); OUT.mkdir(exist_ok=True)
     with (OUT/'walk_forward_summary.csv').open('w',newline='',encoding='utf-8') as f:w=csv.DictWriter(f,fieldnames=fields,lineterminator='\n');w.writeheader();w.writerows(ally+allo)
     approved={t:[r['recipe'] for r in allo if r['target']==t and r['approved']] for t in ['two_digit','suffix3_any','g6_exact']}
     for t in approved:
@@ -78,5 +73,5 @@ def main():
     if 'gap' in approved['two_digit']:sets.append('recency_gap')
     if 'weekday' in approved['two_digit'] and 'gap' in approved['two_digit']:sets.append('full')
     gate={'generated_from':'full-history walk-forward recipe screening','criteria':'overall Brier improvement > 0 and positive in >=60% of year folds','two_digit':{'allowed_feature_sets':sets,'approved_signal_recipes':approved['two_digit']},'suffix3_any':{'allowed_recipes':approved['suffix3_any']},'g6_exact':{'allowed_recipes':approved['g6_exact']}}
-    (OUT/'feature_gate.json').write_text(json.dumps(gate,indent=2,ensure_ascii=False)+'\n',encoding='utf-8');print(json.dumps(gate,indent=2))
+    (OUT/'feature_gate.json').write_text(json.dumps(gate,indent=2,ensure_ascii=False)+'\n',encoding='utf-8'); print(json.dumps(gate,indent=2))
 if __name__=='__main__':main()
