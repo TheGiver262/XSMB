@@ -1,0 +1,21 @@
+{
+  "source_repository": "khiemdoan/vietnam-lottery-xsmb-analysis",
+  "license": "MIT",
+  "first_date": "2005-10-01",
+  "last_date": "2026-08-10",
+  "observed_draws": 7518,
+  "files": {
+    "xsmb.csv": {
+      "sha256": "350e8e016bdd941a43696cfa99598c00dc9f68794fb12bf1a569e3f0c922b34c",
+      "bytes": 1068434
+    },
+    "xsmb-2-digits.csv": {
+      "sha256": "c3c7d1883f22bd5f0e9e2fe96d6ca54f9c3ae9eb73e5752bc613a01f8bd54c11",
+      "bytes": 671663
+    },
+    "xsmb-sparse.csv": {
+      "sha256": "7b8bb235c545794ab32b1c15f67628bc5507451e45068749bcd1ed8225025c87",
+      "bytes": 1586593
+    }
+  }
+}
