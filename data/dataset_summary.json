@@ -1,0 +1,19 @@
+{
+  "window_start": "2024-08-11",
+  "window_end": "2026-08-10",
+  "calendar_days": 730,
+  "observed_draws": 722,
+  "previous_year_draws": 361,
+  "recent_year_draws": 361,
+  "missing_calendar_dates": [
+    "2025-01-28",
+    "2025-01-29",
+    "2025-01-30",
+    "2025-01-31",
+    "2026-02-16",
+    "2026-02-17",
+    "2026-02-18",
+    "2026-02-19"
+  ],
+  "upstream_url": "https://raw.githubusercontent.com/khiemdoan/vietnam-lottery-xsmb-analysis/refs/heads/main/data/xsmb.csv"
+}
