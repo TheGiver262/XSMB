@@ -21,5 +21,5 @@ def test_matrices_distinguish_targets():
     assert a.sum()>=g.sum()
 
 def test_recipe_probability_vector():
-    f={k:np.full(1000,.02) for k in ['long','short','recent_long','weekday','gap']};p=recipe_probability(f,'trend_gap')
+    f={k:np.full(1000,.02) for k in ['long','short','recent_long','weekday','gap']};p=recipe_probability(f,'gap')
     assert p.shape==(1000,) and np.all((p>0)&(p<1))
