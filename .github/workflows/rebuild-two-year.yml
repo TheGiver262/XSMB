@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'src/extend_history.py'
+      - 'src/build_statistics.py'
       - 'src/xsmb_probability.py'
       - 'tests/**'
       - '.github/workflows/rebuild-two-year.yml'
@@ -13,6 +14,7 @@ on:
     paths:
       - '.rebuild-trigger'
       - 'src/extend_history.py'
+      - 'src/build_statistics.py'
       - 'src/xsmb_probability.py'
       - 'tests/**'
       - '.github/workflows/rebuild-two-year.yml'
@@ -42,6 +44,9 @@ jobs:
       - name: Extend dataset to two years
         run: python src/extend_history.py
 
+      - name: Build two-year statistics
+        run: python src/build_statistics.py
+
       - name: Recalculate next-draw probabilities
         run: |
           python src/xsmb_probability.py \
@@ -56,10 +61,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/parts data/dataset_summary.json output/prediction_2026-08-11.csv output/prediction_2026-08-11_metrics.csv
+          git add data/parts data/dataset_summary.json output/statistics_2y_00_99.csv output/statistics_2y_summary.csv output/prediction_2026-08-11.csv output/prediction_2026-08-11_metrics.csv
           if git diff --cached --quiet; then
             echo "No generated changes to commit"
           else
-            git commit -m "Extend XSMB history to two years and recalculate model"
+            git commit -m "Refresh two-year XSMB statistics and model"
+            git pull --rebase origin "$(git branch --show-current)"
             git push
           fi
