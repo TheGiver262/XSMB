@@ -1,11 +1,11 @@
 metric,value
-cv_brier,0.1810680590909187
-cv_log_loss,0.5481221006514503
+cv_brier,0.1810720336298528
+cv_log_loss,0.5481328270161895
 baseline_brier,0.1810720336298528
 baseline_log_loss,0.5481328270161895
-brier_improvement,3.974538934109484e-06
+brier_improvement,0.0
 theoretical_baseline,0.23765728565289646
 selected_l2,10.0
-selected_blend,0.18
-observed_draws,361
+selected_blend,0.0
+observed_draws,722
 target_date,2026-08-11
