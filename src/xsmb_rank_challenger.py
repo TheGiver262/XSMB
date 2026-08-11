@@ -22,9 +22,19 @@ BASE_NAMES = [
 
 
 def percentile_rank_row(x: np.ndarray) -> np.ndarray:
+    """Average percentile ranks for ties; no arbitrary number-order advantage."""
     order = np.argsort(x, kind="stable")
+    sx = x[order]
     ranks = np.empty(len(x), dtype=float)
-    ranks[order] = np.linspace(0.0, 1.0, len(x), endpoint=True)
+    n = len(x)
+    pos = 0
+    while pos < n:
+        end = pos + 1
+        while end < n and sx[end] == sx[pos]:
+            end += 1
+        avg_rank = ((pos + end - 1) / 2.0) / max(1, n - 1)
+        ranks[order[pos:end]] = avg_rank
+        pos = end
     return ranks
 
 
@@ -38,7 +48,7 @@ def rank_cube(raw_cube: np.ndarray) -> np.ndarray:
     return out
 
 
-def build_scores(names, cube, presence):
+def build_scores(names, cube):
     name_to_idx = {n: i for i, n in enumerate(names)}
     selected_idx = [name_to_idx[n] for n in BASE_NAMES]
     base = cube[:, selected_idx, :].astype(np.float32)
@@ -49,12 +59,8 @@ def build_scores(names, cube, presence):
     def add(name, members, reducer="mean"):
         idx = [BASE_NAMES.index(m) for m in members]
         stack = base_rank[:, idx, :]
-        if reducer == "mean":
-            arr = np.nanmean(stack, axis=1)
-        elif reducer == "min":
-            arr = np.nanmin(stack, axis=1)
-        else:
-            raise ValueError(reducer)
+        with np.errstate(invalid="ignore"):
+            arr = np.nanmean(stack, axis=1) if reducer == "mean" else np.nanmin(stack, axis=1)
         score_names.append(name)
         score_arrays.append(arr.astype(np.float32))
 
@@ -63,63 +69,91 @@ def build_scores(names, cube, presence):
     add("consensus_all", ["w1y_s300", "w3y_s300", "w5y_s300", "w10y_s300", "full_s300"])
     add("consensus_decay", ["decay1y_s300", "decay3y_s300", "decay5y_s300"])
     add("stable_hot_1_3_5", ["w1y_s300", "w3y_s300", "w5y_s300"], reducer="min")
-
-    n = len(presence)
-    gap_score = np.full((n + 1, 100), np.nan, dtype=np.float32)
-    repeat_score = np.full((n + 1, 100), np.nan, dtype=np.float32)
-    last = np.full(100, -1, dtype=int)
-    for i in range(n + 1):
-        if i >= 365:
-            gaps = np.where(last >= 0, i - 1 - last, i).astype(float)
-            gap_score[i] = percentile_rank_row(gaps)
-            prev = presence[i - 1].astype(float) if i else np.zeros(100)
-            repeat_score[i] = percentile_rank_row(prev)
-        if i < n:
-            hit = np.flatnonzero(presence[i])
-            last[hit] = i
-    score_names += ["gap_overdue_rank", "prev_hit_rank"]
-    score_arrays += [gap_score, repeat_score]
-
     return score_names, np.stack(score_arrays, axis=1)
 
 
-def topk_stats(scores, actual, idx, k):
+def topk_stats(score_matrix, actual, idx, k):
     hits = 0
     total = 0
-    per_yearless_day = []
     for i in idx:
-        top = np.argsort(-scores[i], kind="stable")[:k]
-        h = int(actual[i, top].sum())
-        hits += h
+        top = np.argsort(-score_matrix[i], kind="stable")[:k]
+        hits += int(actual[i, top].sum())
         total += k
-        per_yearless_day.append(h / k)
     rate = hits / total if total else float("nan")
-    return hits, total, rate, float(np.mean(per_yearless_day)) if per_yearless_day else float("nan")
+    return hits, total, rate
 
 
 def posterior_rate(hits, total, strength=1000.0):
     return (hits + strength * P0) / (total + strength)
 
 
-def choose_ranker(score_names, scores, actual, selection_idx):
+def choose_ranker(score_names, scores, actual, years, selection_idx):
     best = None
     detail = []
+    selection_years = sorted(set(years[selection_idx].tolist()))
     for j, name in enumerate(score_names):
-        h1, n1, r1, _ = topk_stats(scores[:, j], actual, selection_idx, 1)
-        h3, n3, r3, _ = topk_stats(scores[:, j], actual, selection_idx, 3)
-        h5, n5, r5, _ = topk_stats(scores[:, j], actual, selection_idx, 5)
+        h1, n1, r1 = topk_stats(scores[:, j], actual, selection_idx, 1)
+        h3, n3, r3 = topk_stats(scores[:, j], actual, selection_idx, 3)
+        h5, n5, r5 = topk_stats(scores[:, j], actual, selection_idx, 5)
         p1, p3, p5 = posterior_rate(h1, n1), posterior_rate(h3, n3), posterior_rate(h5, n5)
-        objective = 0.20 * p1 + 0.55 * p3 + 0.25 * p5
-        cand = (objective, p3, p5, p1, name, j)
-        detail.append((name, r1, r3, r5, p1, p3, p5, objective))
-        if best is None or cand[:4] > best[:4]:
+        yr3 = []
+        for yr in selection_years:
+            yi = selection_idx[years[selection_idx] == yr]
+            _, _, rate = topk_stats(scores[:, j], actual, yi, 3)
+            yr3.append(rate)
+        std3 = float(np.std(yr3)) if yr3 else 0.0
+        positive_fraction = float(np.mean(np.asarray(yr3) > P0)) if yr3 else 0.0
+        core = 0.20 * p1 + 0.55 * p3 + 0.25 * p5
+        objective = core - 0.50 * std3 + 0.002 * (positive_fraction - 0.5)
+        if positive_fraction < 0.50:
+            objective -= 0.005
+        cand = (objective, positive_fraction, -std3, p3, p5, p1, name, j)
+        detail.append({
+            "ranker": name,
+            "selection_top1_rate": r1,
+            "selection_top3_rate": r3,
+            "selection_top5_rate": r5,
+            "posterior_top1": p1,
+            "posterior_top3": p3,
+            "posterior_top5": p5,
+            "top3_year_std": std3,
+            "top3_positive_year_fraction": positive_fraction,
+            "objective": objective,
+        })
+        if best is None or cand[:6] > best[:6]:
             best = cand
+    detail.sort(key=lambda r: (-r["objective"], r["ranker"]))
     return best, detail
 
 
 def binomial_z(rate, n):
     se = math.sqrt(P0 * (1 - P0) / n)
     return (rate - P0) / se if se > 0 else 0.0
+
+
+def fixed_diagnostics(draws, actual, score_names, scores):
+    years = np.array([d["date"].year for d in draws], dtype=int)
+    valid = ~np.isnan(scores[:len(draws), 0, 0])
+    eval_idx = np.flatnonzero((years >= 2018) & valid)
+    eval_years = sorted(set(years[eval_idx].tolist()))
+    rows = []
+    for j, name in enumerate(score_names):
+        row = {"ranker": name}
+        for k in [1, 3, 5]:
+            h, n, r = topk_stats(scores[:, j], actual, eval_idx, k)
+            row[f"top{k}_hit_rate"] = r
+            row[f"top{k}_lift_pp"] = (r - P0) * 100.0
+            row[f"top{k}_z"] = binomial_z(r, n)
+        yr_rates = []
+        for yr in eval_years:
+            yi = np.flatnonzero((years == yr) & valid)
+            _, _, r = topk_stats(scores[:, j], actual, yi, 3)
+            yr_rates.append(r)
+        row["top3_positive_year_fraction"] = float(np.mean(np.asarray(yr_rates) > P0))
+        row["top3_year_std"] = float(np.std(yr_rates))
+        rows.append(row)
+    rows.sort(key=lambda r: (-r["top3_hit_rate"], -r["top3_positive_year_fraction"], r["ranker"]))
+    return rows
 
 
 def evaluate(draws, actual, score_names, scores):
@@ -133,20 +167,22 @@ def evaluate(draws, actual, score_names, scores):
         test_idx = np.flatnonzero((years == year) & valid)
         if len(selection_idx) < 600 or len(test_idx) < 30:
             continue
-        best, _ = choose_ranker(score_names, scores, actual, selection_idx)
-        objective, sel_p3, sel_p5, sel_p1, name, j = best
+        best, _ = choose_ranker(score_names, scores, actual, years, selection_idx)
+        objective, sel_pos, neg_std, sel_p3, sel_p5, sel_p1, name, j = best
         row = {
             "year": year,
             "selection_years": f"{year-4}-{year-1}",
             "ranker": name,
             "selection_objective": objective,
+            "selection_top3_positive_year_fraction": sel_pos,
+            "selection_top3_year_std": -neg_std,
             "selection_posterior_top1": sel_p1,
             "selection_posterior_top3": sel_p3,
             "selection_posterior_top5": sel_p5,
             "draws": len(test_idx),
         }
         for k in [1, 3, 5]:
-            h, n, r, _ = topk_stats(scores[:, j], actual, test_idx, k)
+            h, n, r = topk_stats(scores[:, j], actual, test_idx, k)
             row[f"top{k}_hits"] = h
             row[f"top{k}_trials"] = n
             row[f"top{k}_hit_rate"] = r
@@ -182,8 +218,8 @@ def current_ranking(draws, actual, score_names, scores, target_date):
     years = np.array([d["date"].year for d in draws], dtype=int)
     valid = ~np.isnan(scores[:len(draws), 0, 0])
     selection_idx = np.flatnonzero((years >= target_date.year - 4) & (years < target_date.year) & valid)
-    best, detail = choose_ranker(score_names, scores, actual, selection_idx)
-    objective, p3, p5, p1, name, j = best
+    best, detail = choose_ranker(score_names, scores, actual, years, selection_idx)
+    objective, sel_pos, neg_std, p3, p5, p1, name, j = best
     current = scores[len(draws), j].astype(float)
     order = np.argsort(-current, kind="stable")
     rows = []
@@ -196,23 +232,24 @@ def current_ranking(draws, actual, score_names, scores, target_date):
             "selection_posterior_top1": p1,
             "selection_posterior_top3": p3,
             "selection_posterior_top5": p5,
+            "selection_top3_positive_year_fraction": sel_pos,
+            "selection_top3_year_std": -neg_std,
         })
-    diag = []
-    for d in detail:
-        diag.append({
-            "ranker": d[0], "selection_top1_rate": d[1], "selection_top3_rate": d[2],
-            "selection_top5_rate": d[3], "posterior_top1": d[4], "posterior_top3": d[5],
-            "posterior_top5": d[6], "objective": d[7],
-        })
-    diag.sort(key=lambda r: (-r["objective"], r["ranker"]))
-    return rows, diag, {"ranker": name, "objective": objective, "posterior_top3": p3}
+    return rows, detail, {
+        "ranker": name,
+        "objective": objective,
+        "posterior_top3": p3,
+        "positive_fraction": sel_pos,
+        "year_std": -neg_std,
+    }
 
 
 def write_csv(path, rows):
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0]))
-        w.writeheader(); w.writerows(rows)
+        w.writeheader()
+        w.writerows(rows)
 
 
 def main():
@@ -225,8 +262,9 @@ def main():
     draws = [d for d in load_draws(args.data) if d["date"] < target]
     actual, _ = matrices(draws)
     names, cube = build_forecast_cube(draws, actual)
-    score_names, scores = build_scores(names, cube, actual)
+    score_names, scores = build_scores(names, cube)
     folds, summary = evaluate(draws, actual, score_names, scores)
+    fixed = fixed_diagnostics(draws, actual, score_names, scores)
     ranking, diagnostics, current = current_ranking(draws, actual, score_names, scores, target)
     summary.update({
         "target_date": target.isoformat(),
@@ -235,17 +273,21 @@ def main():
         "candidate_rankers": len(score_names),
         "current_selected_ranker": current["ranker"],
         "current_selection_posterior_top3": current["posterior_top3"],
-        "selection_method": "4-year nested selection with beta shrinkage; objective 20% top1 + 55% top3 + 25% top5",
+        "current_selection_top3_positive_year_fraction": current["positive_fraction"],
+        "current_selection_top3_year_std": current["year_std"],
+        "selection_method": "4-year nested selection, tie-aware ranks, beta shrinkage and year-stability penalty",
     })
     out = Path(args.out_dir)
     out.mkdir(parents=True, exist_ok=True)
     write_csv(out / "outer_folds.csv", folds)
+    write_csv(out / "fixed_ranker_diagnostics.csv", fixed)
     write_csv(out / "current_ranking.csv", ranking)
     write_csv(out / "current_ranker_diagnostics.csv", diagnostics)
     (out / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
     print(json.dumps(summary, indent=2))
     print("Top 10 ranking:")
-    for r in ranking[:10]: print(r["rank"], r["number"], f"score={r['score_percentile']:.4f}")
+    for r in ranking[:10]:
+        print(r["rank"], r["number"], f"score={r['score_percentile']:.4f}")
 
 
 if __name__ == "__main__":
