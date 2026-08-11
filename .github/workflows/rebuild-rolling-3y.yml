@@ -31,6 +31,7 @@ jobs:
           cache: pip
       - run: python -m pip install -r requirements.txt
       - run: pytest -q
+      # This workflow is also the deterministic recovery/bootstrap path for data/parts.
       - name: Rebuild rolling three-year data and previews
         run: python src/rebuild_rolling_3y.py
       - name: Commit rolling snapshot
