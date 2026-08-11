@@ -1,18 +1,14 @@
 # XSMB 2-digit probability estimator
 
-Dự án thống kê **2 năm** Xổ số Miền Bắc và ước lượng xác suất một bộ **00–99**
-xuất hiện ít nhất một lần trong 27 kết quả của kỳ kế tiếp.
+Dự án thống kê **2 năm** Xổ số Miền Bắc và ước lượng xác suất một bộ **00–99** xuất hiện ít nhất một lần trong 27 kết quả của kỳ kế tiếp.
 
 ## Dữ liệu
 
-- Cửa sổ: **2024-08-11 → 2026-08-10**
+- Seed window ban đầu: **2024-08-11 → 2026-08-10**
 - Số ngày lịch: **730**
-- Số kỳ XSMB có dữ liệu: **722**
-- Năm trước: **361 kỳ** (2024-08-11 → 2025-08-10)
-- Năm gần nhất: **361 kỳ** (2025-08-11 → 2026-08-10)
-- Các ngày không có kỳ trong cửa sổ: 2025-01-28 → 2025-01-31 và 2026-02-16 → 2026-02-19
-- Dataset trong repo: `data/parts/xsmb_part_01.csv` → `xsmb_part_08.csv`
-- Metadata: `data/dataset_summary.json`
+- Số kỳ XSMB ban đầu: **722**
+- Dataset được duy trì dưới `data/parts/` và tự dịch theo **730 ngày lịch gần nhất** sau mỗi kỳ quay mới.
+- Metadata hiện hành: `data/dataset_summary.json`
 - Nguồn chính: `khiemdoan/vietnam-lottery-xsmb-analysis`
 - Nguồn raw: https://raw.githubusercontent.com/khiemdoan/vietnam-lottery-xsmb-analysis/refs/heads/main/data/xsmb.csv
 
@@ -25,8 +21,7 @@ Các file sinh tự động:
 
 ## Định nghĩa xác suất
 
-Một bộ 2 số được tính là “xuất hiện” nếu hai chữ số cuối của nó xuất hiện ở **ít nhất
-một trong 27 giải** của một kỳ XSMB.
+Một bộ 2 số được tính là “xuất hiện” nếu hai chữ số cuối của nó xuất hiện ở **ít nhất một trong 27 giải** của một kỳ XSMB.
 
 Nếu mỗi đuôi 2 số là độc lập và đều trên 00–99, xác suất lý thuyết cho một bộ bất kỳ là:
 
@@ -36,8 +31,7 @@ Nếu mỗi đuôi 2 số là độc lập và đều trên 00–99, xác suất
 
 ## Thuật toán
 
-Thuật toán dùng một mô hình **ridge logistic pooled** cho 100 bộ số, với các feature chỉ
-được tính từ dữ liệu quá khứ:
+Thuật toán dùng một mô hình **ridge logistic pooled** cho 100 bộ số, với các feature chỉ được tính từ dữ liệu quá khứ:
 
 - tỷ lệ xuất hiện 7 / 30 / 90 kỳ gần nhất;
 - tỷ lệ xuất hiện theo 27 vị trí trong 30 kỳ;
@@ -53,7 +47,7 @@ Thuật toán dùng một mô hình **ridge logistic pooled** cho 100 bộ số,
 3. chọn hệ số blend `lambda` bằng Brier score;
 4. xác suất cuối = `p0 + lambda * (p_model - p0)`.
 
-### Kết quả khi dùng 722 kỳ
+### Kết quả seed với 722 kỳ
 
 Backtest chọn:
 
@@ -63,15 +57,39 @@ Backtest chọn:
 - `Baseline Brier = 0.1810720336`
 - `Brier improvement = 0`
 
-Nghĩa là với bộ dữ liệu 2 năm này, các feature lịch sử **không cải thiện dự báo ngoài mẫu** so với baseline. Vì vậy mô hình được thiết kế để tự quay về xác suất lý thuyết **23.765729% cho mỗi bộ 00–99**, thay vì ép nhiễu lịch sử thành tín hiệu dự báo.
+Nghĩa là với seed 2 năm hiện tại, các feature lịch sử **không cải thiện dự báo ngoài mẫu** so với baseline. Mô hình được thiết kế để tự quay về xác suất lý thuyết nếu tín hiệu không qua được backtest.
 
-## Chạy
+## Pipeline live hằng ngày
+
+Pipeline tách forecast và settlement để tránh look-ahead:
+
+1. **17:30 giờ Việt Nam**: `.github/workflows/daily-forecast.yml` tạo forecast cho ngày hiện tại trước giờ quay. Dữ liệu bị khóa ở ngày hôm trước. Forecast lưu dưới `forecasts/YYYY-MM-DD.csv` và **không bao giờ bị ghi đè**.
+2. `forecasts/manifest.csv` lưu thời điểm tạo, ngày cutoff và SHA-256 của từng forecast/metrics file để kiểm chứng snapshot.
+3. **20:30 giờ Việt Nam**, với fallback lúc **21:30**: `.github/workflows/daily-settle.yml` kiểm tra kết quả thực tế. Nếu hôm đó không có kỳ hoặc nguồn chưa cập nhật thì pipeline không ghi settlement giả.
+4. Khi có kết quả, forecast live của đúng ngày được chấm bằng **Brier score** và **log-loss** so với baseline lý thuyết.
+5. Dataset được dịch thành rolling 730 ngày, thống kê được làm mới, model được retrain/backtest và tạo `output/next_preview.csv` cho ngày kế tiếp.
+6. `evaluation/daily_metrics.csv` lưu từng kết quả live; `evaluation/rolling_summary.csv` tổng hợp cửa sổ **30 / 60 / 90 kỳ đã chấm**; `evaluation/model_runs.csv` lưu lịch sử hyperparameter và blend.
+
+Chốt chống hồi tố: `python src/daily_pipeline.py forecast` sẽ từ chối tạo forecast nếu kết quả của ngày mục tiêu đã tồn tại trong nguồn upstream.
+
+## Chạy thủ công
 
 ```bash
 python -m pip install -r requirements.txt
+pytest -q
+
+# Tạo forecast live cho hôm nay (theo múi giờ Việt Nam)
+python src/daily_pipeline.py forecast
+
+# Settlement sau khi kết quả hôm nay đã xuất hiện ở nguồn
+python src/daily_pipeline.py settle
+```
+
+Các script seed/rebuild vẫn giữ lại:
+
+```bash
 python src/extend_history.py
 python src/build_statistics.py
-pytest -q
 python src/xsmb_probability.py \
   --data data/parts \
   --target-date 2026-08-11 \
@@ -80,6 +98,4 @@ python src/xsmb_probability.py \
 
 ## Lưu ý
 
-Kết quả là **ước lượng thống kê có kiểm định backtest**, không phải cam kết dự đoán xổ số.
-Với một quy trình quay công bằng, mọi bộ 00–99 có xác suất cơ bản như nhau và phần lớn
-dao động lịch sử chỉ là nhiễu ngẫu nhiên.
+Kết quả là **ước lượng thống kê có kiểm định backtest**, không phải cam kết dự đoán xổ số. Với một quy trình quay công bằng, mọi bộ 00–99 có xác suất cơ bản như nhau và phần lớn dao động lịch sử có thể chỉ là nhiễu ngẫu nhiên.
