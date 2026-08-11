@@ -1,22 +1,26 @@
 {
   "generated_from": "full-history walk-forward recipe screening",
   "criteria": "overall Brier improvement > 0 and positive in >=60% of year folds",
+  "fallback_policy": "If nothing is approved, long_only remains as a technical candidate and live calibration may set blend=0 to return exactly to baseline.",
   "two_digit": {
     "allowed_feature_sets": [
       "long_only"
     ],
-    "approved_signal_recipes": [
-      "long_only"
-    ]
+    "approved_signal_recipes": [],
+    "fallback_feature_set": "long_only"
   },
   "suffix3_any": {
     "allowed_recipes": [
       "long_only"
-    ]
+    ],
+    "approved_recipes": [],
+    "fallback_recipe": "long_only"
   },
   "g6_exact": {
     "allowed_recipes": [
       "long_only"
-    ]
+    ],
+    "approved_recipes": [],
+    "fallback_recipe": "long_only"
   }
 }
