@@ -1,0 +1,57 @@
+name: Actions history cleanup
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: "Previous cleanup run to remove after it completes"
+        required: false
+        type: string
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Delete completed workflow runs except this sanitized run
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          CURRENT_RUN_ID: ${{ github.run_id }}
+          SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+        run: |
+          set -euo pipefail
+
+          if [[ -n "${SOURCE_RUN_ID}" ]]; then
+            for _ in $(seq 1 45); do
+              status="$(gh api "repos/${REPO}/actions/runs/${SOURCE_RUN_ID}" --jq '.status' 2>/dev/null || true)"
+              if [[ -z "$status" || "$status" == "completed" ]]; then
+                break
+              fi
+              sleep 2
+            done
+          fi
+
+          mapfile -t runs < <(
+            gh api --paginate "repos/${REPO}/actions/runs?per_page=100" \
+              --jq '.workflow_runs[] | "\(.id) \(.status)"'
+          )
+
+          deleted=0
+          for entry in "${runs[@]}"; do
+            run_id="${entry%% *}"
+            status="${entry#* }"
+            if [[ "$run_id" == "$CURRENT_RUN_ID" || "$status" != "completed" ]]; then
+              continue
+            fi
+            if gh api -X DELETE "repos/${REPO}/actions/runs/${run_id}" >/dev/null 2>&1; then
+              deleted=$((deleted + 1))
+            fi
+          done
+
+          echo "Deleted ${deleted} completed historical workflow runs."

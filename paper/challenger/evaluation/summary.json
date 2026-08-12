@@ -1,0 +1,17 @@
+{
+  "evaluated_days": 1,
+  "start_date": "2026-08-11",
+  "end_date": "2026-08-11",
+  "mean_brier": 0.1719089521044546,
+  "mean_baseline_brier": 0.171911779736628,
+  "brier_improvement": 2.827632173407757e-06,
+  "mean_log_loss": 0.5277758738375333,
+  "mean_baseline_log_loss": 0.5277837093253934,
+  "log_loss_improvement": 7.835487860097246e-06,
+  "top1_hit_rate": 0.0,
+  "top3_hit_rate_per_pick": 0.3333333333333333,
+  "top5_hit_rate_per_pick": 0.2,
+  "brier_win_days": 1,
+  "logloss_win_days": 1,
+  "note": "Paper-trading diagnostics only; sample is intentionally immutable and must not be used to retune the same day's forecast."
+}

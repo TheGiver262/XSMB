@@ -1,0 +1,2 @@
+target_date,generated_at_utc,data_cutoff_date,observed_draws,selected_recipe,selected_blend,forecast_sha256,metrics_sha256
+2026-08-11,2026-08-11T11:23:39+00:00,2026-08-10,1083,long_only,0.0,ebbde3fe8cec5b29e06cfd0468692ad22fe3e99b51025087305424a449d9176e,6fe802e71160439b9b597972a70512db9cad43bdbc99f481d9134c4c278ede65

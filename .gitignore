@@ -1,0 +1,35 @@
+# Python / local runtime
+__pycache__/
+.pytest_cache/
+.venv/
+.runtime/
+*.pyc
+
+# Environment variables and local secrets
+.env
+.env.*
+!.env.example
+.secrets/
+secrets/
+
+# Common credential / OAuth files
+credentials*.json
+client_secret*.json
+*oauth*.json
+*token*.json
+service-account*.json
+service_account*.json
+
+# Private keys / certificates
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+
+# Editor / OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

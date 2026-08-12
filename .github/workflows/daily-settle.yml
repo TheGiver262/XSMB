@@ -1,0 +1,50 @@
+name: Daily post-draw settlement
+
+on:
+  schedule:
+    # 20:30 and fallback 21:30 Vietnam time (UTC+7).
+    - cron: '30 13,14 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: xsmb-repo-write
+  cancel-in-progress: false
+
+jobs:
+  settle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Sync latest main before generating outputs
+        run: |
+          git fetch origin main
+          git checkout -B main origin/main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - run: pytest -q
+      - name: Evaluate 2-digit draw, roll 3-year data and retrain
+        run: python src/daily_pipeline_v2.py settle
+      - name: Evaluate 3-digit targets and create next previews
+        run: python src/daily_3digit_pipeline.py settle
+      - name: Mirror canonical full-history upstream datasets
+        run: python src/sync_upstream.py
+      - name: Commit settlement outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/parts data/dataset_summary.json data/upstream evaluation output
+          if git diff --cached --quiet; then
+            echo "No settlement changes to commit"
+          else
+            git commit -m "Settle XSMB $(TZ=Asia/Ho_Chi_Minh date +%F) and update models"
+            git pull --rebase origin main
+            git push origin main
+          fi
