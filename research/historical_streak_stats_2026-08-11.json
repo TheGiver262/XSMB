@@ -1,0 +1,42 @@
+{
+  "dataset": {
+    "draws": 7519,
+    "start": "2005-10-01",
+    "end": "2026-08-11",
+    "definition": "strict consecutive calendar days; suffix must appear at least once among 27 positions each day",
+    "calendar_gaps": 24
+  },
+  "summary": {
+    "distinct_numbers_with_run_ge_7": 23,
+    "total_maximal_run_events_ge_7": 28,
+    "longest_run": {
+      "number": "22",
+      "days": 11,
+      "start": "2008-08-22",
+      "end": "2008-09-01"
+    },
+    "max_ge_7_events_per_number": 2,
+    "numbers_with_2_ge_7_events": ["14", "20", "22", "58", "96"],
+    "max_rolling_7_day_windows_per_number": 6,
+    "rolling_7_day_window_leader": "22"
+  },
+  "numbers_ever_ge_7": ["01", "03", "05", "14", "20", "22", "29", "31", "33", "38", "47", "49", "52", "53", "58", "62", "74", "79", "81", "90", "91", "92", "96"],
+  "top_longest_runs": [
+    {"number":"22","days":11,"start":"2008-08-22","end":"2008-09-01","events_ge_7":2,"rolling_7_day_windows":6},
+    {"number":"96","days":9,"start":"2025-08-20","end":"2025-08-28","events_ge_7":2,"rolling_7_day_windows":4},
+    {"number":"20","days":8,"start":"2008-01-29","end":"2008-02-05","events_ge_7":2,"rolling_7_day_windows":3},
+    {"number":"58","days":8,"start":"2011-11-21","end":"2011-11-28","events_ge_7":2,"rolling_7_day_windows":3},
+    {"number":"05","days":8,"start":"2014-08-03","end":"2014-08-10","events_ge_7":1,"rolling_7_day_windows":2},
+    {"number":"52","days":8,"start":"2016-11-02","end":"2016-11-09","events_ge_7":1,"rolling_7_day_windows":2},
+    {"number":"81","days":8,"start":"2017-12-25","end":"2018-01-01","events_ge_7":1,"rolling_7_day_windows":2},
+    {"number":"47","days":8,"start":"2021-10-29","end":"2021-11-05","events_ge_7":1,"rolling_7_day_windows":2},
+    {"number":"74","days":8,"start":"2022-06-13","end":"2022-06-20","events_ge_7":1,"rolling_7_day_windows":2}
+  ],
+  "repeated_ge_7_events": {
+    "14": 2,
+    "20": 2,
+    "22": 2,
+    "58": 2,
+    "96": 2
+  }
+}
