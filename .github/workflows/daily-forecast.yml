@@ -2,8 +2,9 @@ name: Daily pre-draw forecast
 
 on:
   schedule:
-    # 17:30 Vietnam time (UTC+7), before the XSMB draw.
-    - cron: '30 10 * * *'
+    # 16:00 Vietnam time (UTC+7). GitHub scheduled runs can be delayed, so
+    # keep a wide safety margin before the XSMB draw.
+    - cron: '0 9 * * *'
   workflow_dispatch:
 
 permissions:
