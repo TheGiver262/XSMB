@@ -3,8 +3,9 @@ name: Multi-horizon v3 challenger
 on:
   workflow_dispatch:
   schedule:
-    # 17:15 Vietnam time, temporary paper-trading week through 2026-08-17.
-    - cron: '15 10 * * *'
+    # 15:00 Vietnam time. GitHub scheduled runs can be delayed, so keep a wide
+    # safety margin before the XSMB draw while preserving pre-draw semantics.
+    - cron: '0 8 * * *'
 
 permissions:
   contents: write
