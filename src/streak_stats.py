@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import csv
 import json
-from collections import defaultdict
 from datetime import date, timedelta
 from pathlib import Path
 
@@ -14,9 +13,11 @@ DATA = ROOT / "data" / "upstream" / "xsmb-2-digits.csv"
 def load_rows():
     rows = []
     with DATA.open(encoding="utf-8", newline="") as f:
-        for row in csv.DictReader(f):
+        reader = csv.DictReader(f)
+        prize_cols = [c for c in (reader.fieldnames or []) if c != "date"]
+        for row in reader:
             d = date.fromisoformat(row["date"])
-            nums = {x.strip().zfill(2) for x in row["numbers"].split(",") if x.strip()}
+            nums = {str(row[c]).strip().zfill(2) for c in prize_cols if row.get(c) not in (None, "")}
             rows.append((d, nums))
     rows.sort(key=lambda x: x[0])
     return rows
