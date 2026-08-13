@@ -3,10 +3,11 @@ name: Actions history cleanup
 on:
   workflow_dispatch:
     inputs:
-      source_run_id:
-        description: "Previous cleanup run to remove after it completes"
-        required: false
-        type: string
+      retention_days:
+        description: "Delete only completed runs older than this many days (minimum 7)"
+        required: true
+        default: 30
+        type: number
 
 permissions:
   actions: write
@@ -17,36 +18,37 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Delete completed workflow runs except this sanitized run
+      - name: Delete only old completed workflow runs
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
           CURRENT_RUN_ID: ${{ github.run_id }}
-          SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+          RETENTION_DAYS: ${{ inputs.retention_days }}
         run: |
           set -euo pipefail
 
-          if [[ -n "${SOURCE_RUN_ID}" ]]; then
-            for _ in $(seq 1 45); do
-              status="$(gh api "repos/${REPO}/actions/runs/${SOURCE_RUN_ID}" --jq '.status' 2>/dev/null || true)"
-              if [[ -z "$status" || "$status" == "completed" ]]; then
-                break
-              fi
-              sleep 2
-            done
+          if ! [[ "$RETENTION_DAYS" =~ ^[0-9]+$ ]] || (( RETENTION_DAYS < 7 )); then
+            echo "retention_days must be an integer >= 7" >&2
+            exit 1
           fi
 
+          cutoff_epoch="$(date -u -d "${RETENTION_DAYS} days ago" +%s)"
           mapfile -t runs < <(
             gh api --paginate "repos/${REPO}/actions/runs?per_page=100" \
-              --jq '.workflow_runs[] | "\(.id) \(.status)"'
+              --jq '.workflow_runs[] | "\(.id)\t\(.status)\t\(.created_at)"'
           )
 
           deleted=0
+          kept_recent=0
           for entry in "${runs[@]}"; do
-            run_id="${entry%% *}"
-            status="${entry#* }"
+            IFS=$'\t' read -r run_id status created_at <<< "$entry"
             if [[ "$run_id" == "$CURRENT_RUN_ID" || "$status" != "completed" ]]; then
+              continue
+            fi
+            created_epoch="$(date -u -d "$created_at" +%s)"
+            if (( created_epoch >= cutoff_epoch )); then
+              kept_recent=$((kept_recent + 1))
               continue
             fi
             if gh api -X DELETE "repos/${REPO}/actions/runs/${run_id}" >/dev/null 2>&1; then
@@ -54,4 +56,5 @@ jobs:
             fi
           done
 
-          echo "Deleted ${deleted} completed historical workflow runs."
+          echo "Deleted ${deleted} completed runs older than ${RETENTION_DAYS} days."
+          echo "Kept ${kept_recent} recent completed runs for audit/forensics."
