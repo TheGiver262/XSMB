@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: xsmb-repo-write
@@ -15,16 +15,19 @@ concurrency:
 
 jobs:
   settle:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           fetch-depth: 0
+          persist-credentials: false
       - name: Sync latest main before generating outputs
         run: |
           git fetch origin main
           git checkout -B main origin/main
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.12'
           cache: pip
@@ -36,8 +39,64 @@ jobs:
         run: python src/daily_3digit_pipeline.py settle
       - name: Mirror canonical full-history upstream datasets
         run: python src/sync_upstream.py
+      - name: Stage settlement outputs
+        run: |
+          rm -rf artifact
+          mkdir -p artifact/data
+          cp -a data/parts artifact/data/parts
+          cp data/dataset_summary.json artifact/data/dataset_summary.json
+          cp -a data/upstream artifact/data/upstream
+          cp -a evaluation artifact/evaluation
+          cp -a output artifact/output
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: daily-settlement-output
+          path: artifact
+          retention-days: 1
+          if-no-files-found: error
+
+  commit:
+    needs: settle
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+      - name: Sync latest main before commit
+        run: |
+          git fetch origin main
+          git checkout -B main origin/main
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: daily-settlement-output
+          path: generated
+      - name: Validate and copy settlement outputs
+        run: |
+          set -euo pipefail
+          test -d generated/data/parts
+          test -f generated/data/dataset_summary.json
+          test -d generated/data/upstream
+          test -d generated/evaluation
+          test -d generated/output
+          if find generated -type l -print -quit | grep -q .; then
+            echo "Refusing artifact containing symlinks" >&2
+            exit 1
+          fi
+          unexpected="$(find generated -mindepth 1 -maxdepth 1 ! -name data ! -name evaluation ! -name output -print -quit)"
+          if [[ -n "$unexpected" ]]; then
+            echo "Unexpected artifact path: $unexpected" >&2
+            exit 1
+          fi
+          cp -a generated/data/parts/. data/parts/
+          cp generated/data/dataset_summary.json data/dataset_summary.json
+          cp -a generated/data/upstream/. data/upstream/
+          cp -a generated/evaluation/. evaluation/
+          cp -a generated/output/. output/
       - name: Commit settlement outputs
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/parts data/dataset_summary.json data/upstream evaluation output
