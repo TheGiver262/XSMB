@@ -8,7 +8,7 @@ on:
     - cron: '0 8 * * *'
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: xsmb-repo-write
@@ -16,13 +16,16 @@ concurrency:
 
 jobs:
   research:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           fetch-depth: 0
-      - uses: actions/setup-python@v5
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.12'
           cache: pip
@@ -64,13 +67,61 @@ jobs:
               cp "$src" "$target"
             fi
           done
+      - name: Stage challenger outputs
+        run: |
+          rm -rf artifact
+          mkdir -p artifact/research artifact/paper/challenger
+          cp -a research/multihorizon_v3 artifact/research/multihorizon_v3
+          cp -a research/rank_challenger artifact/research/rank_challenger
+          cp -a research/prefix3_history artifact/research/prefix3_history
+          cp -a paper/challenger/forecasts artifact/paper/challenger/forecasts
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: challenger-output
+          path: artifact
+          retention-days: 1
+          if-no-files-found: error
+
+  commit:
+    needs: research
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+      - name: Sync latest branch before commit
+        run: |
+          BRANCH="${GITHUB_REF_NAME}"
+          git fetch origin "$BRANCH"
+          git checkout -B "$BRANCH" "origin/$BRANCH"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: challenger-output
+          path: generated
+      - name: Validate and copy challenger outputs
+        run: |
+          set -euo pipefail
+          test -d generated/research/multihorizon_v3
+          test -d generated/research/rank_challenger
+          test -d generated/research/prefix3_history
+          test -d generated/paper/challenger/forecasts
+          if find generated -type l -print -quit | grep -q .; then
+            echo "Refusing artifact containing symlinks" >&2
+            exit 1
+          fi
+          cp -a generated/research/multihorizon_v3/. research/multihorizon_v3/
+          cp -a generated/research/rank_challenger/. research/rank_challenger/
+          cp -a generated/research/prefix3_history/. research/prefix3_history/
+          cp -a generated/paper/challenger/forecasts/. paper/challenger/forecasts/
       - name: Commit challenger outputs
         run: |
+          set -euo pipefail
           BRANCH="${GITHUB_REF_NAME}"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add research/multihorizon_v3 research/rank_challenger research/prefix3_history paper/challenger/forecasts
-          git restore data/upstream || true
           if git diff --cached --quiet; then
             echo "No challenger output changes"
           else
