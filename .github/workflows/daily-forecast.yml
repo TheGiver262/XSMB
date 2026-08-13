@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: xsmb-repo-write
@@ -16,16 +16,19 @@ concurrency:
 
 jobs:
   forecast:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           fetch-depth: 0
+          persist-credentials: false
       - name: Sync latest main before generating outputs
         run: |
           git fetch origin main
           git checkout -B main origin/main
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.12'
           cache: pip
@@ -35,8 +38,55 @@ jobs:
         run: python src/daily_pipeline_v2.py forecast
       - name: Create immutable 3-digit forecasts
         run: python src/daily_3digit_pipeline.py forecast
+      - name: Stage generated outputs
+        run: |
+          rm -rf artifact
+          mkdir -p artifact
+          cp -a forecasts artifact/forecasts
+          cp -a forecasts_3d artifact/forecasts_3d
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: daily-forecast-output
+          path: artifact
+          retention-days: 1
+          if-no-files-found: error
+
+  commit:
+    needs: forecast
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+      - name: Sync latest main before commit
+        run: |
+          git fetch origin main
+          git checkout -B main origin/main
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: daily-forecast-output
+          path: generated
+      - name: Validate and copy generated outputs
+        run: |
+          set -euo pipefail
+          test -d generated/forecasts
+          test -d generated/forecasts_3d
+          if find generated -type l -print -quit | grep -q .; then
+            echo "Refusing artifact containing symlinks" >&2
+            exit 1
+          fi
+          unexpected="$(find generated -mindepth 1 -maxdepth 1 ! -name forecasts ! -name forecasts_3d -print -quit)"
+          if [[ -n "$unexpected" ]]; then
+            echo "Unexpected artifact path: $unexpected" >&2
+            exit 1
+          fi
+          cp -a generated/forecasts/. forecasts/
+          cp -a generated/forecasts_3d/. forecasts_3d/
       - name: Commit forecast snapshots
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add forecasts/ forecasts_3d/
