@@ -7,7 +7,7 @@ on:
     - cron: '30 14 * * *'
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: xsmb-repo-write
@@ -15,17 +15,20 @@ concurrency:
 
 jobs:
   settle:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           fetch-depth: 0
+          persist-credentials: false
       - name: Sync latest branch before settlement
         run: |
           git fetch origin "${GITHUB_REF_NAME}"
           git checkout -B "${GITHUB_REF_NAME}" "origin/${GITHUB_REF_NAME}"
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.12'
           cache: pip
@@ -38,8 +41,47 @@ jobs:
             exit 0
           fi
           python src/settle_challenger_paper.py --date "$TARGET_DATE"
+      - name: Stage paper evaluation
+        run: |
+          rm -rf artifact
+          mkdir -p artifact/paper/challenger
+          cp -a paper/challenger/evaluation artifact/paper/challenger/evaluation
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: challenger-settlement-output
+          path: artifact
+          retention-days: 1
+          if-no-files-found: error
+
+  commit:
+    needs: settle
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+      - name: Sync latest branch before commit
+        run: |
+          git fetch origin "${GITHUB_REF_NAME}"
+          git checkout -B "${GITHUB_REF_NAME}" "origin/${GITHUB_REF_NAME}"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: challenger-settlement-output
+          path: generated
+      - name: Validate and copy paper evaluation
+        run: |
+          set -euo pipefail
+          test -d generated/paper/challenger/evaluation
+          if find generated -type l -print -quit | grep -q .; then
+            echo "Refusing artifact containing symlinks" >&2
+            exit 1
+          fi
+          cp -a generated/paper/challenger/evaluation/. paper/challenger/evaluation/
       - name: Commit paper evaluation
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add paper/challenger/evaluation
