@@ -11,7 +11,7 @@ on:
       - '.github/workflows/rebuild-rolling-3y.yml'
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: xsmb-repo-write
@@ -19,17 +19,20 @@ concurrency:
 
 jobs:
   rebuild:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           fetch-depth: 0
+          persist-credentials: false
       - name: Sync latest main before generating outputs
         run: |
           git fetch origin main
           git checkout -B main origin/main
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.12'
           cache: pip
@@ -37,8 +40,59 @@ jobs:
       - run: pytest -q
       - name: Rebuild rolling three-year data and previews
         run: python src/rebuild_rolling_3y.py
+      - name: Stage rolling snapshot
+        run: |
+          rm -rf artifact
+          mkdir -p artifact/data artifact/output
+          cp -a data/parts artifact/data/parts
+          cp data/dataset_summary.json artifact/data/dataset_summary.json
+          cp output/statistics_3y_00_99.csv artifact/output/
+          cp output/statistics_3y_summary.csv artifact/output/
+          shopt -s nullglob
+          previews=(output/next_preview*.csv)
+          if ((${#previews[@]})); then
+            cp "${previews[@]}" artifact/output/
+          fi
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: rolling-3y-output
+          path: artifact
+          retention-days: 1
+          if-no-files-found: error
+
+  commit:
+    needs: rebuild
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+      - name: Sync latest main before commit
+        run: |
+          git fetch origin main
+          git checkout -B main origin/main
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: rolling-3y-output
+          path: generated
+      - name: Validate and copy rolling snapshot
+        run: |
+          set -euo pipefail
+          test -d generated/data/parts
+          test -f generated/data/dataset_summary.json
+          test -d generated/output
+          if find generated -type l -print -quit | grep -q .; then
+            echo "Refusing artifact containing symlinks" >&2
+            exit 1
+          fi
+          cp -a generated/data/parts/. data/parts/
+          cp generated/data/dataset_summary.json data/dataset_summary.json
+          cp -a generated/output/. output/
       - name: Commit rolling snapshot
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/parts data/dataset_summary.json output/statistics_3y_00_99.csv output/statistics_3y_summary.csv output/next_preview*.csv
