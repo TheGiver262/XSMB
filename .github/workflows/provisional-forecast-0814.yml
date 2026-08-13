@@ -1,0 +1,37 @@
+name: Provisional forecast 2026-08-14
+
+on:
+  push:
+    branches: [analysis/provisional-2026-08-14]
+    paths:
+      - '.github/workflows/provisional-forecast-0814.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  forecast:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - name: Run V3 probability
+        run: |
+          python src/xsmb_multihorizon_v3.py --target-date 2026-08-14 --out-dir /tmp/v3
+          echo '=== PROBABILITY TOP 15 ==='
+          head -n 16 /tmp/v3/next_prediction.csv
+          echo '=== PROBABILITY SUMMARY ==='
+          cat /tmp/v3/summary.json
+      - name: Run V3 ranking
+        run: |
+          python src/xsmb_rank_challenger.py --target-date 2026-08-14 --out-dir /tmp/rank
+          echo '=== RANK TOP 15 ==='
+          head -n 16 /tmp/rank/current_ranking.csv
+          echo '=== RANK SUMMARY ==='
+          cat /tmp/rank/summary.json
