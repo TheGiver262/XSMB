@@ -1,7 +1,7 @@
 {
-  "target_date": "2026-08-12",
-  "data_cutoff": "2026-08-11",
-  "historical_draws": 7519,
+  "target_date": "2026-08-13",
+  "data_cutoff": "2026-08-12",
+  "historical_draws": 7520,
   "eligible_positions_per_draw": 23,
   "definition": "For each 2D suffix AB, choose the most frequent 3D suffix xAB among DB through G6 using only draws before target_date.",
   "selection_rule": "max total occurrences; tie-break by distinct draw hits, then lower prefix digit",
