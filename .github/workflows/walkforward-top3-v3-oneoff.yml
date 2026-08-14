@@ -6,6 +6,7 @@ on:
       - research/top3-walkforward-v3-adaptive
     paths:
       - 'src/walkforward_top3_v3.py'
+      - 'src/evaluate_v3_economic.py'
       - '.github/workflows/walkforward-top3-v3-oneoff.yml'
 
 permissions:
@@ -28,6 +29,8 @@ jobs:
         run: python src/sync_upstream.py
       - name: Run V3 walk-forward
         run: python src/walkforward_top3_v3.py
+      - name: Run strict economic evaluation
+        run: python src/evaluate_v3_economic.py
       - name: Persist V3 outputs
         run: |
           git config user.name "github-actions[bot]"
