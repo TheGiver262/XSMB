@@ -1,6 +1,6 @@
 metric,value
-window_start,2023-08-15
-window_end,2026-08-13
+window_start,2023-08-16
+window_end,2026-08-14
 calendar_window_days,1095
 observed_draws,1083
 total_prize_observations,29241
@@ -9,8 +9,8 @@ mean_empirical_presence_probability,0.23803324099722992
 highest_presence_number,32
 highest_presence_rate,0.26408125577100644
 lowest_presence_number,34
-lowest_presence_rate,0.2077562326869806
+lowest_presence_rate,0.20867959372114497
 highest_occurrence_number,32
 highest_occurrences,335
 longest_current_gap_number,71
-longest_current_gap_draws,19
+longest_current_gap_draws,20
