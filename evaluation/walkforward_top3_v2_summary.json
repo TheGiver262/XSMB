@@ -1,0 +1,1017 @@
+{
+  "protocol": {
+    "development_draws": 730,
+    "final_holdout_draws": 365,
+    "ordering": "predict using history strictly before target -> reveal target -> next day may use result",
+    "random_top3_baseline": 0.5606234998261617
+  },
+  "data": {
+    "first_date": "2005-10-01",
+    "latest_date": "2026-08-14",
+    "draws": 7522,
+    "development_start": "2023-08-04",
+    "development_end": "2025-08-10",
+    "holdout_start": "2025-08-11",
+    "holdout_end": "2026-08-14"
+  },
+  "selected_model": {
+    "name": "month_heavy_station",
+    "weights": [
+      0.05,
+      0.2,
+      0.15,
+      0.1,
+      0.5,
+      0.15,
+      0.0
+    ]
+  },
+  "holdout": {
+    "candidate": "month_heavy_station",
+    "n": 365,
+    "hits": 213,
+    "hit_rate": 0.5835616438356165,
+    "lift_pp_vs_random": 2.293814400945482,
+    "pick_set_changes": 348,
+    "pick_set_change_rate": 0.9560439560439561,
+    "by_station": {
+      "Bac Ninh": {
+        "hits": 32,
+        "draws": 52,
+        "hit_rate": 0.6153846153846154
+      },
+      "Ha Noi": {
+        "hits": 55,
+        "draws": 104,
+        "hit_rate": 0.5288461538461539
+      },
+      "Hai Phong": {
+        "hits": 34,
+        "draws": 53,
+        "hit_rate": 0.6415094339622641
+      },
+      "Nam Dinh": {
+        "hits": 33,
+        "draws": 52,
+        "hit_rate": 0.6346153846153846
+      },
+      "Quang Ninh": {
+        "hits": 29,
+        "draws": 52,
+        "hit_rate": 0.5576923076923077
+      },
+      "Thai Binh": {
+        "hits": 30,
+        "draws": 52,
+        "hit_rate": 0.5769230769230769
+      }
+    },
+    "wilson_95_low": 0.5323746807174397,
+    "wilson_95_high": 0.6330080292280118
+  },
+  "holdout_controls": {
+    "short_month_no_station": {
+      "candidate": "short_month_no_station",
+      "n": 365,
+      "hits": 221,
+      "hit_rate": 0.6054794520547945,
+      "lift_pp_vs_random": 4.485595222863282,
+      "pick_set_changes": 342,
+      "pick_set_change_rate": 0.9395604395604396,
+      "by_station": {
+        "Bac Ninh": {
+          "hits": 34,
+          "draws": 52,
+          "hit_rate": 0.6538461538461539
+        },
+        "Ha Noi": {
+          "hits": 59,
+          "draws": 104,
+          "hit_rate": 0.5673076923076923
+        },
+        "Hai Phong": {
+          "hits": 34,
+          "draws": 53,
+          "hit_rate": 0.6415094339622641
+        },
+        "Nam Dinh": {
+          "hits": 33,
+          "draws": 52,
+          "hit_rate": 0.6346153846153846
+        },
+        "Quang Ninh": {
+          "hits": 31,
+          "draws": 52,
+          "hit_rate": 0.5961538461538461
+        },
+        "Thai Binh": {
+          "hits": 30,
+          "draws": 52,
+          "hit_rate": 0.5769230769230769
+        }
+      }
+    },
+    "short_month_station_1": {
+      "candidate": "short_month_station_1",
+      "n": 365,
+      "hits": 220,
+      "hit_rate": 0.6027397260273972,
+      "lift_pp_vs_random": 4.211622620123556,
+      "pick_set_changes": 344,
+      "pick_set_change_rate": 0.945054945054945,
+      "by_station": {
+        "Bac Ninh": {
+          "hits": 33,
+          "draws": 52,
+          "hit_rate": 0.6346153846153846
+        },
+        "Ha Noi": {
+          "hits": 60,
+          "draws": 104,
+          "hit_rate": 0.5769230769230769
+        },
+        "Hai Phong": {
+          "hits": 36,
+          "draws": 53,
+          "hit_rate": 0.6792452830188679
+        },
+        "Nam Dinh": {
+          "hits": 31,
+          "draws": 52,
+          "hit_rate": 0.5961538461538461
+        },
+        "Quang Ninh": {
+          "hits": 31,
+          "draws": 52,
+          "hit_rate": 0.5961538461538461
+        },
+        "Thai Binh": {
+          "hits": 29,
+          "draws": 52,
+          "hit_rate": 0.5576923076923077
+        }
+      }
+    },
+    "station_heavy_control": {
+      "candidate": "station_heavy_control",
+      "n": 365,
+      "hits": 180,
+      "hit_rate": 0.4931506849315068,
+      "lift_pp_vs_random": -6.747281489465484,
+      "pick_set_changes": 364,
+      "pick_set_change_rate": 1.0,
+      "by_station": {
+        "Bac Ninh": {
+          "hits": 21,
+          "draws": 52,
+          "hit_rate": 0.40384615384615385
+        },
+        "Ha Noi": {
+          "hits": 55,
+          "draws": 104,
+          "hit_rate": 0.5288461538461539
+        },
+        "Hai Phong": {
+          "hits": 24,
+          "draws": 53,
+          "hit_rate": 0.4528301886792453
+        },
+        "Nam Dinh": {
+          "hits": 29,
+          "draws": 52,
+          "hit_rate": 0.5576923076923077
+        },
+        "Quang Ninh": {
+          "hits": 25,
+          "draws": 52,
+          "hit_rate": 0.4807692307692308
+        },
+        "Thai Binh": {
+          "hits": 26,
+          "draws": 52,
+          "hit_rate": 0.5
+        }
+      }
+    }
+  },
+  "next_forecast": {
+    "target_date": "2026-08-15",
+    "station": "Nam Dinh",
+    "top3": [
+      "69",
+      "50",
+      "95"
+    ],
+    "detail": [
+      {
+        "number": "69",
+        "score": 2.092980170567704,
+        "long_rate": 0.23883933951443617,
+        "rate_7": 0.4712971856958689,
+        "rate_14": 0.483594022540236,
+        "rate_30": 0.33441432141322414,
+        "month_rate": 0.483594022540236,
+        "station_rate": 0.21407952726163815,
+        "station_recent_rate": 0.2318802073633704
+      },
+      {
+        "number": "50",
+        "score": 2.0773750375045728,
+        "long_rate": 0.2424757031507998,
+        "rate_7": 0.571297185695869,
+        "rate_14": 0.43096244359286756,
+        "rate_30": 0.3844143214132241,
+        "month_rate": 0.43096244359286756,
+        "station_rate": 0.22223909208484757,
+        "station_recent_rate": 0.2318802073633704
+      },
+      {
+        "number": "95",
+        "score": 1.9432301645889425,
+        "long_rate": 0.247670508345605,
+        "rate_7": 0.4712971856958689,
+        "rate_14": 0.43096244359286756,
+        "rate_30": 0.3594143214132241,
+        "month_rate": 0.43096244359286756,
+        "station_rate": 0.22586556533960733,
+        "station_recent_rate": 0.26413827187949945
+      }
+    ]
+  },
+  "station_diagnostics_pre_holdout": {
+    "Bac Ninh": {
+      "draws": 1023,
+      "mean_abs_number_lift_pp": 1.0218478368711974,
+      "max_abs_number_lift_pp": 2.8427614439428703,
+      "top_positive": [
+        {
+          "number": "38",
+          "station_rate": 0.27932546872705305,
+          "overall_rate": 0.25089785428762434,
+          "lift_pp": 2.8427614439428703
+        },
+        {
+          "number": "53",
+          "station_rate": 0.26318111924937027,
+          "overall_rate": 0.23601567156749204,
+          "lift_pp": 2.716544768187823
+        },
+        {
+          "number": "10",
+          "station_rate": 0.2679294573310417,
+          "overall_rate": 0.2434567629275582,
+          "lift_pp": 2.4472694403483484
+        },
+        {
+          "number": "98",
+          "station_rate": 0.25843278116769886,
+          "overall_rate": 0.2346376916859983,
+          "lift_pp": 2.3795089481700558
+        },
+        {
+          "number": "50",
+          "station_rate": 0.24798643738802173,
+          "overall_rate": 0.22581862044443843,
+          "lift_pp": 2.21678169435833
+        },
+        {
+          "number": "59",
+          "station_rate": 0.2679294573310417,
+          "overall_rate": 0.24621272269054564,
+          "lift_pp": 2.1716734640496034
+        },
+        {
+          "number": "30",
+          "station_rate": 0.25748311355136455,
+          "overall_rate": 0.2378070454134339,
+          "lift_pp": 1.9676068137930658
+        },
+        {
+          "number": "97",
+          "station_rate": 0.25748311355136455,
+          "overall_rate": 0.2391850252949276,
+          "lift_pp": 1.8298088256436946
+        },
+        {
+          "number": "60",
+          "station_rate": 0.24798643738802173,
+          "overall_rate": 0.2310549439941146,
+          "lift_pp": 1.693149339390712
+        },
+        {
+          "number": "82",
+          "station_rate": 0.2498857726206903,
+          "overall_rate": 0.23339750979265395,
+          "lift_pp": 1.6488262828036366
+        }
+      ],
+      "top_negative": [
+        {
+          "number": "35",
+          "station_rate": 0.20810039750198184,
+          "overall_rate": 0.23408649973340082,
+          "lift_pp": -2.5986102231418977
+        },
+        {
+          "number": "72",
+          "station_rate": 0.21949640889799324,
+          "overall_rate": 0.2449725407972013,
+          "lift_pp": -2.5476131899208054
+        },
+        {
+          "number": "23",
+          "station_rate": 0.21284873558365328,
+          "overall_rate": 0.23808264138973262,
+          "lift_pp": -2.523390580607934
+        },
+        {
+          "number": "06",
+          "station_rate": 0.2109494003509847,
+          "overall_rate": 0.2351888836385958,
+          "lift_pp": -2.423948328761111
+        },
+        {
+          "number": "31",
+          "station_rate": 0.2156977384326561,
+          "overall_rate": 0.23849603535418074,
+          "lift_pp": -2.279829692152463
+        },
+        {
+          "number": "84",
+          "station_rate": 0.2156977384326561,
+          "overall_rate": 0.238220439377882,
+          "lift_pp": -2.2522700945225904
+        },
+        {
+          "number": "34",
+          "station_rate": 0.20810039750198184,
+          "overall_rate": 0.23022815606521838,
+          "lift_pp": -2.212775856323654
+        },
+        {
+          "number": "80",
+          "station_rate": 0.2109494003509847,
+          "overall_rate": 0.23188173192301084,
+          "lift_pp": -2.0932331572026146
+        },
+        {
+          "number": "47",
+          "station_rate": 0.2156977384326561,
+          "overall_rate": 0.23601567156749204,
+          "lift_pp": -2.0317933134835933
+        },
+        {
+          "number": "36",
+          "station_rate": 0.22899308506133606,
+          "overall_rate": 0.24717730860759124,
+          "lift_pp": -1.8184223546255178
+        }
+      ]
+    },
+    "Ha Noi": {
+      "draws": 2046,
+      "mean_abs_number_lift_pp": 0.6361548048674349,
+      "max_abs_number_lift_pp": 2.3871728183382404,
+      "top_positive": [
+        {
+          "number": "84",
+          "station_rate": 0.26065978736492623,
+          "overall_rate": 0.238220439377882,
+          "lift_pp": 2.243934798704422
+        },
+        {
+          "number": "31",
+          "station_rate": 0.254879440544117,
+          "overall_rate": 0.23849603535418074,
+          "lift_pp": 1.638340518993625
+        },
+        {
+          "number": "89",
+          "station_rate": 0.24861739815490697,
+          "overall_rate": 0.23325971180450458,
+          "lift_pp": 1.5357686350402382
+        },
+        {
+          "number": "04",
+          "station_rate": 0.25536113611251776,
+          "overall_rate": 0.2419409850579151,
+          "lift_pp": 1.3420151054602676
+        },
+        {
+          "number": "83",
+          "station_rate": 0.24428213803930005,
+          "overall_rate": 0.2320195299111602,
+          "lift_pp": 1.226260812813984
+        },
+        {
+          "number": "75",
+          "station_rate": 0.25536113611251776,
+          "overall_rate": 0.24373235890385692,
+          "lift_pp": 1.1628777208660845
+        },
+        {
+          "number": "34",
+          "station_rate": 0.24139196462889542,
+          "overall_rate": 0.23022815606521838,
+          "lift_pp": 1.1163808563677047
+        },
+        {
+          "number": "06",
+          "station_rate": 0.24620892031290312,
+          "overall_rate": 0.2351888836385958,
+          "lift_pp": 1.1020036674307314
+        },
+        {
+          "number": "20",
+          "station_rate": 0.25102587599691084,
+          "overall_rate": 0.24001181322382384,
+          "lift_pp": 1.1014062773087003
+        },
+        {
+          "number": "19",
+          "station_rate": 0.2515075715653116,
+          "overall_rate": 0.24125199511716822,
+          "lift_pp": 1.02555764481434
+        }
+      ],
+      "top_negative": [
+        {
+          "number": "30",
+          "station_rate": 0.2139353172300515,
+          "overall_rate": 0.2378070454134339,
+          "lift_pp": -2.3871728183382404
+        },
+        {
+          "number": "82",
+          "station_rate": 0.2182705773456584,
+          "overall_rate": 0.23339750979265395,
+          "lift_pp": -1.5126932446995534
+        },
+        {
+          "number": "00",
+          "station_rate": 0.22645940200847153,
+          "overall_rate": 0.24111419712901883,
+          "lift_pp": -1.4654795120547293
+        },
+        {
+          "number": "99",
+          "station_rate": 0.2235692285980669,
+          "overall_rate": 0.2362912675437908,
+          "lift_pp": -1.272203894572388
+        },
+        {
+          "number": "10",
+          "station_rate": 0.23079466212407845,
+          "overall_rate": 0.2434567629275582,
+          "lift_pp": -1.2662100803479737
+        },
+        {
+          "number": "51",
+          "station_rate": 0.20960005711444454,
+          "overall_rate": 0.22209807476440535,
+          "lift_pp": -1.2498017649960809
+        },
+        {
+          "number": "45",
+          "station_rate": 0.21971566405086074,
+          "overall_rate": 0.2305037520415171,
+          "lift_pp": -1.0788087990656363
+        },
+        {
+          "number": "23",
+          "station_rate": 0.22742279314527306,
+          "overall_rate": 0.23808264138973262,
+          "lift_pp": -1.0659848244459562
+        },
+        {
+          "number": "95",
+          "station_rate": 0.23223974882928078,
+          "overall_rate": 0.24276777298681132,
+          "lift_pp": -1.052802415753054
+        },
+        {
+          "number": "76",
+          "station_rate": 0.23609331337648695,
+          "overall_rate": 0.24566153073794814,
+          "lift_pp": -0.9568217361461184
+        }
+      ]
+    },
+    "Hai Phong": {
+      "draws": 1023,
+      "mean_abs_number_lift_pp": 0.8718600266932262,
+      "max_abs_number_lift_pp": 2.803462047120081,
+      "top_positive": [
+        {
+          "number": "84",
+          "station_rate": 0.2603321164003674,
+          "overall_rate": 0.238220439377882,
+          "lift_pp": 2.21116770224854
+        },
+        {
+          "number": "48",
+          "station_rate": 0.2565334459350303,
+          "overall_rate": 0.23753144943713514,
+          "lift_pp": 1.9001996497895162
+        },
+        {
+          "number": "86",
+          "station_rate": 0.2603321164003674,
+          "overall_rate": 0.24207878304606445,
+          "lift_pp": 1.8253333354302959
+        },
+        {
+          "number": "07",
+          "station_rate": 0.25368444308602744,
+          "overall_rate": 0.23574007559119328,
+          "lift_pp": 1.7944367494834164
+        },
+        {
+          "number": "35",
+          "station_rate": 0.2508354402370246,
+          "overall_rate": 0.23408649973340082,
+          "lift_pp": 1.674894050362377
+        },
+        {
+          "number": "18",
+          "station_rate": 0.2546341107023617,
+          "overall_rate": 0.23959841925937572,
+          "lift_pp": 1.5035691442985972
+        },
+        {
+          "number": "93",
+          "station_rate": 0.25843278116769886,
+          "overall_rate": 0.24373235890385692,
+          "lift_pp": 1.470042226384194
+        },
+        {
+          "number": "97",
+          "station_rate": 0.25368444308602744,
+          "overall_rate": 0.2391850252949276,
+          "lift_pp": 1.449941779109984
+        },
+        {
+          "number": "94",
+          "station_rate": 0.2546341107023617,
+          "overall_rate": 0.24042520718827198,
+          "lift_pp": 1.420890351408971
+        },
+        {
+          "number": "68",
+          "station_rate": 0.2565334459350303,
+          "overall_rate": 0.24276777298681132,
+          "lift_pp": 1.376567294821898
+        }
+      ],
+      "top_negative": [
+        {
+          "number": "75",
+          "station_rate": 0.2156977384326561,
+          "overall_rate": 0.24373235890385692,
+          "lift_pp": -2.803462047120081
+        },
+        {
+          "number": "67",
+          "station_rate": 0.2109494003509847,
+          "overall_rate": 0.23601567156749204,
+          "lift_pp": -2.506627121650734
+        },
+        {
+          "number": "85",
+          "station_rate": 0.21949640889799324,
+          "overall_rate": 0.239322823283077,
+          "lift_pp": -1.9826414385083757
+        },
+        {
+          "number": "65",
+          "station_rate": 0.2175970736653247,
+          "overall_rate": 0.23601567156749204,
+          "lift_pp": -1.841859790216735
+        },
+        {
+          "number": "21",
+          "station_rate": 0.21854674128165896,
+          "overall_rate": 0.2362912675437908,
+          "lift_pp": -1.7744526262131828
+        },
+        {
+          "number": "10",
+          "station_rate": 0.2270937498286675,
+          "overall_rate": 0.2434567629275582,
+          "lift_pp": -1.6363013098890682
+        },
+        {
+          "number": "90",
+          "station_rate": 0.22139574413066182,
+          "overall_rate": 0.23739365144898578,
+          "lift_pp": -1.5997907318323956
+        },
+        {
+          "number": "03",
+          "station_rate": 0.2223454117469961,
+          "overall_rate": 0.23808264138973262,
+          "lift_pp": -1.573722964273652
+        },
+        {
+          "number": "55",
+          "station_rate": 0.22139574413066182,
+          "overall_rate": 0.2367046615082389,
+          "lift_pp": -1.5308917377577087
+        },
+        {
+          "number": "64",
+          "station_rate": 0.22899308506133606,
+          "overall_rate": 0.24428355085645442,
+          "lift_pp": -1.5290465795118364
+        }
+      ]
+    },
+    "Nam Dinh": {
+      "draws": 1021,
+      "mean_abs_number_lift_pp": 0.9429374900111244,
+      "max_abs_number_lift_pp": 3.391710815944074,
+      "top_positive": [
+        {
+          "number": "80",
+          "station_rate": 0.2627304648616431,
+          "overall_rate": 0.23188173192301084,
+          "lift_pp": 3.0848732938632244
+        },
+        {
+          "number": "45",
+          "station_rate": 0.26082751528980674,
+          "overall_rate": 0.2305037520415171,
+          "lift_pp": 3.0323763248289644
+        },
+        {
+          "number": "52",
+          "station_rate": 0.2760511118644975,
+          "overall_rate": 0.24579932872609753,
+          "lift_pp": 3.025178313839996
+        },
+        {
+          "number": "24",
+          "station_rate": 0.2684393135771521,
+          "overall_rate": 0.2434567629275582,
+          "lift_pp": 2.498255064959393
+        },
+        {
+          "number": "77",
+          "station_rate": 0.2560701413602159,
+          "overall_rate": 0.2325707218637577,
+          "lift_pp": 2.3499419496458174
+        },
+        {
+          "number": "33",
+          "station_rate": 0.25797309093205223,
+          "overall_rate": 0.2361534695556414,
+          "lift_pp": 2.181962137641083
+        },
+        {
+          "number": "75",
+          "station_rate": 0.2627304648616431,
+          "overall_rate": 0.24373235890385692,
+          "lift_pp": 1.899810595778617
+        },
+        {
+          "number": "10",
+          "station_rate": 0.2617789900757249,
+          "overall_rate": 0.2434567629275582,
+          "lift_pp": 1.8322227148166725
+        },
+        {
+          "number": "23",
+          "station_rate": 0.2551186665742977,
+          "overall_rate": 0.23808264138973262,
+          "lift_pp": 1.7036025184565096
+        },
+        {
+          "number": "70",
+          "station_rate": 0.26082751528980674,
+          "overall_rate": 0.24511033878535066,
+          "lift_pp": 1.5717176504456087
+        }
+      ],
+      "top_negative": [
+        {
+          "number": "81",
+          "station_rate": 0.20278755334879817,
+          "overall_rate": 0.2367046615082389,
+          "lift_pp": -3.391710815944074
+        },
+        {
+          "number": "94",
+          "station_rate": 0.21515672556573442,
+          "overall_rate": 0.24042520718827198,
+          "lift_pp": -2.526848162253756
+        },
+        {
+          "number": "56",
+          "station_rate": 0.21705967513757077,
+          "overall_rate": 0.23835823736603137,
+          "lift_pp": -2.1298562228460605
+        },
+        {
+          "number": "66",
+          "station_rate": 0.22562294821083434,
+          "overall_rate": 0.24676391464314312,
+          "lift_pp": -2.1140966432308783
+        },
+        {
+          "number": "95",
+          "station_rate": 0.223719998638998,
+          "overall_rate": 0.24276777298681132,
+          "lift_pp": -1.9047774347813324
+        },
+        {
+          "number": "71",
+          "station_rate": 0.21991409949532528,
+          "overall_rate": 0.238220439377882,
+          "lift_pp": -1.8306339882556726
+        },
+        {
+          "number": "41",
+          "station_rate": 0.223719998638998,
+          "overall_rate": 0.24138979310531758,
+          "lift_pp": -1.7669794466319582
+        },
+        {
+          "number": "73",
+          "station_rate": 0.22467147342491617,
+          "overall_rate": 0.23946062127122636,
+          "lift_pp": -1.478914784631019
+        },
+        {
+          "number": "63",
+          "station_rate": 0.2265744229967525,
+          "overall_rate": 0.24014961121197323,
+          "lift_pp": -1.357518821522072
+        },
+        {
+          "number": "93",
+          "station_rate": 0.2303803221404252,
+          "overall_rate": 0.24373235890385692,
+          "lift_pp": -1.3352036763431718
+        }
+      ]
+    },
+    "Quang Ninh": {
+      "draws": 1023,
+      "mean_abs_number_lift_pp": 0.9858704353331537,
+      "max_abs_number_lift_pp": 4.300789786358705,
+      "top_positive": [
+        {
+          "number": "66",
+          "station_rate": 0.2897718125067302,
+          "overall_rate": 0.24676391464314312,
+          "lift_pp": 4.300789786358705
+        },
+        {
+          "number": "71",
+          "station_rate": 0.2726777954127131,
+          "overall_rate": 0.238220439377882,
+          "lift_pp": 3.445735603483108
+        },
+        {
+          "number": "55",
+          "station_rate": 0.27077846018004453,
+          "overall_rate": 0.2367046615082389,
+          "lift_pp": 3.4073798671805626
+        },
+        {
+          "number": "26",
+          "station_rate": 0.26223145163303596,
+          "overall_rate": 0.23656686352008952,
+          "lift_pp": 2.5664588112946447
+        },
+        {
+          "number": "78",
+          "station_rate": 0.2650804544820388,
+          "overall_rate": 0.23987401523567448,
+          "lift_pp": 2.5206439246364343
+        },
+        {
+          "number": "67",
+          "station_rate": 0.25843278116769886,
+          "overall_rate": 0.23601567156749204,
+          "lift_pp": 2.241710960020682
+        },
+        {
+          "number": "21",
+          "station_rate": 0.25843278116769886,
+          "overall_rate": 0.2362912675437908,
+          "lift_pp": 2.2141513623908065
+        },
+        {
+          "number": "98",
+          "station_rate": 0.255583778318696,
+          "overall_rate": 0.2346376916859983,
+          "lift_pp": 2.0946086632697702
+        },
+        {
+          "number": "23",
+          "station_rate": 0.25843278116769886,
+          "overall_rate": 0.23808264138973262,
+          "lift_pp": 2.0350139777966234
+        },
+        {
+          "number": "30",
+          "station_rate": 0.2565334459350303,
+          "overall_rate": 0.2378070454134339,
+          "lift_pp": 1.872640052159641
+        }
+      ],
+      "top_negative": [
+        {
+          "number": "53",
+          "station_rate": 0.1995533889549733,
+          "overall_rate": 0.23601567156749204,
+          "lift_pp": -3.646228261251874
+        },
+        {
+          "number": "77",
+          "station_rate": 0.20145272418764187,
+          "overall_rate": 0.2325707218637577,
+          "lift_pp": -3.1117997676115836
+        },
+        {
+          "number": "60",
+          "station_rate": 0.20240239180397615,
+          "overall_rate": 0.2310549439941146,
+          "lift_pp": -2.8652552190138456
+        },
+        {
+          "number": "88",
+          "station_rate": 0.21949640889799324,
+          "overall_rate": 0.24373235890385692,
+          "lift_pp": -2.4235950005863676
+        },
+        {
+          "number": "20",
+          "station_rate": 0.21949640889799324,
+          "overall_rate": 0.24001181322382384,
+          "lift_pp": -2.05154043258306
+        },
+        {
+          "number": "13",
+          "station_rate": 0.2156977384326561,
+          "overall_rate": 0.2351888836385958,
+          "lift_pp": -1.9491145205939697
+        },
+        {
+          "number": "49",
+          "station_rate": 0.22424474697966465,
+          "overall_rate": 0.24304336896311005,
+          "lift_pp": -1.8798621983445396
+        },
+        {
+          "number": "29",
+          "station_rate": 0.22899308506133606,
+          "overall_rate": 0.24511033878535066,
+          "lift_pp": -1.6117253724014597
+        },
+        {
+          "number": "84",
+          "station_rate": 0.2223454117469961,
+          "overall_rate": 0.238220439377882,
+          "lift_pp": -1.5875027630885912
+        },
+        {
+          "number": "89",
+          "station_rate": 0.21949640889799324,
+          "overall_rate": 0.23325971180450458,
+          "lift_pp": -1.3763302906511343
+        }
+      ]
+    },
+    "Thai Binh": {
+      "draws": 1021,
+      "mean_abs_number_lift_pp": 0.797911643087709,
+      "max_abs_number_lift_pp": 2.4267076223969672,
+      "top_positive": [
+        {
+          "number": "69",
+          "station_rate": 0.25036129264470686,
+          "overall_rate": 0.22609421642073718,
+          "lift_pp": 2.4267076223969672
+        },
+        {
+          "number": "57",
+          "station_rate": 0.2617789900757249,
+          "overall_rate": 0.23946062127122636,
+          "lift_pp": 2.2318368804498556
+        },
+        {
+          "number": "29",
+          "station_rate": 0.2655848892193976,
+          "overall_rate": 0.24511033878535066,
+          "lift_pp": 2.0474550434046943
+        },
+        {
+          "number": "95",
+          "station_rate": 0.2627304648616431,
+          "overall_rate": 0.24276777298681132,
+          "lift_pp": 1.9962691874831768
+        },
+        {
+          "number": "03",
+          "station_rate": 0.25797309093205223,
+          "overall_rate": 0.23808264138973262,
+          "lift_pp": 1.989044954231961
+        },
+        {
+          "number": "08",
+          "station_rate": 0.2560701413602159,
+          "overall_rate": 0.23753144943713514,
+          "lift_pp": 1.8538691923080748
+        },
+        {
+          "number": "13",
+          "station_rate": 0.25321571700246137,
+          "overall_rate": 0.2351888836385958,
+          "lift_pp": 1.8026833363865569
+        },
+        {
+          "number": "71",
+          "station_rate": 0.2551186665742977,
+          "overall_rate": 0.238220439377882,
+          "lift_pp": 1.6898227196415705
+        },
+        {
+          "number": "61",
+          "station_rate": 0.25416719178837954,
+          "overall_rate": 0.23808264138973262,
+          "lift_pp": 1.6084550398646924
+        },
+        {
+          "number": "00",
+          "station_rate": 0.25702161614613406,
+          "overall_rate": 0.24111419712901883,
+          "lift_pp": 1.5907419017115232
+        }
+      ],
+      "top_negative": [
+        {
+          "number": "75",
+          "station_rate": 0.21991409949532528,
+          "overall_rate": 0.24373235890385692,
+          "lift_pp": -2.3818259408531635
+        },
+        {
+          "number": "36",
+          "station_rate": 0.223719998638998,
+          "overall_rate": 0.24717730860759124,
+          "lift_pp": -2.3457309968593245
+        },
+        {
+          "number": "97",
+          "station_rate": 0.2161082003516526,
+          "overall_rate": 0.2391850252949276,
+          "lift_pp": -2.307682494327501
+        },
+        {
+          "number": "84",
+          "station_rate": 0.21705967513757077,
+          "overall_rate": 0.238220439377882,
+          "lift_pp": -2.116076424031124
+        },
+        {
+          "number": "26",
+          "station_rate": 0.21705967513757077,
+          "overall_rate": 0.23656686352008952,
+          "lift_pp": -1.9507188382518748
+        },
+        {
+          "number": "07",
+          "station_rate": 0.21801114992348894,
+          "overall_rate": 0.23574007559119328,
+          "lift_pp": -1.7728925667704343
+        },
+        {
+          "number": "31",
+          "station_rate": 0.22086557428124345,
+          "overall_rate": 0.23849603535418074,
+          "lift_pp": -1.7630461072937282
+        },
+        {
+          "number": "52",
+          "station_rate": 0.22847737256858885,
+          "overall_rate": 0.24579932872609753,
+          "lift_pp": -1.7321956157508671
+        },
+        {
+          "number": "06",
+          "station_rate": 0.21801114992348894,
+          "overall_rate": 0.2351888836385958,
+          "lift_pp": -1.7177733715106864
+        },
+        {
+          "number": "63",
+          "station_rate": 0.22467147342491617,
+          "overall_rate": 0.24014961121197323,
+          "lift_pp": -1.5478137787057062
+        }
+      ]
+    }
+  }
+}
