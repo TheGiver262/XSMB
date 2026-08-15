@@ -1,5 +1,6 @@
 name: Walk-forward top3 V3 research
 
+# rerun 2026-08-15 after canonical draw update
 on:
   push:
     branches:
