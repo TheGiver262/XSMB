@@ -1,0 +1,58 @@
+name: V3 retrospective 2026-08-17
+
+on:
+  push:
+    branches:
+      - research/v3-retro-2026-08-17
+    paths:
+      - '.github/workflows/v3-retro-2026-08-17.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  forecast:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: research/v3-retro-2026-08-17
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Lock data to main cutoff 2026-08-16
+        run: |
+          git fetch origin main
+          git checkout origin/main -- data/upstream
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          m=json.loads(Path('data/upstream/metadata.json').read_text())
+          assert m['last_date']=='2026-08-16', m
+          print('locked cutoff', m['last_date'], 'draws', m['observed_draws'])
+          PY
+      - name: Run frozen V3 on cutoff
+        run: python src/walkforward_top3_v3.py
+      - name: Save retrospective forecast only
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          src=Path('forecasts/top3_v3_next.json')
+          obj=json.loads(src.read_text())
+          assert obj['target_date']=='2026-08-17', obj
+          obj['data_cutoff']='2026-08-16'
+          obj['classification']='retrospective_after_draw_not_valid_for_prospective_scoring'
+          obj['generated_for_reconstruction']=True
+          dst=Path('forecasts/top3_v3_retrospective_2026-08-17.json')
+          dst.write_text(json.dumps(obj, ensure_ascii=False, indent=2)+'\n')
+          print(dst.read_text())
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add forecasts/top3_v3_retrospective_2026-08-17.json
+          git commit -m "research: reconstruct V3 forecast for 2026-08-17 [skip ci]"
+          git push origin HEAD:research/v3-retro-2026-08-17
