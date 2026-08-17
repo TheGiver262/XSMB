@@ -1,6 +1,6 @@
 name: Walk-forward top3 V3 research
 
-# rerun 2026-08-15 after canonical draw update
+# rerun 2026-08-17 after canonical draw update
 on:
   push:
     branches:
@@ -35,7 +35,7 @@ jobs:
       - name: Persist V3 outputs
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.email "41898282+TheGiver262@users.noreply.github.com"
           git add data/upstream evaluation/walkforward_top3_v3_* forecasts/top3_v3_next.json
           if git diff --cached --quiet; then
             echo "No changes"
