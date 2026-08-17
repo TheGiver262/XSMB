@@ -1,0 +1,47 @@
+{
+  "target_date": "2026-08-17",
+  "station": "Ha Noi",
+  "top3": [
+    "50",
+    "69",
+    "34"
+  ],
+  "detail": [
+    {
+      "number": "50",
+      "score": 2.0473073792866594,
+      "long_rate": 0.24299518367028033,
+      "rate_7": 0.4712971856958689,
+      "rate_14": 0.483594022540236,
+      "rate_30": 0.3844143214132241,
+      "month_rate": 0.4375374489649754,
+      "station_rate": 0.22574757732549858,
+      "station_recent_rate": 0.3286544009117575
+    },
+    {
+      "number": "69",
+      "score": 1.8020379255357728,
+      "long_rate": 0.23883933951443617,
+      "rate_7": 0.4712971856958689,
+      "rate_14": 0.43096244359286756,
+      "rate_30": 0.3094143214132241,
+      "month_rate": 0.4375374489649754,
+      "station_rate": 0.23354574246311324,
+      "station_recent_rate": 0.312525368653693
+    },
+    {
+      "number": "34",
+      "score": 1.736258172841155,
+      "long_rate": 0.23312505380015047,
+      "rate_7": 0.571297185695869,
+      "rate_14": 0.3783308646454991,
+      "rate_30": 0.33441432141322414,
+      "month_rate": 0.38991840134592776,
+      "station_rate": 0.24317876998604904,
+      "station_recent_rate": 0.24800923962143492
+    }
+  ],
+  "data_cutoff": "2026-08-16",
+  "classification": "retrospective_after_draw_not_valid_for_prospective_scoring",
+  "generated_for_reconstruction": true
+}
