@@ -1,8 +1,8 @@
 metric,value
 cv_brier,0.0029910000089940006
-cv_log_loss,0.020422925968690345
+cv_log_loss,0.02042292596869034
 baseline_brier,0.0029910000089940006
-baseline_log_loss,0.020422925968690345
+baseline_log_loss,0.02042292596869034
 brier_improvement,0.0
 validation_draws,540
 allowed_recipes,long_only
@@ -12,9 +12,9 @@ theoretical_baseline,0.002997000999999999
 selected_recipe,long_only
 selected_blend,0.0
 observed_draws,1083
-target_date,2026-08-19
+target_date,2026-08-20
 forecast_kind,post_draw_preview
-generated_at_utc,2026-08-18T14:08:24+00:00
-data_cutoff_date,2026-08-18
-history_calendar_start,2023-08-20
-history_calendar_end,2026-08-18
+generated_at_utc,2026-08-19T14:08:57+00:00
+data_cutoff_date,2026-08-19
+history_calendar_start,2023-08-21
+history_calendar_end,2026-08-19
