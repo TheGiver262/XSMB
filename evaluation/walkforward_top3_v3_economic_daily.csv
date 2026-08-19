@@ -1,6 +1,4 @@
 date,station,pick1,pick1_nhay,pick2,pick2_nhay,pick3,pick3_nhay,distinct_hits,total_nhay,coverage_any_hit,strict_success_2plus_of_3,user_rule_result,breakeven_gross_return_multiple_per_nhay_equal_stake
-2025-08-14,Ha Noi,26,1,53,0,75,2,2,3,1,1,success_proxy,1.000000
-2025-08-15,Hai Phong,26,0,75,0,83,0,0,0,0,0,loss,
 2025-08-16,Nam Dinh,26,0,75,0,83,1,1,1,1,0,loss,3.000000
 2025-08-17,Thai Binh,83,0,26,0,78,1,1,1,1,0,loss,3.000000
 2025-08-18,Ha Noi,78,0,81,0,80,0,0,0,0,0,loss,
@@ -364,3 +362,5 @@ date,station,pick1,pick1_nhay,pick2,pick2_nhay,pick3,pick3_nhay,distinct_hits,to
 2026-08-15,Nam Dinh,50,0,69,0,95,0,0,0,0,0,loss,
 2026-08-16,Thai Binh,69,0,34,0,95,0,0,0,0,0,loss,
 2026-08-17,Ha Noi,50,0,69,0,34,0,0,0,0,0,loss,
+2026-08-18,Quang Ninh,00,0,50,0,54,1,1,1,1,0,loss,3.000000
+2026-08-19,Bac Ninh,54,1,34,0,69,1,2,2,1,1,success_proxy,1.500000
