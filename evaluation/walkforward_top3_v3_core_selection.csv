@@ -1,7 +1,7 @@
 candidate,hits,hit_rate,lift_pp_vs_random,pick_set_change_rate,weights
-month40,215,0.589041095890411,2.8417596064249318,0.9230769230769231,"{""long_rate"": 0.05, ""month_rate"": 0.4, ""rate_14"": 0.15, ""rate_30"": 0.15, ""rate_7"": 0.25, ""station_rate"": 0.0, ""station_recent_rate"": 0.0}"
+month40,214,0.5863013698630137,2.567787003685207,0.9230769230769231,"{""long_rate"": 0.05, ""month_rate"": 0.4, ""rate_14"": 0.15, ""rate_30"": 0.15, ""rate_7"": 0.25, ""station_rate"": 0.0, ""station_recent_rate"": 0.0}"
 mid_horizon,214,0.5863013698630137,2.567787003685207,0.9148351648351648,"{""long_rate"": 0.05, ""month_rate"": 0.25, ""rate_14"": 0.3, ""rate_30"": 0.25, ""rate_7"": 0.15, ""station_rate"": 0.0, ""station_recent_rate"": 0.0}"
-short_month33,212,0.5808219178082191,2.019841798205746,0.9285714285714286,"{""long_rate"": 0.08, ""month_rate"": 0.33, ""rate_14"": 0.18, ""rate_30"": 0.14, ""rate_7"": 0.27, ""station_rate"": 0.0, ""station_recent_rate"": 0.0}"
-week_month40,211,0.5780821917808219,1.745869195466021,0.9560439560439561,"{""long_rate"": 0.05, ""month_rate"": 0.4, ""rate_14"": 0.15, ""rate_30"": 0.1, ""rate_7"": 0.3, ""station_rate"": 0.0, ""station_recent_rate"": 0.0}"
-month50,209,0.5726027397260274,1.1979239899865712,0.9230769230769231,"{""long_rate"": 0.05, ""month_rate"": 0.5, ""rate_14"": 0.15, ""rate_30"": 0.1, ""rate_7"": 0.2, ""station_rate"": 0.0, ""station_recent_rate"": 0.0}"
+short_month33,211,0.5780821917808219,1.745869195466021,0.9285714285714286,"{""long_rate"": 0.08, ""month_rate"": 0.33, ""rate_14"": 0.18, ""rate_30"": 0.14, ""rate_7"": 0.27, ""station_rate"": 0.0, ""station_recent_rate"": 0.0}"
+week_month40,210,0.5753424657534246,1.4718965927262961,0.9560439560439561,"{""long_rate"": 0.05, ""month_rate"": 0.4, ""rate_14"": 0.15, ""rate_30"": 0.1, ""rate_7"": 0.3, ""station_rate"": 0.0, ""station_recent_rate"": 0.0}"
 week_heavy,208,0.5698630136986301,0.9239513872468463,0.9587912087912088,"{""long_rate"": 0.05, ""month_rate"": 0.2, ""rate_14"": 0.2, ""rate_30"": 0.15, ""rate_7"": 0.4, ""station_rate"": 0.0, ""station_recent_rate"": 0.0}"
+month50,208,0.5698630136986301,0.9239513872468463,0.9230769230769231,"{""long_rate"": 0.05, ""month_rate"": 0.5, ""rate_14"": 0.15, ""rate_30"": 0.1, ""rate_7"": 0.2, ""station_rate"": 0.0, ""station_recent_rate"": 0.0}"
