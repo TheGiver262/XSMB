@@ -1,0 +1,61 @@
+{
+  "data_cutoff": "2026-08-25",
+  "target_date": "2026-08-26",
+  "top3": [
+    "54",
+    "64",
+    "18"
+  ],
+  "reverse": {
+    "54": {
+      "reverse": "45",
+      "is_double": false,
+      "reverse_rate_7": 0.14285714285714285,
+      "original_rate_7": 0.42857142857142855,
+      "pair_cooccurrence_7": 0.0,
+      "reverse_rate_14": 0.14285714285714285,
+      "original_rate_14": 0.5714285714285714,
+      "pair_cooccurrence_14": 0.07142857142857142,
+      "reverse_rate_30": 0.1,
+      "original_rate_30": 0.4,
+      "pair_cooccurrence_30": 0.03333333333333333,
+      "reverse_month_rate": 0.12,
+      "original_month_rate": 0.44
+    },
+    "64": {
+      "reverse": "46",
+      "is_double": false,
+      "reverse_rate_7": 0.14285714285714285,
+      "original_rate_7": 0.5714285714285714,
+      "pair_cooccurrence_7": 0.0,
+      "reverse_rate_14": 0.14285714285714285,
+      "original_rate_14": 0.5,
+      "pair_cooccurrence_14": 0.0,
+      "reverse_rate_30": 0.23333333333333334,
+      "original_rate_30": 0.36666666666666664,
+      "pair_cooccurrence_30": 0.03333333333333333,
+      "reverse_month_rate": 0.2,
+      "original_month_rate": 0.36
+    },
+    "18": {
+      "reverse": "81",
+      "is_double": false,
+      "reverse_rate_7": 0.2857142857142857,
+      "original_rate_7": 0.42857142857142855,
+      "pair_cooccurrence_7": 0.2857142857142857,
+      "reverse_rate_14": 0.35714285714285715,
+      "original_rate_14": 0.35714285714285715,
+      "pair_cooccurrence_14": 0.21428571428571427,
+      "reverse_rate_30": 0.3,
+      "original_rate_30": 0.3333333333333333,
+      "pair_cooccurrence_30": 0.16666666666666666,
+      "reverse_month_rate": 0.32,
+      "original_month_rate": 0.4
+    }
+  },
+  "double_vs_normal_365": {
+    "double_presence_rate_per_number_day": 0.22602739726027396,
+    "normal_presence_rate_per_number_day": 0.23963470319634703,
+    "difference_pp": -1.3607305936073066
+  }
+}
