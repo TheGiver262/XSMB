@@ -1,0 +1,115 @@
+name: Temp Month2 Full Kokoro
+
+on:
+  push:
+    branches:
+      - temp/month2-full-kokoro-20260826
+    paths:
+      - '.github/workflows/temp-month2-full-kokoro.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq espeak-ng
+          python -m pip install --upgrade pip
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install 'kokoro==0.9.4' 'soundfile>=0.12,<1' 'numpy>=1.26,<3'
+      - name: Generate all Month 2 pronunciation
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          import numpy as np
+          import soundfile as sf
+          from kokoro import KPipeline
+
+          videos = [
+            ('2026-09-07','general-b1-p21','Từ vựng B1 (P21)',['able','current','group','base','development']),
+            ('2026-09-08','general-b1-p22','Từ vựng B1 (P22)',['available','central','growth','public','benefit']),
+            ('2026-09-09','topic-health-p1','Từ vựng chủ đề Sức khỏe (P1)',['pain','disease','injury','medicine','recover']),
+            ('2026-09-10','general-b1-p23','Từ vựng B1 (P23)',['amount','complete','department','global','president']),
+            ('2026-09-11','topic-technology-p1','Từ vựng chủ đề Công nghệ (P1)',['technology','computer','machine','software','robot']),
+            ('2026-09-12','general-b1-p24','Từ vựng B1 (P24)',['amazing','charge','support','bond','decision']),
+            ('2026-09-13','general-b1-p25','Từ vựng B1 (P25)',['army','content','experience','grant','process']),
+            ('2026-09-14','general-b1-p26','Từ vựng B1 (P26)',['access','construction','service','bunch','direct']),
+            ('2026-09-15','general-b1-p27','Từ vựng B1 (P27)',['administration','cycle','economic','future','goods']),
+            ('2026-09-16','topic-environment-p1','Từ vựng chủ đề Môi trường (P1)',['energy','environment','planet','pollution','recycle']),
+            ('2026-09-17','general-b1-p28','Từ vựng B1 (P28)',['authority','industry','legal','policy','season']),
+            ('2026-09-18','topic-food-p1','Từ vựng chủ đề Ẩm thực (P1)',['restaurant','cheese','bread','recipe','flavor']),
+            ('2026-09-19','general-b1-p29','Từ vựng B1 (P29)',['advance','boom','consumer','distribution','entire']),
+            ('2026-09-20','general-b1-p30','Từ vựng B1 (P30)',['former','glory','involved','loss','main']),
+            ('2026-09-21','general-b1-p31','Từ vựng B1 (P31)',['property','relationship','security','acknowledge','bat']),
+            ('2026-09-22','general-b1-p32','Từ vựng B1 (P32)',['conduct','defeat','election','financial','gratitude']),
+            ('2026-09-23','topic-home-p1','Từ vựng chủ đề Nhà cửa (P1)',['kitchen','bathroom','bedroom','furniture','curtain']),
+            ('2026-09-24','general-b1-p33','Từ vựng B1 (P33)',['individual','justice','luxury','management','potential']),
+            ('2026-09-25','topic-transport-p1','Từ vựng chủ đề Giao thông (P1)',['traffic','vehicle','taxi','motorcycle','subway']),
+            ('2026-09-26','general-b1-p34','Từ vựng B1 (P34)',['risk','serious','accent','bronze','capture']),
+            ('2026-09-27','general-b1-p35','Từ vựng B1 (P35)',['deposit','existence','fair','glance','hate']),
+            ('2026-09-28','general-b1-p36','Từ vựng B1 (P36)',['income','journal','lighter','movement','previous']),
+            ('2026-09-29','general-b1-p37','Từ vựng B1 (P37)',['respect','standard','total','accuse','breakthrough']),
+            ('2026-09-30','topic-emotions-p1','Từ vựng chủ đề Cảm xúc (P1)',['fear','pleasure','anxiety','guilt','disappointment']),
+            ('2026-10-01','general-b1-p38','Từ vựng B1 (P38)',['contribution','dial','element','filter','gossip']),
+            ('2026-10-02','topic-nature-p1','Từ vựng chủ đề Thiên nhiên (P1)',['river','mountain','valley','ocean','desert']),
+            ('2026-10-03','general-b1-p39','Từ vựng B1 (P39)',['humor','interaction','judgment','lodge','motivation']),
+            ('2026-10-04','general-b1-p40','Từ vựng B1 (P40)',['positive','region','safety','tax','various']),
+          ]
+          voices=['am_michael','af_heart','af_bella']
+          out=Path('output/month2-full-kokoro')
+          out.mkdir(parents=True,exist_ok=True)
+          pipeline=KPipeline(lang_code='a')
+          sr=24000
+          manifest={'engine':'Kokoro-82M','language_code':'a','accent':'General American','videos':[]}
+
+          for vi,(date,video_id,title,words) in enumerate(videos):
+              voice=voices[vi%3]
+              vdir=out/video_id
+              vdir.mkdir(parents=True,exist_ok=True)
+              vm={'index':vi+1,'publish_sequence':29+vi,'publish_date':date,'video_id':video_id,'title':title,'voice':voice,'background_index':29+vi,'items':[]}
+              for wi,word in enumerate(words,1):
+                  chunks=[]; phonemes=[]
+                  for result in pipeline(word+'.',voice=voice,speed=1.0):
+                      try:
+                          gs,ps,audio=result
+                      except Exception:
+                          ps=getattr(result,'phonemes','') or getattr(result,'ps','') or ''
+                          audio=getattr(result,'audio',None)
+                      if audio is None: continue
+                      if hasattr(audio,'detach'): audio=audio.detach().cpu().numpy()
+                      chunks.append(np.asarray(audio,dtype=np.float32))
+                      if ps: phonemes.append(str(ps))
+                  if not chunks:
+                      raise RuntimeError(f'No audio: {video_id}/{word}/{voice}')
+                  y=np.concatenate(chunks)
+                  nz=np.flatnonzero(np.abs(y)>=0.0025)
+                  if nz.size:
+                      pad=int(sr*0.035)
+                      y=y[max(0,int(nz[0])-pad):min(len(y),int(nz[-1])+pad+1)]
+                  if len(y)/sr>1.6:
+                      raise RuntimeError(f'{video_id}/{word} too long {len(y)/sr:.3f}s')
+                  fn=f'{wi:02d}_{word}_{voice}.wav'
+                  sf.write(vdir/fn,y,sr,subtype='PCM_16')
+                  vm['items'].append({'position':wi,'word':word,'audio_file':str(Path(video_id)/fn),'duration_seconds':round(len(y)/sr,6),'phonemes':' '.join(phonemes)})
+                  print(vi+1,video_id,voice,word,round(len(y)/sr,3),' '.join(phonemes))
+              manifest['videos'].append(vm)
+          (out/'month2_full_kokoro_manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          PY
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: month2-full-kokoro
+          path: output/month2-full-kokoro/
+          if-no-files-found: error
+          retention-days: 3
+          compression-level: 6
