@@ -62,7 +62,6 @@ def main() -> None:
         total_nhay = sum(nhay)
 
         coverage = int(distinct_hits >= 1)
-        # User-defined conservative proxy: one of three hitting still counts as a losing day.
         strict_success = int(distinct_hits >= 2)
         coverage_days += coverage
         strict_success_days += strict_success
@@ -70,9 +69,6 @@ def main() -> None:
         dist[f"{distinct_hits}_of_3"] += 1
         total_occ_dist[total_nhay] += 1
 
-        # Abstract break-even return multiple if one equal stake unit is placed on each
-        # of the 3 picks and every occurrence pays the same gross multiple. This is NOT
-        # a real-market payout assumption; it only allows later exact P&L parameterization.
         breakeven_return_multiple = (3.0 / total_nhay) if total_nhay > 0 else None
 
         out.append({
@@ -123,4 +119,4 @@ def main() -> None:
 if __name__ == "__main__":
     main()
 
-# maintenance rerun marker: 2026-08-24
+# maintenance rerun marker: 2026-08-26
