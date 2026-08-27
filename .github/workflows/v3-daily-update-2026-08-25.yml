@@ -111,3 +111,4 @@ jobs:
             git commit -m "research: settle 2026-08-25 and forecast next V3"
             git push origin HEAD:research/top3-walkforward-v3-adaptive
           fi
+# automation trigger 2026-08-27
