@@ -1,0 +1,28 @@
+{
+  "n": 365,
+  "metric_warning": "coverage_any_hit is not a monetary win rate",
+  "user_rule": "0/3 and 1/3 are losses; 2/3 or 3/3 is only a strict success proxy until an explicit payout/stake is configured",
+  "distinct_hit_distribution": {
+    "0_of_3": 140,
+    "1_of_3": 177,
+    "2_of_3": 47,
+    "3_of_3": 1
+  },
+  "distinct_hit_distribution_rate": {
+    "0_of_3": 0.3835616438356164,
+    "1_of_3": 0.4849315068493151,
+    "2_of_3": 0.12876712328767123,
+    "3_of_3": 0.0027397260273972603
+  },
+  "strict_success_2plus_of_3_days": 48,
+  "strict_success_2plus_of_3_rate": 0.13150684931506848,
+  "total_nhay": 306,
+  "mean_total_nhay_per_day": 0.8383561643835616,
+  "total_nhay_distribution": {
+    "0": 140,
+    "1": 154,
+    "2": 61,
+    "3": 10
+  },
+  "pnl_status": "not_computed_without_explicit_payout_and_stake"
+}

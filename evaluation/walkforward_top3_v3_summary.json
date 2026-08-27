@@ -1,0 +1,203 @@
+{
+  "protocol": {
+    "development_draws": 730,
+    "development_core_selection_draws": 365,
+    "development_station_validation_draws": 365,
+    "final_holdout_draws": 365,
+    "station_min_gain_hits": 4,
+    "ordering": "predict from strict prior history -> reveal result -> next date may use it",
+    "random_top3_baseline": 0.5606234998261617
+  },
+  "data": {
+    "first_date": "2005-10-01",
+    "latest_date": "2026-08-26",
+    "draws": 7534,
+    "core_dev_start": "2023-08-16",
+    "core_dev_end": "2024-08-18",
+    "station_validation_start": "2024-08-19",
+    "station_validation_end": "2025-08-22",
+    "holdout_start": "2025-08-23",
+    "holdout_end": "2026-08-26"
+  },
+  "selected_core": {
+    "name": "month40",
+    "weights": [
+      0.05,
+      0.25,
+      0.15,
+      0.15,
+      0.4,
+      0.0,
+      0.0
+    ]
+  },
+  "station_gate": {
+    "best_validation_candidate": {
+      "candidate": "month40_st0.050_r0.5",
+      "station_alpha": 0.05,
+      "station_recent_mix": 0.5,
+      "hits": 219,
+      "hit_rate": 0.6,
+      "lift_pp_vs_random": 3.9376500173838314,
+      "pick_set_change_rate": 0.9175824175824175,
+      "weights": "{\"long_rate\": 0.0475, \"month_rate\": 0.38, \"rate_14\": 0.1425, \"rate_30\": 0.1425, \"rate_7\": 0.2375, \"station_rate\": 0.025, \"station_recent_rate\": 0.025}"
+    },
+    "no_station_validation": {
+      "candidate": "month40_st0.000_r0.0",
+      "station_alpha": 0.0,
+      "station_recent_mix": 0.0,
+      "hits": 213,
+      "hit_rate": 0.5835616438356165,
+      "lift_pp_vs_random": 2.293814400945482,
+      "pick_set_change_rate": 0.9148351648351648,
+      "weights": "{\"long_rate\": 0.05, \"month_rate\": 0.4, \"rate_14\": 0.15, \"rate_30\": 0.15, \"rate_7\": 0.25, \"station_rate\": 0.0, \"station_recent_rate\": 0.0}"
+    },
+    "gain_hits": 6,
+    "shrunk_to_zero": false,
+    "selected_candidate": {
+      "name": "month40_st0.050_r0.5",
+      "weights": [
+        0.0475,
+        0.2375,
+        0.1425,
+        0.1425,
+        0.38,
+        0.025,
+        0.025
+      ],
+      "core": "month40",
+      "station_alpha": 0.05,
+      "station_recent_mix": 0.5
+    }
+  },
+  "holdout": {
+    "candidate": "month40_st0.050_r0.5",
+    "n": 365,
+    "hits": 225,
+    "hit_rate": 0.6164383561643836,
+    "lift_pp_vs_random": 5.581485633822192,
+    "pick_set_changes": 334,
+    "pick_set_change_rate": 0.9175824175824175,
+    "by_station": {
+      "Bac Ninh": {
+        "hits": 36,
+        "draws": 52,
+        "hit_rate": 0.6923076923076923
+      },
+      "Ha Noi": {
+        "hits": 58,
+        "draws": 103,
+        "hit_rate": 0.5631067961165048
+      },
+      "Hai Phong": {
+        "hits": 35,
+        "draws": 52,
+        "hit_rate": 0.6730769230769231
+      },
+      "Nam Dinh": {
+        "hits": 35,
+        "draws": 53,
+        "hit_rate": 0.660377358490566
+      },
+      "Quang Ninh": {
+        "hits": 32,
+        "draws": 52,
+        "hit_rate": 0.6153846153846154
+      },
+      "Thai Binh": {
+        "hits": 29,
+        "draws": 53,
+        "hit_rate": 0.5471698113207547
+      }
+    },
+    "wilson_95_low": 0.5655869721004505,
+    "wilson_95_high": 0.6648643450366538,
+    "z_vs_random": 2.1485337579810992,
+    "two_sided_p_vs_random": 0.03167137760707288
+  },
+  "holdout_no_station_control": {
+    "candidate": "month40_st0.000_r0.0",
+    "n": 365,
+    "hits": 219,
+    "hit_rate": 0.6,
+    "lift_pp_vs_random": 3.9376500173838314,
+    "pick_set_changes": 336,
+    "pick_set_change_rate": 0.9230769230769231,
+    "by_station": {
+      "Bac Ninh": {
+        "hits": 34,
+        "draws": 52,
+        "hit_rate": 0.6538461538461539
+      },
+      "Ha Noi": {
+        "hits": 57,
+        "draws": 103,
+        "hit_rate": 0.5533980582524272
+      },
+      "Hai Phong": {
+        "hits": 32,
+        "draws": 52,
+        "hit_rate": 0.6153846153846154
+      },
+      "Nam Dinh": {
+        "hits": 36,
+        "draws": 53,
+        "hit_rate": 0.6792452830188679
+      },
+      "Quang Ninh": {
+        "hits": 30,
+        "draws": 52,
+        "hit_rate": 0.5769230769230769
+      },
+      "Thai Binh": {
+        "hits": 30,
+        "draws": 53,
+        "hit_rate": 0.5660377358490566
+      }
+    }
+  },
+  "next_forecast": {
+    "target_date": "2026-08-27",
+    "station": "Ha Noi",
+    "top3": [
+      "54",
+      "32",
+      "64"
+    ],
+    "detail": [
+      {
+        "number": "54",
+        "score": 2.187931716827438,
+        "long_rate": 0.2445536252287219,
+        "rate_7": 0.37129718569586895,
+        "rate_14": 0.5362256014876043,
+        "rate_30": 0.3844143214132241,
+        "month_rate": 0.42542859446014464,
+        "station_rate": 0.23734755775061242,
+        "station_recent_rate": 0.2318802073633704
+      },
+      {
+        "number": "32",
+        "score": 1.865115100276733,
+        "long_rate": 0.2502679109430076,
+        "rate_7": 0.571297185695869,
+        "rate_14": 0.32569928569813067,
+        "rate_30": 0.33441432141322414,
+        "month_rate": 0.3609124654278866,
+        "station_rate": 0.23780564295446033,
+        "station_recent_rate": 0.2963963363956285
+      },
+      {
+        "number": "64",
+        "score": 1.5942638753027332,
+        "long_rate": 0.2445536252287219,
+        "rate_7": 0.4712971856958689,
+        "rate_14": 0.43096244359286756,
+        "rate_30": 0.3094143214132241,
+        "month_rate": 0.3286544009117575,
+        "station_rate": 0.25017394345835403,
+        "station_recent_rate": 0.2963963363956285
+      }
+    ]
+  }
+}

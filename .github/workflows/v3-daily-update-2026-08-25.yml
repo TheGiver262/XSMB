@@ -1,0 +1,114 @@
+name: V3 daily update 2026-08-25
+
+on:
+  push:
+    branches:
+      - research/top3-walkforward-v3-adaptive
+    paths:
+      - '.github/workflows/v3-daily-update-2026-08-25.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: research/top3-walkforward-v3-adaptive
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Refresh canonical upstream
+        run: python src/sync_upstream.py
+      - name: Run frozen V3
+        run: python src/walkforward_top3_v3.py
+      - name: Build economic, reverse and double diagnostics
+        run: |
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          from collections import Counter
+          root=Path('.')
+          rows=list(csv.DictReader(open(root/'data/upstream/xsmb-2-digits.csv',encoding='utf-8-sig')))
+          def vals(row):
+              return [f"{int(v):02d}" for k,v in row.items() if k!='date' and v not in ('',None)]
+          parsed=[(r['date'][:10], vals(r)) for r in rows]
+          by_date={d:v for d,v in parsed}
+
+          daily=list(csv.DictReader(open(root/'evaluation/walkforward_top3_v3_daily.csv',encoding='utf-8-sig')))
+          daily=daily[-365:]
+          dist=Counter(); nhay_dist=Counter(); total_nhay=0
+          econ_rows=[]
+          for r in daily:
+              actual=by_date[r['date']]
+              picks=[r['pick1'].zfill(2),r['pick2'].zfill(2),r['pick3'].zfill(2)]
+              counts=[actual.count(p) for p in picks]
+              distinct=sum(c>0 for c in counts)
+              nhay=sum(counts)
+              dist[distinct]+=1; nhay_dist[nhay]+=1; total_nhay+=nhay
+              econ_rows.append({'date':r['date'],'pick1':picks[0],'pick2':picks[1],'pick3':picks[2],
+                                'nhay1':counts[0],'nhay2':counts[1],'nhay3':counts[2],
+                                'distinct_hits':distinct,'total_nhay':nhay,
+                                'status':'WIN_PROXY' if distinct>=2 else 'LOSS'})
+          with open(root/'evaluation/walkforward_top3_v3_economic_daily.csv','w',newline='',encoding='utf-8') as f:
+              w=csv.DictWriter(f,fieldnames=econ_rows[0].keys()); w.writeheader(); w.writerows(econ_rows)
+          n=len(daily)
+          summary={
+              'n':n,
+              'metric_warning':'coverage_any_hit is not a monetary win rate',
+              'user_rule':'0/3 and 1/3 are losses; 2/3 or 3/3 is only a strict success proxy until an explicit payout/stake is configured',
+              'distinct_hit_distribution':{f'{i}_of_3':dist[i] for i in range(4)},
+              'distinct_hit_distribution_rate':{f'{i}_of_3':dist[i]/n for i in range(4)},
+              'strict_success_2plus_of_3_days':dist[2]+dist[3],
+              'strict_success_2plus_of_3_rate':(dist[2]+dist[3])/n,
+              'total_nhay':total_nhay,
+              'mean_total_nhay_per_day':total_nhay/n,
+              'total_nhay_distribution':{str(k):v for k,v in sorted(nhay_dist.items())},
+              'pnl_status':'not_computed_without_explicit_payout_and_stake'
+          }
+          (root/'evaluation/walkforward_top3_v3_economic_summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2),encoding='utf-8')
+
+          fc=json.load(open(root/'forecasts/top3_v3_next.json'))
+          nums=fc['top3']; latest=parsed[-1][0]; month=latest[:7]
+          out={'data_cutoff':latest,'target_date':fc['target_date'],'top3':nums,'reverse':{}}
+          for n0 in nums:
+              n0=n0.zfill(2)
+              if n0[0]==n0[1]:
+                  out['reverse'][n0]={'reverse':n0,'is_double':True}
+                  continue
+              rev=n0[::-1]
+              d={'reverse':rev,'is_double':False}
+              for wdw in (7,14,30):
+                  seg=parsed[-wdw:]
+                  d[f'reverse_rate_{wdw}']=sum(rev in v for _,v in seg)/len(seg)
+                  d[f'original_rate_{wdw}']=sum(n0 in v for _,v in seg)/len(seg)
+                  d[f'pair_cooccurrence_{wdw}']=sum((rev in v) and (n0 in v) for _,v in seg)/len(seg)
+              mseg=[x for x in parsed if x[0].startswith(month)]
+              d['reverse_month_rate']=sum(rev in v for _,v in mseg)/len(mseg)
+              d['original_month_rate']=sum(n0 in v for _,v in mseg)/len(mseg)
+              out['reverse'][n0]=d
+          seg=parsed[-365:]
+          doubles=[f'{i}{i}' for i in range(10)]
+          normals=[f'{i:02d}' for i in range(100) if i//10 != i%10]
+          dbl=sum(n in v for _,v in seg for n in doubles)/(len(seg)*len(doubles))
+          norm=sum(n in v for _,v in seg for n in normals)/(len(seg)*len(normals))
+          out['double_vs_normal_365']={'double_presence_rate_per_number_day':dbl,'normal_presence_rate_per_number_day':norm,'difference_pp':(dbl-norm)*100}
+          (root/'evaluation/v3_reverse_double_diagnostic.json').write_text(json.dumps(out,ensure_ascii=False,indent=2),encoding='utf-8')
+          PY
+      - name: Persist outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/upstream evaluation forecasts/top3_v3_next.json
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "research: settle 2026-08-25 and forecast next V3"
+            git push origin HEAD:research/top3-walkforward-v3-adaptive
+          fi
+# automation trigger 2026-08-27

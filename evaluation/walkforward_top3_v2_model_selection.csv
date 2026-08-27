@@ -1,0 +1,7 @@
+candidate,hit_rate,hits,lift_pp_vs_random,pick_set_change_rate,weights
+month_heavy_station,0.5904109589041096,431,2.9787459077947886,0.9547325102880658,"{""long_rate"": 0.05, ""month_rate"": 0.5, ""rate_14"": 0.15, ""rate_30"": 0.1, ""rate_7"": 0.2, ""station_rate"": 0.15, ""station_recent_rate"": 0.0}"
+short_station_recent,0.5863013698630137,428,2.567787003685207,0.99039780521262,"{""long_rate"": 0.1, ""month_rate"": 0.25, ""rate_14"": 0.15, ""rate_30"": 0.1, ""rate_7"": 0.25, ""station_rate"": 0.15, ""station_recent_rate"": 0.2}"
+station_heavy_control,0.5835616438356165,426,2.293814400945482,1.0,"{""long_rate"": 0.1, ""month_rate"": 0.15, ""rate_14"": 0.1, ""rate_30"": 0.1, ""rate_7"": 0.15, ""station_rate"": 0.45, ""station_recent_rate"": 0.2}"
+short_month_station_1,0.5835616438356165,426,2.293814400945482,0.9588477366255144,"{""long_rate"": 0.1, ""month_rate"": 0.35, ""rate_14"": 0.2, ""rate_30"": 0.1, ""rate_7"": 0.3, ""station_rate"": 0.15, ""station_recent_rate"": 0.0}"
+short_month_station_2,0.5794520547945206,423,1.882855496835889,0.9780521262002744,"{""long_rate"": 0.05, ""month_rate"": 0.3, ""rate_14"": 0.2, ""rate_30"": 0.15, ""rate_7"": 0.25, ""station_rate"": 0.25, ""station_recent_rate"": 0.0}"
+short_month_no_station,0.5767123287671233,421,1.6088828940961641,0.9314128943758574,"{""long_rate"": 0.1, ""month_rate"": 0.35, ""rate_14"": 0.2, ""rate_30"": 0.15, ""rate_7"": 0.3, ""station_rate"": 0.0, ""station_recent_rate"": 0.0}"

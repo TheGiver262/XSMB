@@ -1,0 +1,67 @@
+{
+  "protocol": {
+    "target": "top3 distinct two-digit suffix picks; hit if >=1 appears among 27 XSMB prizes",
+    "final_holdout_draws": 365,
+    "development_draws": 730,
+    "training_lookback_draws": 1825,
+    "ordering": "predict -> lock 3 picks -> reveal result -> score -> online update",
+    "leakage_guard": "candidate/hyperparameter selection uses only the development window ending before the final holdout",
+    "important_baseline_note": "50% is below the fair random top-3 baseline, so success is judged against ~56.06%, not 50%."
+  },
+  "data": {
+    "first_date": "2005-10-01",
+    "latest_date": "2026-08-14",
+    "observed_draws": 7522,
+    "development_start": "2023-08-04",
+    "development_end": "2025-08-10",
+    "holdout_start": "2025-08-11",
+    "holdout_end": "2026-08-14"
+  },
+  "selected_model": {
+    "name": "long_l10_lr010",
+    "feature_set": "long_only",
+    "l2": 10.0,
+    "lr": 0.1,
+    "selected_by": "highest development top3 hit rate; tie-break lower development Brier; never by holdout",
+    "development_rank": [
+      "long_l10_lr010",
+      "long_l100_lr030",
+      "full_l300_lr010",
+      "recency_l300_lr030",
+      "recgap_l300_lr010",
+      "full_l1000_lr030",
+      "recency_l100_lr010"
+    ]
+  },
+  "holdout": {
+    "candidate": "long_l10_lr010",
+    "feature_set": "long_only",
+    "l2": 10.0,
+    "online_lr": 0.1,
+    "n": 365,
+    "top1_hits": 94,
+    "top1_hit_rate": 0.25753424657534246,
+    "top2_hits": 160,
+    "top2_hit_rate": 0.4383561643835616,
+    "top3_hits": 212,
+    "top3_hit_rate": 0.5808219178082191,
+    "mean_brier": 0.1813601622929189,
+    "random_baselines": {
+      "top1": 0.23765728565289646,
+      "top2": 0.42043247352034774,
+      "top3": 0.5606234998261617
+    },
+    "top3_expected_random_hits": 204.62757743654902,
+    "top3_lift_pp_vs_random": 2.019841798205746,
+    "top3_relative_lift_pct": 3.602848968750072,
+    "top3_wilson_95_low": 0.5296173852122631,
+    "top3_wilson_95_high": 0.6303429408005504,
+    "top3_z_vs_random": 0.777516699663075,
+    "top3_two_sided_p_vs_random": 0.4368539857740188,
+    "longest_hit_streak": 11,
+    "longest_miss_streak": 10,
+    "beats_50pct": true,
+    "beats_random_baseline": true,
+    "promotion_rule": "Do not claim predictive edge unless holdout beats the random baseline with practically meaningful lift and uncertainty supports it."
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "target_date": "2026-08-15",
+  "data_cutoff": "2026-08-14",
+  "candidate": {
+    "name": "long_l10_lr010",
+    "feature_set": "long_only",
+    "l2": 10.0,
+    "lr": 0.1
+  },
+  "top3": [
+    "51",
+    "28",
+    "50"
+  ],
+  "probabilities": {
+    "51": 0.2524032656824628,
+    "28": 0.25013992901424403,
+    "50": 0.24878843608333417
+  },
+  "validated_holdout_top3_hit_rate": 0.5808219178082191,
+  "random_top3_baseline": 0.5606234998261617,
+  "validated_edge": false
+}
