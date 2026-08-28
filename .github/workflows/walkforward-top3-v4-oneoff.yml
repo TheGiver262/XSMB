@@ -1,0 +1,42 @@
+name: Walk-forward top3 V4 combo reverse research
+
+on:
+  push:
+    branches:
+      - research/top3-walkforward-v4-combo-reverse
+    paths:
+      - 'src/walkforward_top3_v4.py'
+      - '.github/workflows/walkforward-top3-v4-oneoff.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  backtest-v4:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: research/top3-walkforward-v4-combo-reverse
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Refresh upstream data
+        run: python src/sync_upstream.py
+      - name: Run V4 combo reverse walk-forward
+        run: python src/walkforward_top3_v4.py
+      - name: Persist V4 outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+TheGiver262@users.noreply.github.com"
+          git add data/upstream evaluation/walkforward_top3_v4_* forecasts/top3_v4_next.json
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "research: persist V4 combo reverse backtest"
+            git push origin HEAD:research/top3-walkforward-v4-combo-reverse
+          fi
