@@ -1,6 +1,6 @@
 {
-  "target_date": "2026-08-28",
-  "station": "Hai Phong",
+  "target_date": "2026-08-29",
+  "station": "Nam Dinh",
   "model": "V4_combo_reverse",
   "selected_scheme": {
     "name": "marginal_pool12",
@@ -12,32 +12,32 @@
   },
   "top3": [
     "54",
-    "18",
-    "32"
+    "17",
+    "38"
   ],
   "detail": [
     {
       "number": "54",
-      "base_score": 2.0279454598138864,
+      "base_score": 1.6497105966607126,
       "is_double": false,
       "reverse": "45",
-      "reverse_base_score": -0.5778697682628001
+      "reverse_base_score": -0.49367076726086423
     },
     {
-      "number": "18",
-      "base_score": 1.5441105708197091,
+      "number": "17",
+      "base_score": 1.5120018737516465,
       "is_double": false,
-      "reverse": "81",
-      "reverse_base_score": 0.7727884625523551
+      "reverse": "71",
+      "reverse_base_score": -0.4594280625388213
     },
     {
-      "number": "32",
-      "base_score": 1.4449620694947662,
+      "number": "38",
+      "base_score": 1.4724441546205174,
       "is_double": false,
-      "reverse": "23",
-      "reverse_base_score": -0.035417721373389624
+      "reverse": "83",
+      "reverse_base_score": 0.7956782429230393
     }
   ],
-  "data_cutoff": "2026-08-27",
+  "data_cutoff": "2026-08-28",
   "prospective_status": "valid_if_generated_before_draw_time"
 }

@@ -13,12 +13,12 @@
   },
   "data": {
     "first_date": "2005-10-01",
-    "latest_date": "2026-08-27",
-    "draws": 7535,
+    "latest_date": "2026-08-28",
+    "draws": 7536,
     "selection_first_date": "2019-06-28",
     "selection_last_date": "2025-08-10",
     "burned_benchmark_start": "2025-08-11",
-    "burned_benchmark_end": "2026-08-27"
+    "burned_benchmark_end": "2026-08-28"
   },
   "selected_scheme": {
     "name": "marginal_pool12",
@@ -112,37 +112,37 @@
   ],
   "burned_benchmark_selected": {
     "scheme": "marginal_pool12",
-    "n": 378,
-    "zero_of_3": 151,
+    "n": 379,
+    "zero_of_3": 152,
     "one_of_3": 176,
     "two_of_3": 51,
     "three_of_3": 0,
     "any_hit_days": 227,
-    "any_hit_rate": 0.6005291005291006,
+    "any_hit_rate": 0.5989445910290238,
     "strict_2plus_days": 51,
-    "strict_2plus_rate": 0.1349206349206349,
-    "strict_lift_pp_vs_random": -0.5129785988084862,
+    "strict_2plus_rate": 0.1345646437994723,
+    "strict_lift_pp_vs_random": -0.5485777109247469,
     "total_nhay": 314,
-    "mean_total_nhay": 0.8306878306878307
+    "mean_total_nhay": 0.8284960422163589
   },
   "burned_benchmark_marginal_control": {
     "scheme": "marginal_pool12",
-    "n": 378,
-    "zero_of_3": 151,
+    "n": 379,
+    "zero_of_3": 152,
     "one_of_3": 176,
     "two_of_3": 51,
     "three_of_3": 0,
     "any_hit_days": 227,
-    "any_hit_rate": 0.6005291005291006,
+    "any_hit_rate": 0.5989445910290238,
     "strict_2plus_days": 51,
-    "strict_2plus_rate": 0.1349206349206349,
-    "strict_lift_pp_vs_random": -0.5129785988084862,
+    "strict_2plus_rate": 0.1345646437994723,
+    "strict_lift_pp_vs_random": -0.5485777109247469,
     "total_nhay": 314,
-    "mean_total_nhay": 0.8306878306878307
+    "mean_total_nhay": 0.8284960422163589
   },
   "next_forecast": {
-    "target_date": "2026-08-28",
-    "station": "Hai Phong",
+    "target_date": "2026-08-29",
+    "station": "Nam Dinh",
     "model": "V4_combo_reverse",
     "selected_scheme": {
       "name": "marginal_pool12",
@@ -154,33 +154,33 @@
     },
     "top3": [
       "54",
-      "18",
-      "32"
+      "17",
+      "38"
     ],
     "detail": [
       {
         "number": "54",
-        "base_score": 2.0279454598138864,
+        "base_score": 1.6497105966607126,
         "is_double": false,
         "reverse": "45",
-        "reverse_base_score": -0.5778697682628001
+        "reverse_base_score": -0.49367076726086423
       },
       {
-        "number": "18",
-        "base_score": 1.5441105708197091,
+        "number": "17",
+        "base_score": 1.5120018737516465,
         "is_double": false,
-        "reverse": "81",
-        "reverse_base_score": 0.7727884625523551
+        "reverse": "71",
+        "reverse_base_score": -0.4594280625388213
       },
       {
-        "number": "32",
-        "base_score": 1.4449620694947662,
+        "number": "38",
+        "base_score": 1.4724441546205174,
         "is_double": false,
-        "reverse": "23",
-        "reverse_base_score": -0.035417721373389624
+        "reverse": "83",
+        "reverse_base_score": 0.7956782429230393
       }
     ],
-    "data_cutoff": "2026-08-27",
+    "data_cutoff": "2026-08-28",
     "prospective_status": "valid_if_generated_before_draw_time"
   }
 }
