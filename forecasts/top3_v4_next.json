@@ -1,6 +1,6 @@
 {
-  "target_date": "2026-08-29",
-  "station": "Nam Dinh",
+  "target_date": "2026-08-30",
+  "station": "Thai Binh",
   "model": "V4_combo_reverse",
   "selected_scheme": {
     "name": "marginal_pool12",
@@ -11,33 +11,35 @@
     "reverse_pair_penalty": 0.0
   },
   "top3": [
-    "54",
     "17",
-    "38"
+    "38",
+    "61"
   ],
   "detail": [
     {
-      "number": "54",
-      "base_score": 1.6497105966607126,
-      "is_double": false,
-      "reverse": "45",
-      "reverse_base_score": -0.49367076726086423
-    },
-    {
       "number": "17",
-      "base_score": 1.5120018737516465,
+      "base_score": 1.5752169356974992,
       "is_double": false,
       "reverse": "71",
-      "reverse_base_score": -0.4594280625388213
+      "reverse_base_score": -0.2159331848300079
     },
     {
       "number": "38",
-      "base_score": 1.4724441546205174,
+      "base_score": 1.5258384500348299,
       "is_double": false,
       "reverse": "83",
-      "reverse_base_score": 0.7956782429230393
+      "reverse_base_score": 0.9225076083480124
+    },
+    {
+      "number": "61",
+      "base_score": 1.478066610101676,
+      "is_double": false,
+      "reverse": "16",
+      "reverse_base_score": -0.7066605947116165
     }
   ],
-  "data_cutoff": "2026-08-28",
+  "data_cutoff": "2026-08-29",
+  "canonical_cutoff": "2026-08-28",
+  "overlay_used": true,
   "prospective_status": "valid_if_generated_before_draw_time"
 }
