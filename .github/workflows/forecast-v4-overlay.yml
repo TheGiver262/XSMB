@@ -1,0 +1,40 @@
+name: Forecast V4 from sourced overlay
+
+on:
+  push:
+    branches:
+      - research/top3-walkforward-v4-combo-reverse
+    paths:
+      - 'src/forecast_v4_overlay.py'
+      - 'data/manual_overlay_v4.json'
+      - '.github/workflows/forecast-v4-overlay.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  forecast-v4-overlay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: research/top3-walkforward-v4-combo-reverse
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Generate V4 forecast with overlay
+        run: python src/forecast_v4_overlay.py
+      - name: Persist forecast
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+TheGiver262@users.noreply.github.com"
+          git add forecasts/top3_v4_next.json
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "forecast: V4 next from sourced overlay"
+            git push origin HEAD:research/top3-walkforward-v4-combo-reverse
+          fi
