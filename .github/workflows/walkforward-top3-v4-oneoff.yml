@@ -1,5 +1,6 @@
 name: Walk-forward top3 V4 combo reverse research
 
+# rerun 2026-08-30 after draw update
 on:
   push:
     branches:
