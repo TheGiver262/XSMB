@@ -39,7 +39,5 @@
     }
   ],
   "data_cutoff": "2026-08-29",
-  "canonical_cutoff": "2026-08-28",
-  "overlay_used": true,
   "prospective_status": "valid_if_generated_before_draw_time"
 }
