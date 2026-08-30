@@ -1,6 +1,6 @@
 {
-  "target_date": "2026-08-30",
-  "station": "Thai Binh",
+  "target_date": "2026-08-31",
+  "station": "Ha Noi",
   "model": "V4_combo_reverse",
   "selected_scheme": {
     "name": "marginal_pool12",
@@ -11,33 +11,35 @@
     "reverse_pair_penalty": 0.0
   },
   "top3": [
-    "17",
-    "38",
-    "61"
+    "34",
+    "94",
+    "18"
   ],
   "detail": [
     {
-      "number": "17",
-      "base_score": 1.5752169356974992,
+      "number": "34",
+      "base_score": 1.6986137157381278,
       "is_double": false,
-      "reverse": "71",
-      "reverse_base_score": -0.2159331848300079
+      "reverse": "43",
+      "reverse_base_score": 0.5223064144318377
     },
     {
-      "number": "38",
-      "base_score": 1.5258384500348299,
+      "number": "94",
+      "base_score": 1.616656836750289,
       "is_double": false,
-      "reverse": "83",
-      "reverse_base_score": 0.9225076083480124
+      "reverse": "49",
+      "reverse_base_score": 0.3451117135922771
     },
     {
-      "number": "61",
-      "base_score": 1.478066610101676,
+      "number": "18",
+      "base_score": 1.5847378567497812,
       "is_double": false,
-      "reverse": "16",
-      "reverse_base_score": -0.7066605947116165
+      "reverse": "81",
+      "reverse_base_score": 0.8938112845008683
     }
   ],
-  "data_cutoff": "2026-08-29",
+  "data_cutoff": "2026-08-30",
+  "canonical_cutoff": "2026-08-29",
+  "overlay_used": true,
   "prospective_status": "valid_if_generated_before_draw_time"
 }
