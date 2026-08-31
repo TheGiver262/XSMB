@@ -29,6 +29,7 @@ import json
 import math
 import statistics
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import numpy as np
 
@@ -256,18 +257,27 @@ def set_objective(
     return float(score)
 
 
-def select_set(
+def build_set_context(
     base_scores: np.ndarray,
     presence: np.ndarray,
     regime: np.ndarray,
     end_idx: int,
-    scheme: dict,
-) -> list[int]:
+) -> tuple[list[int], dict[int, int], np.ndarray, np.ndarray]:
     pool = candidate_pool(base_scores)
     pool_index = {n: i for i, n in enumerate(pool)}
     pair_z = pair_lift_matrix(presence, end_idx, pool)
     reverse_z = regime_reverse_signal(presence, regime, end_idx, pool)
+    return pool, pool_index, pair_z, reverse_z
 
+
+def select_set_from_context(
+    base_scores: np.ndarray,
+    pool: list[int],
+    pool_index: dict[int, int],
+    pair_z: np.ndarray,
+    reverse_z: np.ndarray,
+    scheme: dict,
+) -> list[int]:
     # Additive control is exactly the marginal top-10.
     if not float(scheme["pair_lambda"]) and not float(scheme["reverse_lambda"]):
         return sorted(pool, key=lambda n: (-float(base_scores[n]), n))[:SET_SIZE]
@@ -315,6 +325,17 @@ def select_set(
             improved = True
 
     return sorted(selected, key=lambda n: (-float(base_scores[n]), n))
+
+
+def select_set(
+    base_scores: np.ndarray,
+    presence: np.ndarray,
+    regime: np.ndarray,
+    end_idx: int,
+    scheme: dict,
+) -> list[int]:
+    context = build_set_context(base_scores, presence, regime, end_idx)
+    return select_set_from_context(base_scores, *context, scheme)
 
 
 def init_stats(scheme: dict) -> dict:
@@ -369,8 +390,9 @@ def evaluate_schemes_window(
 
     for i in range(start, end):
         base_scores = score_day(features[i], BASE_MODEL)
+        context = build_set_context(base_scores, presence, regime, i)
         for scheme in schemes:
-            picks = select_set(base_scores, presence, regime, i, scheme)
+            picks = select_set_from_context(base_scores, *context, scheme)
             nhay = [int(counts[i, n]) for n in picks]
             distinct = sum(int(x > 0) for x in nhay)
             total = sum(nhay)
@@ -537,6 +559,15 @@ def main() -> None:
     burned_marginal = burned_stats_all[marginal["name"]]
 
     target = draws[-1]["date"] + dt.timedelta(days=1)
+    now_ict = dt.datetime.now(ZoneInfo("Asia/Bangkok"))
+    lock_deadline = dt.datetime.combine(
+        target, dt.time(18, 0), tzinfo=ZoneInfo("Asia/Bangkok")
+    )
+    if now_ict >= lock_deadline:
+        raise RuntimeError(
+            "Refusing to create V5 forecast after target draw lock deadline; "
+            "refresh upstream data first"
+        )
     x_next = target_features(draws, presence, target)
     next_base_scores = score_day(x_next, BASE_MODEL)
     next_picks = select_set(next_base_scores, presence, regime, n, selected)
@@ -570,6 +601,8 @@ def main() -> None:
         "top10": [f"{x:02d}" for x in next_picks],
         "detail": detail,
         "data_cutoff": draws[-1]["date"].isoformat(),
+        "generated_at_ict": now_ict.isoformat(),
+        "lock_deadline_ict": lock_deadline.isoformat(),
         "strict_success_rule": "at least 3 distinct selected suffixes appear among 27 positions",
         "prospective_status": "valid_only_if_locked_before_target_draw",
     }
