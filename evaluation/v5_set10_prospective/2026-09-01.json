@@ -1,0 +1,20 @@
+{
+  "target_date": "2026-09-01",
+  "model": "V5_set10_3plus",
+  "forecast_ref": "forecasts/v5_set10/2026-09-01.json",
+  "forecast_locked_pre_draw": true,
+  "data_cutoff": "2026-08-31",
+  "top10": ["62","70","34","95","94","07","32","77","61","18"],
+  "nhay": {"62":1,"70":1,"34":0,"95":0,"94":0,"07":0,"32":0,"77":1,"61":0,"18":0},
+  "distinct_hits": 3,
+  "total_nhay": 3,
+  "strict_success": true,
+  "result": "WIN",
+  "result_suffixes": ["21","64","84","98","97","19","70","02","10","31","17","80","68","44","96","05","62","52","12","73","74","77","39","63","93","51","68"],
+  "provenance": {
+    "source": "repo main settlement commit",
+    "commit": "d8d34263c3e5cd4515de3e323e1f6fe346a8de51",
+    "source_date": "2026-09-01"
+  },
+  "notes": "One number counts once for distinct-hit metric even if repeated. Pair/reverse bonuses remain disabled."
+}
