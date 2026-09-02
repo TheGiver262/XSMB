@@ -1,0 +1,31 @@
+{
+  "model": "V5_set10_3plus",
+  "strict_rule": "WIN iff distinct_hits >= 3 among 10 selected suffixes",
+  "random_baseline": 0.4389569,
+  "valid_forecasts": 1,
+  "wins": 1,
+  "losses": 0,
+  "win_rate": 1.0,
+  "lift_pp_vs_random": 56.10431,
+  "distribution_0_to_10": [0,0,0,1,0,0,0,0,0,0,0],
+  "total_nhay": 3,
+  "rolling_7": {
+    "valid_forecasts": 1,
+    "wins": 1,
+    "win_rate": 1.0,
+    "dates": ["2026-09-01"]
+  },
+  "review_checkpoint": {
+    "last_review_valid_count": 0,
+    "next_review_at_valid_count": 7,
+    "remaining_valid_forecasts": 6
+  },
+  "model_status": {
+    "scheme": "marginal_top10",
+    "pair_lambda": 0.0,
+    "reverse_lambda": 0.0,
+    "pair_reverse_rejected_by_v5_0_ablation": true
+  },
+  "missing_or_invalid_dates": ["2026-09-02"],
+  "notes": "2026-09-02 has no V5 pre-draw locked forecast on the branch and must not be backfilled."
+}
