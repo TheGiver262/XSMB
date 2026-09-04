@@ -1,0 +1,63 @@
+name: V5 set10 pre-draw forecast
+
+on:
+  schedule:
+    # Primary 09:00 Vietnam time and fallback 12:00 Vietnam time.
+    # GitHub cron can be delayed by hours; both are intentionally well before
+    # the hard 18:00 prospective lock deadline. The wrapper is write-once and
+    # retry-safe, so the fallback is a no-op if the primary already succeeded.
+    - cron: '0 2 * * *'
+    - cron: '0 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: xsmb-v5-set10-pre-draw
+  cancel-in-progress: false
+
+jobs:
+  lock_v5_set10:
+    name: Lock V5 set10 prospective forecast
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: research/top3-walkforward-v5-regime-set
+          fetch-depth: 0
+      - name: Sync latest V5 research branch
+        run: |
+          set -euo pipefail
+          git fetch origin research/top3-walkforward-v5-regime-set
+          git checkout -B research/top3-walkforward-v5-regime-set origin/research/top3-walkforward-v5-regime-set
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - name: Syntax check V5 daily forecast path
+        run: |
+          python -m py_compile src/walkforward_set10_v5.py
+          python -m py_compile src/v5_daily_forecast.py
+      - name: Generate or verify today's immutable V5 forecast
+        run: python src/v5_daily_forecast.py
+      - name: Commit V5 prospective snapshot
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/upstream \
+            evaluation/walkforward_set10_v5_* \
+            forecasts/set10_v5_next.json \
+            forecasts/v5_set10/
+          if git diff --cached --quiet; then
+            echo "V5 forecast already locked; no changes to commit"
+            exit 0
+          fi
+          target="$(TZ=Asia/Ho_Chi_Minh date +%F)"
+          test -f "forecasts/v5_set10/${target}.json"
+          git commit -m "forecast: lock V5 set10 ${target}"
+          git pull --rebase origin research/top3-walkforward-v5-regime-set
+          git push origin HEAD:research/top3-walkforward-v5-regime-set
