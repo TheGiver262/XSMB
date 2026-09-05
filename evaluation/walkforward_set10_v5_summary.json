@@ -31,12 +31,12 @@
   },
   "data": {
     "first_date": "2005-10-01",
-    "latest_date": "2026-08-31",
-    "draws": 7539,
+    "latest_date": "2026-09-04",
+    "draws": 7543,
     "selection_first_date": "2019-06-28",
     "selection_last_date": "2025-08-10",
     "burned_benchmark_start": "2025-08-11",
-    "burned_benchmark_end": "2026-08-31"
+    "burned_benchmark_end": "2026-09-04"
   },
   "component_support": {
     "pair": {
@@ -110,57 +110,57 @@
   },
   "burned_benchmark_selected": {
     "scheme": "marginal_top10",
-    "n": 382,
+    "n": 386,
     "0_of_10": 22,
     "1_of_10": 78,
-    "2_of_10": 131,
-    "3_of_10": 84,
-    "4_of_10": 46,
+    "2_of_10": 132,
+    "3_of_10": 85,
+    "4_of_10": 48,
     "5_of_10": 20,
     "6_of_10": 1,
     "7_of_10": 0,
     "8_of_10": 0,
     "9_of_10": 0,
     "10_of_10": 0,
-    "strict_3plus_days": 151,
-    "strict_3plus_rate": 0.39528795811518325,
-    "strict_lift_pp_vs_random": -4.366894190249599,
-    "any_hit_days": 360,
-    "any_hit_rate": 0.9424083769633508,
-    "total_nhay": 1000,
-    "mean_total_nhay": 2.6178010471204187,
+    "strict_3plus_days": 154,
+    "strict_3plus_rate": 0.39896373056994816,
+    "strict_lift_pp_vs_random": -3.999316944773107,
+    "any_hit_days": 364,
+    "any_hit_rate": 0.9430051813471503,
+    "total_nhay": 1013,
+    "mean_total_nhay": 2.6243523316062176,
     "db_g1_covered_days": 71,
-    "db_g1_coverage_rate": 0.18586387434554974,
-    "db_g1_lift_pp_vs_random": -0.4136125654450207
+    "db_g1_coverage_rate": 0.18393782383419688,
+    "db_g1_lift_pp_vs_random": -0.6062176165803068
   },
   "burned_benchmark_marginal_control": {
     "scheme": "marginal_top10",
-    "n": 382,
+    "n": 386,
     "0_of_10": 22,
     "1_of_10": 78,
-    "2_of_10": 131,
-    "3_of_10": 84,
-    "4_of_10": 46,
+    "2_of_10": 132,
+    "3_of_10": 85,
+    "4_of_10": 48,
     "5_of_10": 20,
     "6_of_10": 1,
     "7_of_10": 0,
     "8_of_10": 0,
     "9_of_10": 0,
     "10_of_10": 0,
-    "strict_3plus_days": 151,
-    "strict_3plus_rate": 0.39528795811518325,
-    "strict_lift_pp_vs_random": -4.366894190249599,
-    "any_hit_days": 360,
-    "any_hit_rate": 0.9424083769633508,
-    "total_nhay": 1000,
-    "mean_total_nhay": 2.6178010471204187,
+    "strict_3plus_days": 154,
+    "strict_3plus_rate": 0.39896373056994816,
+    "strict_lift_pp_vs_random": -3.999316944773107,
+    "any_hit_days": 364,
+    "any_hit_rate": 0.9430051813471503,
+    "total_nhay": 1013,
+    "mean_total_nhay": 2.6243523316062176,
     "db_g1_covered_days": 71,
-    "db_g1_coverage_rate": 0.18586387434554974,
-    "db_g1_lift_pp_vs_random": -0.4136125654450207
+    "db_g1_coverage_rate": 0.18393782383419688,
+    "db_g1_lift_pp_vs_random": -0.6062176165803068
   },
   "next_forecast": {
-    "target_date": "2026-09-01",
-    "station": "Quang Ninh",
+    "target_date": "2026-09-05",
+    "station": "Nam Dinh",
     "model": "V5_set10_3plus",
     "selected_scheme": {
       "name": "marginal_top10",
@@ -169,102 +169,102 @@
       "requires": []
     },
     "top10": [
-      "62",
-      "70",
-      "34",
-      "95",
-      "94",
-      "07",
-      "32",
       "77",
-      "61",
-      "18"
+      "64",
+      "43",
+      "44",
+      "70",
+      "10",
+      "52",
+      "62",
+      "32",
+      "72"
     ],
     "detail": [
       {
-        "number": "62",
-        "base_score": 1.1453305124832664,
-        "is_double": false,
-        "reverse": "26",
-        "reverse_base_score": 0.2703111849880617,
-        "regime_reverse_z": -0.16419567745871855
-      },
-      {
-        "number": "70",
-        "base_score": 1.0464609512198124,
-        "is_double": false,
-        "reverse": "07",
-        "reverse_base_score": 0.7815550640422695,
-        "regime_reverse_z": 0.8894770674970904
-      },
-      {
-        "number": "34",
-        "base_score": 0.9981094895497173,
-        "is_double": false,
-        "reverse": "43",
-        "reverse_base_score": 0.493332285775364,
-        "regime_reverse_z": 0.09047292944932828
-      },
-      {
-        "number": "95",
-        "base_score": 0.9881037230980148,
-        "is_double": false,
-        "reverse": "59",
-        "reverse_base_score": -0.4220682308880004,
-        "regime_reverse_z": -0.8720596417201749
-      },
-      {
-        "number": "94",
-        "base_score": 0.9067067588833251,
-        "is_double": false,
-        "reverse": "49",
-        "reverse_base_score": 0.07791786084844637,
-        "regime_reverse_z": 0.7741185989903437
-      },
-      {
-        "number": "07",
-        "base_score": 0.7815550640422695,
-        "is_double": false,
-        "reverse": "70",
-        "reverse_base_score": 1.0464609512198124,
-        "regime_reverse_z": 0.2083030799223479
-      },
-      {
-        "number": "32",
-        "base_score": 0.7174825768088083,
-        "is_double": false,
-        "reverse": "23",
-        "reverse_base_score": -0.24515682240455997,
-        "regime_reverse_z": 0.5227082611539104
-      },
-      {
         "number": "77",
-        "base_score": 0.677024998132301,
+        "base_score": 2.8952380451440494,
         "is_double": true,
         "reverse": null,
         "reverse_base_score": null,
         "regime_reverse_z": 0.0
       },
       {
-        "number": "61",
-        "base_score": 0.6684647590483215,
+        "number": "64",
+        "base_score": 1.8085335941137792,
         "is_double": false,
-        "reverse": "16",
-        "reverse_base_score": -0.21019476957192254,
-        "regime_reverse_z": 0.48446462510736205
+        "reverse": "46",
+        "reverse_base_score": 0.18530780062274954,
+        "regime_reverse_z": -0.008702963749309373
       },
       {
-        "number": "18",
-        "base_score": 0.6143499971183233,
+        "number": "43",
+        "base_score": 1.7928409719672804,
         "is_double": false,
-        "reverse": "81",
-        "reverse_base_score": 0.46781713643646294,
-        "regime_reverse_z": 1.4298736830994263
+        "reverse": "34",
+        "reverse_base_score": 0.9020952068080565,
+        "regime_reverse_z": 1.920159843982409
+      },
+      {
+        "number": "44",
+        "base_score": 1.5856489403359908,
+        "is_double": true,
+        "reverse": null,
+        "reverse_base_score": null,
+        "regime_reverse_z": 0.0
+      },
+      {
+        "number": "70",
+        "base_score": 1.4908725212057452,
+        "is_double": false,
+        "reverse": "07",
+        "reverse_base_score": -0.2306432467559838,
+        "regime_reverse_z": -0.18611909108945116
+      },
+      {
+        "number": "10",
+        "base_score": 1.4283541888767566,
+        "is_double": false,
+        "reverse": "01",
+        "reverse_base_score": -0.9145858628099108,
+        "regime_reverse_z": 0.5915256528250237
+      },
+      {
+        "number": "52",
+        "base_score": 1.4049752372857252,
+        "is_double": false,
+        "reverse": "25",
+        "reverse_base_score": -0.396704076282317,
+        "regime_reverse_z": -0.6464501562955914
+      },
+      {
+        "number": "62",
+        "base_score": 1.3874258449577392,
+        "is_double": false,
+        "reverse": "26",
+        "reverse_base_score": 0.2361376270226431,
+        "regime_reverse_z": 0.690867977612201
+      },
+      {
+        "number": "32",
+        "base_score": 1.1465684800229885,
+        "is_double": false,
+        "reverse": "23",
+        "reverse_base_score": -0.24023127288553728,
+        "regime_reverse_z": 1.505424788663544
+      },
+      {
+        "number": "72",
+        "base_score": 1.06640480586842,
+        "is_double": false,
+        "reverse": "27",
+        "reverse_base_score": -0.9608754835834528,
+        "regime_reverse_z": -1.11690568833225
       }
     ],
-    "data_cutoff": "2026-08-31",
-    "generated_at_ict": "2026-09-01T01:41:05.480609+07:00",
-    "lock_deadline_ict": "2026-09-01T18:00:00+07:00",
+    "data_cutoff": "2026-09-04",
+    "generated_at_ict": "2026-09-05T13:21:44.444084+07:00",
+    "lock_deadline_ict": "2026-09-05T18:00:00+07:00",
     "strict_success_rule": "at least 3 distinct selected suffixes appear among 27 positions",
     "prospective_status": "valid_only_if_locked_before_target_draw"
   }
