@@ -1,0 +1,26 @@
+{
+  "target_date": "2026-09-05",
+  "model": "V5_set10_3plus",
+  "forecast_ref": "forecasts/v5_set10/2026-09-05.json",
+  "forecast_locked_pre_draw": true,
+  "generated_at_ict": "2026-09-05T13:21:44.444084+07:00",
+  "lock_deadline_ict": "2026-09-05T18:00:00+07:00",
+  "data_cutoff": "2026-09-04",
+  "top10": ["77","64","43","44","70","10","52","62","32","72"],
+  "nhay": {"77":0,"64":0,"43":0,"44":0,"70":1,"10":0,"52":0,"62":0,"32":0,"72":0},
+  "distinct_hits": 1,
+  "total_nhay": 1,
+  "mean_nhay_per_pick": 0.1,
+  "multi_hit_picks": 0,
+  "pair_cohits": 0,
+  "triple_cohits": 0,
+  "strict_success": false,
+  "result": "LOSS",
+  "result_suffixes": ["37","04","94","69","03","11","29","26","93","84","97","57","70","88","58","28","21","67","90","91","13","93","39","88","59","31","21"],
+  "provenance": {
+    "source": "xoso.com.vn XSMB 05/09/2026",
+    "url": "https://xoso.com.vn/xsmb-05-09-2026.html",
+    "source_date": "2026-09-05"
+  },
+  "notes": "Prospective settlement only. One number counts once for distinct-hit metric even if repeated. Pair/reverse bonuses remain disabled."
+}
