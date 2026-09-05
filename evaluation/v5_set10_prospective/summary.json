@@ -2,23 +2,31 @@
   "model": "V5_set10_3plus",
   "strict_rule": "WIN iff distinct_hits >= 3 among 10 selected suffixes",
   "random_baseline": 0.4389569,
-  "valid_forecasts": 1,
+  "valid_forecasts": 2,
   "wins": 1,
-  "losses": 0,
-  "win_rate": 1.0,
-  "lift_pp_vs_random": 56.10431,
-  "distribution_0_to_10": [0,0,0,1,0,0,0,0,0,0,0],
-  "total_nhay": 3,
+  "losses": 1,
+  "win_rate": 0.5,
+  "lift_pp_vs_random": 6.10431,
+  "distribution_0_to_10": [0,1,0,1,0,0,0,0,0,0,0],
+  "total_nhay": 4,
+  "cumulative_mean_total_nhay": 2.0,
+  "cumulative_mean_nhay_per_pick": 0.2,
+  "cumulative_pair_cohits": 3,
+  "cumulative_pair_trials": 90,
+  "cumulative_pair_cohit_rate": 0.03333333333333333,
+  "cumulative_triple_cohits": 1,
+  "cumulative_triple_trials": 240,
+  "cumulative_triple_cohit_rate": 0.004166666666666667,
   "rolling_7": {
-    "valid_forecasts": 1,
+    "valid_forecasts": 2,
     "wins": 1,
-    "win_rate": 1.0,
-    "dates": ["2026-09-01"]
+    "win_rate": 0.5,
+    "dates": ["2026-09-01","2026-09-05"]
   },
   "review_checkpoint": {
     "last_review_valid_count": 0,
     "next_review_at_valid_count": 7,
-    "remaining_valid_forecasts": 6
+    "remaining_valid_forecasts": 5
   },
   "model_status": {
     "scheme": "marginal_top10",
@@ -26,6 +34,6 @@
     "reverse_lambda": 0.0,
     "pair_reverse_rejected_by_v5_0_ablation": true
   },
-  "missing_or_invalid_dates": ["2026-09-02"],
-  "notes": "2026-09-02 has no V5 pre-draw locked forecast on the branch and must not be backfilled."
+  "missing_or_invalid_dates": ["2026-09-02","2026-09-03","2026-09-04"],
+  "notes": "2026-09-02 through 2026-09-04 had no valid V5 pre-draw locked forecast and are excluded from prospective scoring. 2026-09-05 is the second valid prospective forecast. No model change before the 7-valid-forecast review checkpoint."
 }
