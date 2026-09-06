@@ -1,6 +1,6 @@
 {
-  "window_start": "2023-09-07",
-  "window_end": "2026-09-05",
+  "window_start": "2023-09-08",
+  "window_end": "2026-09-06",
   "calendar_days": 1095,
   "observed_draws": 1083,
   "missing_calendar_dates": [
@@ -18,5 +18,5 @@
     "2026-02-19"
   ],
   "upstream_url": "https://raw.githubusercontent.com/khiemdoan/vietnam-lottery-xsmb-analysis/refs/heads/main/data/xsmb.csv",
-  "updated_at_utc": "2026-09-05T16:12:15+00:00"
+  "updated_at_utc": "2026-09-06T16:24:39+00:00"
 }
