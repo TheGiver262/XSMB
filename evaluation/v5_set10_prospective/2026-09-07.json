@@ -1,0 +1,26 @@
+{
+  "target_date": "2026-09-07",
+  "model": "V5_set10_3plus",
+  "forecast_ref": "forecasts/v5_set10/2026-09-07.json",
+  "forecast_locked_pre_draw": true,
+  "generated_at_ict": "2026-09-07T13:40:47.790054+07:00",
+  "lock_deadline_ict": "2026-09-07T18:00:00+07:00",
+  "data_cutoff": "2026-09-06",
+  "top10": ["77","64","93","70","26","73","44","96","43","67"],
+  "nhay": {"77":1,"64":1,"93":0,"70":0,"26":0,"73":0,"44":0,"96":1,"43":0,"67":0},
+  "distinct_hits": 3,
+  "total_nhay": 3,
+  "mean_nhay_per_pick": 0.3,
+  "multi_hit_picks": 0,
+  "pair_cohits": 3,
+  "triple_cohits": 1,
+  "strict_success": true,
+  "result": "WIN",
+  "result_suffixes": ["90","49","62","34","77","41","34","40","28","03","57","11","08","31","96","48","46","34","31","71","52","63","64","48","16","50","19"],
+  "provenance": {
+    "source": "kqxs.vn XSMB 07/09/2026",
+    "url": "https://www.kqxs.vn/xo-so-ho-chi-minh",
+    "source_date": "2026-09-07"
+  },
+  "notes": "Prospective settlement only. Strict WIN from three distinct hits: 77, 64, and 96. Each appeared once. Pair/reverse bonuses remain disabled."
+}
