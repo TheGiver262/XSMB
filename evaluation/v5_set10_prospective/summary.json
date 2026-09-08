@@ -2,31 +2,31 @@
   "model": "V5_set10_3plus",
   "strict_rule": "WIN iff distinct_hits >= 3 among 10 selected suffixes",
   "random_baseline": 0.4389569,
-  "valid_forecasts": 4,
-  "wins": 2,
+  "valid_forecasts": 5,
+  "wins": 3,
   "losses": 2,
-  "win_rate": 0.5,
-  "lift_pp_vs_random": 6.10431,
-  "distribution_0_to_10": [0,1,1,2,0,0,0,0,0,0,0],
-  "total_nhay": 10,
-  "cumulative_mean_total_nhay": 2.5,
-  "cumulative_mean_nhay_per_pick": 0.25,
-  "cumulative_pair_cohits": 7,
-  "cumulative_pair_trials": 180,
-  "cumulative_pair_cohit_rate": 0.03888888888888889,
-  "cumulative_triple_cohits": 2,
-  "cumulative_triple_trials": 480,
-  "cumulative_triple_cohit_rate": 0.004166666666666667,
+  "win_rate": 0.6,
+  "lift_pp_vs_random": 16.10431,
+  "distribution_0_to_10": [0,1,1,2,1,0,0,0,0,0,0],
+  "total_nhay": 14,
+  "cumulative_mean_total_nhay": 2.8,
+  "cumulative_mean_nhay_per_pick": 0.28,
+  "cumulative_pair_cohits": 13,
+  "cumulative_pair_trials": 225,
+  "cumulative_pair_cohit_rate": 0.05777777777777778,
+  "cumulative_triple_cohits": 6,
+  "cumulative_triple_trials": 600,
+  "cumulative_triple_cohit_rate": 0.01,
   "rolling_7": {
-    "valid_forecasts": 4,
-    "wins": 2,
-    "win_rate": 0.5,
-    "dates": ["2026-09-01","2026-09-05","2026-09-06","2026-09-07"]
+    "valid_forecasts": 5,
+    "wins": 3,
+    "win_rate": 0.6,
+    "dates": ["2026-09-01","2026-09-05","2026-09-06","2026-09-07","2026-09-08"]
   },
   "review_checkpoint": {
     "last_review_valid_count": 0,
     "next_review_at_valid_count": 7,
-    "remaining_valid_forecasts": 3
+    "remaining_valid_forecasts": 2
   },
   "model_status": {
     "scheme": "marginal_top10",
@@ -35,5 +35,5 @@
     "pair_reverse_rejected_by_v5_0_ablation": true
   },
   "missing_or_invalid_dates": ["2026-09-02","2026-09-03","2026-09-04"],
-  "notes": "2026-09-02 through 2026-09-04 had no valid V5 pre-draw locked forecast and remain excluded. 2026-09-07 is the fourth valid prospective forecast and a strict WIN with 3 distinct hits (77, 64, 96), total_nhay 3. No model change before the 7-valid-forecast review checkpoint."
+  "notes": "2026-09-02 through 2026-09-04 remain excluded. 2026-09-08 is the fifth valid prospective forecast and a strict WIN with 4 distinct hits (93, 70, 62, 03), total_nhay 4. Settlement provenance is a user-provided screenshot of xosodaiphat.com while the canonical upstream repo update for 2026-09-08 was still pending; reconcile when upstream lands. No model change before the 7-valid-forecast review checkpoint."
 }
