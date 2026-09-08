@@ -18,9 +18,12 @@
   "result": "WIN",
   "result_suffixes": ["87","87","27","22","93","60","00","37","35","15","89","70","22","40","44","15","62","50","87","03","39","06","95","08","38","60","07"],
   "provenance": {
-    "source": "user-provided screenshot of xosodaiphat.com XSMB 08/09/2026",
+    "source": "xoso.com.vn direct source used by upstream khiemdoan/vietnam-lottery-xsmb-analysis pipeline",
+    "url": "https://xoso.com.vn/xsmb-08-09-2026.html",
     "source_date": "2026-09-08",
-    "upstream_repo_status_at_settlement": "khiemdoan/vietnam-lottery-xsmb-analysis had not yet committed 2026-09-08 when checked; reconcile against upstream once its daily update lands"
+    "validated_positions": 27,
+    "upstream_repo_status_at_reconciliation": "latest upstream commit was still Updated 2026-09-07 when checked at 19:14 ICT; direct source already contained all 27 results",
+    "reconciliation_status": "direct source matches prior user-provided screenshot settlement; await upstream commit only for provenance completion, not for result changes"
   },
   "notes": "Prospective settlement only. Strict WIN from four distinct hits: 93, 70, 62, and 03; each appeared once. Pair/reverse bonuses remain disabled."
 }
