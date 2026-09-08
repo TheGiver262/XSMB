@@ -1,0 +1,26 @@
+{
+  "target_date": "2026-09-08",
+  "model": "V5_set10_3plus",
+  "forecast_ref": "forecasts/v5_set10/2026-09-08.json",
+  "forecast_locked_pre_draw": true,
+  "generated_at_ict": "2026-09-08T13:35:22.186987+07:00",
+  "lock_deadline_ict": "2026-09-08T18:00:00+07:00",
+  "data_cutoff": "2026-09-07",
+  "top10": ["77","64","96","62","11","93","70","26","52","03"],
+  "nhay": {"77":0,"64":0,"96":0,"62":1,"11":0,"93":1,"70":1,"26":0,"52":0,"03":1},
+  "distinct_hits": 4,
+  "total_nhay": 4,
+  "mean_nhay_per_pick": 0.4,
+  "multi_hit_picks": 0,
+  "pair_cohits": 6,
+  "triple_cohits": 4,
+  "strict_success": true,
+  "result": "WIN",
+  "result_suffixes": ["87","87","27","22","93","60","00","37","35","15","89","70","22","40","44","15","62","50","87","03","39","06","95","08","38","60","07"],
+  "provenance": {
+    "source": "user-provided screenshot of xosodaiphat.com XSMB 08/09/2026",
+    "source_date": "2026-09-08",
+    "upstream_repo_status_at_settlement": "khiemdoan/vietnam-lottery-xsmb-analysis had not yet committed 2026-09-08 when checked; reconcile against upstream once its daily update lands"
+  },
+  "notes": "Prospective settlement only. Strict WIN from four distinct hits: 93, 70, 62, and 03; each appeared once. Pair/reverse bonuses remain disabled."
+}
