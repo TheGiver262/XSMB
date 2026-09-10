@@ -1,0 +1,22 @@
+{
+  "target_date": "2026-09-09",
+  "model": "V5_set10_3plus",
+  "forecast_ref": "forecasts/v5_set10/2026-09-09.json",
+  "forecast_locked_pre_draw": true,
+  "generated_at_ict": "2026-09-09T13:47:29.838158+07:00",
+  "lock_deadline_ict": "2026-09-09T18:00:00+07:00",
+  "data_cutoff": "2026-09-08",
+  "top10": ["77","64","93","70","50","62","03","11","96","37"],
+  "nhay": {"77":1,"64":0,"93":0,"70":1,"50":0,"62":1,"03":0,"11":1,"96":0,"37":0},
+  "distinct_hits": 4,
+  "total_nhay": 4,
+  "mean_nhay_per_pick": 0.4,
+  "multi_hit_picks": 0,
+  "pair_cohits": 6,
+  "triple_cohits": 4,
+  "strict_success": true,
+  "result": "WIN",
+  "result_suffixes": ["04","65","95","97","00","57","11","36","57","13","41","30","10","48","77","71","07","06","63","04","07","86","70","18","20","87","62"],
+  "provenance": {"source":"xoso.com.vn direct source used by upstream pipeline","url":"https://xoso.com.vn/xsmb-09-09-2026.html","source_date":"2026-09-09","validated_positions":27},
+  "notes": "Prospective settlement only; four distinct hits: 77, 70, 62, 11."
+}
