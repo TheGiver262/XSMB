@@ -1,0 +1,22 @@
+{
+  "target_date": "2026-09-10",
+  "model": "V5_set10_3plus",
+  "forecast_ref": "forecasts/v5_set10/2026-09-10.json",
+  "forecast_locked_pre_draw": true,
+  "generated_at_ict": "2026-09-10T13:41:34.708398+07:00",
+  "lock_deadline_ict": "2026-09-10T18:00:00+07:00",
+  "data_cutoff": "2026-09-09",
+  "top10": ["77","70","62","11","64","93","96","03","50","63"],
+  "nhay": {"77":0,"70":1,"62":0,"11":0,"64":0,"93":0,"96":0,"03":0,"50":0,"63":0},
+  "distinct_hits": 1,
+  "total_nhay": 1,
+  "mean_nhay_per_pick": 0.1,
+  "multi_hit_picks": 0,
+  "pair_cohits": 0,
+  "triple_cohits": 0,
+  "strict_success": false,
+  "result": "LOSS",
+  "result_suffixes": ["81","95","34","24","24","99","46","06","72","66","89","92","48","27","36","37","70","78","42","43","84","94","24","53","94","14","47"],
+  "provenance": {"source":"xoso.com.vn direct source used by upstream pipeline","url":"https://xoso.com.vn/xsmb-10-09-2026.html","source_date":"2026-09-10","validated_positions":27},
+  "notes": "Prospective settlement only; one distinct hit: 70. This is valid prospective forecast #7 and triggers the scheduled 7-forecast review checkpoint."
+}
