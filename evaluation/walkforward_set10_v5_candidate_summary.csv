@@ -1,0 +1,5 @@
+scheme,eligible_by_ablation,median_strict_3plus_rate,mean_strict_3plus_rate,worst_fold_strict_3plus_rate,mean_total_nhay,robust_score,strict_random_baseline,params
+marginal_top10,True,0.4712328767123288,0.46529680365296805,0.4246575342465753,2.767123287671233,0.6835616438356165,0.43895690001767923,"{""name"": ""marginal_top10"", ""pair_lambda"": 0.0, ""requires"": [], ""reverse_lambda"": 0.0}"
+pair_005_regime_reverse_005,False,0.46164383561643835,0.4602739726027397,0.4328767123287671,2.7575342465753425,0.678082191780822,0.43895690001767923,"{""name"": ""pair_005_regime_reverse_005"", ""pair_lambda"": 0.05, ""requires"": [""pair"", ""reverse""], ""reverse_lambda"": 0.05}"
+regime_reverse_005,False,0.4616438356164384,0.4621004566210046,0.4273972602739726,2.75662100456621,0.6753424657534247,0.43895690001767923,"{""name"": ""regime_reverse_005"", ""pair_lambda"": 0.0, ""requires"": [""reverse""], ""reverse_lambda"": 0.05}"
+pair_005,False,0.4657534246575342,0.4589041095890411,0.41643835616438357,2.7593607305936074,0.673972602739726,0.43895690001767923,"{""name"": ""pair_005"", ""pair_lambda"": 0.05, ""requires"": [""pair""], ""reverse_lambda"": 0.0}"
