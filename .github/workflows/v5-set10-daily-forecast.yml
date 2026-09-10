@@ -14,7 +14,9 @@ permissions:
   contents: write
 
 concurrency:
-  group: xsmb-v5-set10-pre-draw
+  # V5 now writes the authoritative main branch, so share the repository-wide
+  # writer lock with the official forecast/settlement workflows.
+  group: xsmb-repo-write
   cancel-in-progress: false
 
 jobs:
@@ -25,13 +27,13 @@ jobs:
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
-          ref: research/top3-walkforward-v5-regime-set
+          ref: main
           fetch-depth: 0
-      - name: Sync latest V5 research branch
+      - name: Sync latest main
         run: |
           set -euo pipefail
-          git fetch origin research/top3-walkforward-v5-regime-set
-          git checkout -B research/top3-walkforward-v5-regime-set origin/research/top3-walkforward-v5-regime-set
+          git fetch origin main
+          git checkout -B main origin/main
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.12'
@@ -43,7 +45,7 @@ jobs:
           python -m py_compile src/v5_daily_forecast.py
       - name: Generate or verify today's immutable V5 forecast
         run: python src/v5_daily_forecast.py
-      - name: Commit V5 prospective snapshot
+      - name: Commit V5 prospective snapshot to main
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
@@ -59,5 +61,5 @@ jobs:
           target="$(TZ=Asia/Ho_Chi_Minh date +%F)"
           test -f "forecasts/v5_set10/${target}.json"
           git commit -m "forecast: lock V5 set10 ${target}"
-          git pull --rebase origin research/top3-walkforward-v5-regime-set
-          git push origin HEAD:research/top3-walkforward-v5-regime-set
+          git pull --rebase origin main
+          git push origin main
