@@ -1,0 +1,47 @@
+name: One-shot obsolete branch cleanup
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/branch-cleanup-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  delete-obsolete-branches:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+      - name: Delete audited obsolete branches
+        shell: bash
+        run: |
+          set -euo pipefail
+          branches=(
+            'analysis/provisional-2026-08-13'
+            'analysis/provisional-2026-08-14'
+            'analysis/62-26-2026-08-13'
+            'research/top3-walkforward-v1'
+            'research/top3-walkforward-v2-shortterm-station'
+            'research/top3-walkforward-v3-adaptive'
+            'research/top3-walkforward-v4-combo-reverse'
+            'research/top3-walkforward-v5-regime-set'
+            'research/v3-retro-2026-08-17'
+            'temp/kokoro-p21-20260826'
+            'temp/month2-full-kokoro-20260826'
+          )
+          git fetch origin --prune
+          for branch in "${branches[@]}"; do
+            if git ls-remote --exit-code --heads origin "$branch" >/dev/null 2>&1; then
+              echo "Deleting $branch"
+              git push origin --delete "$branch"
+            else
+              echo "Already absent: $branch"
+            fi
+          done
+          echo 'Remaining remote branches:'
+          git ls-remote --heads origin
