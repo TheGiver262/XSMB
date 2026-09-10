@@ -61,7 +61,7 @@ Artifacts:
 - `evaluation/v5_set10_prospective/` — prospective settlement ledger
 - `evaluation/walkforward_set10_v5_*` — development/burned diagnostics
 
-`src/v5_daily_forecast.py` có deadline 18:00 Asia/Ho_Chi_Minh và từ chối tạo retrospective snapshot nếu chưa có snapshot hợp lệ trước deadline. **Hiện V5 code đã ở `main`, nhưng chưa được gắn vào default scheduled workflow của `main`; không nên giả định có V5 forecast mới chỉ vì official daily workflow chạy.**
+`src/v5_daily_forecast.py` có hard deadline **18:00 Asia/Ho_Chi_Minh** và từ chối tạo retrospective snapshot nếu chưa có snapshot hợp lệ trước deadline. Từ khi V5 được merge, workflow `v5-set10-daily-forecast.yml` chạy trực tiếp từ **`main`** và ghi snapshot trở lại `main`; không còn phụ thuộc branch research V5 để vận hành.
 
 ## Các model/challenger khác
 
@@ -87,6 +87,7 @@ Nguồn upstream dùng MIT License; attribution nằm trong `data/upstream/NOTIC
 
 ## Workflow trên `main`
 
+- **09:00 VN, fallback 12:00 — `V5 set10 pre-draw forecast`** (`v5-set10-daily-forecast.yml`): chạy V5 từ `main`, tạo/kiểm tra immutable set10 snapshot; fallback là no-op nếu snapshot primary đã tồn tại. Hard lock 18:00.
 - **15:00 VN — `Multi-horizon v3 challenger`** (`multihorizon-v3.yml`): refresh V3 probability/ranking research. Temporary immutable paper week đã kết thúc sau 2026-08-17; workflow hiện không tạo paper snapshot mới sau mốc đó.
 - **16:00 VN — `Daily pre-draw forecast`** (`daily-forecast.yml`): tạo immutable official 2D + 3D snapshots. Khi đánh giá prospective validity phải dùng thời điểm run/generation thực tế, không chỉ cron khai báo.
 - **20:30 VN, fallback 21:30 — `Daily post-draw settlement`** (`daily-settle.yml`): settle 2D/3D, cập nhật rolling data, retrain và mirror upstream.
@@ -94,7 +95,7 @@ Nguồn upstream dùng MIT License; attribution nằm trong `data/upstream/NOTIC
 - `rebuild-rolling-3y.yml`: bootstrap/recovery rolling window.
 - `ci.yml`: pytest trên code changes.
 
-Các workflow ghi repo dùng chung concurrency lock `xsmb-repo-write` để hạn chế race khi nhiều Actions cùng cập nhật `main`.
+Các workflow ghi `main` dùng chung concurrency lock `xsmb-repo-write` để hạn chế race khi nhiều Actions cùng cập nhật dữ liệu/model artifacts.
 
 ## Chạy thủ công
 
@@ -122,6 +123,7 @@ python src/v5_daily_forecast.py
 
 - `main` là authoritative branch cho vận hành và phát triển tiếp theo.
 - Các branch `analysis/*`, `temp/*`, retrospective theo ngày và các branch V1–V4 riêng lẻ là lineage/experiment cũ; không dùng chúng làm nguồn forecast hiện tại.
+- V5 đã được merge vào `main`; workflow V5 trên `main` cũng đã được chuyển sang checkout/push `main` thay vì branch research.
 - Sau khi một research lineage được merge vào `main`, mọi thay đổi tiếp theo nên bắt đầu từ `main` thay vì tiếp tục phát triển trên branch cũ.
 
 ## Nguyên tắc diễn giải
