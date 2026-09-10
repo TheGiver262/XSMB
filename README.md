@@ -1,113 +1,100 @@
 # XSMB predictive research
 
-Dự án thu thập, kiểm định và dự báo Xổ số Miền Bắc cho hai không gian mục tiêu: **2 chữ số (00–99)** và **3 chữ số (000–999)**. Thiết kế ưu tiên dự báo ngoài mẫu, chống look-ahead và chống overfit thay vì biến các thống kê mô tả thành “cầu”.
+Dự án thu thập, kiểm định và dự báo Xổ số Miền Bắc theo hướng **out-of-sample, chống look-ahead và chống overfit**. `main` là branch vận hành và là source of truth duy nhất cho code mới.
 
-## Kiến trúc dữ liệu
+> **Trạng thái 2026-09-10:** lineage nghiên cứu `top3-walkforward` V1 → V2 → V3 → V4 → **V5 set10** đã được hợp nhất vào `main` qua PR #11. V5 là research model mới nhất ở mức **set**, không thay thế kết luận thống kê của official live model và chưa được coi là predictive edge đã xác nhận.
+
+## Bài toán đang theo dõi
+
+### Official 2D — `two_digit`
+
+Một suffix 00–99 là hit nếu xuất hiện ít nhất một lần trong 27 đuôi 2 số của kỳ XSMB.
+
+Fair baseline:
+
+```text
+P(hit) = 1 - (99/100)^27 ≈ 23.765729%
+```
+
+Live model: `src/xsmb_probability_v2.py`, pooled ridge logistic regression + validation + shrink/blend về fair baseline. Nếu validation chọn `blend=0`, model chủ động kết luận không có preference đủ tin cậy và toàn bộ calibrated probability trở về baseline.
+
+### Official 3D
+
+- `suffix3_any`: 000–999 xuất hiện ở 3 số cuối của 23 vị trí đủ 3 chữ số. Fair baseline ≈ **2.274876%**.
+- `g6_exact`: 000–999 trùng một trong ba kết quả G6. Fair baseline ≈ **0.2997001%**.
+
+Code: `src/xsmb_3digit.py`. Hai target được train/score riêng bằng empirical-Bayes; không ghép ranking 2D thành 3D.
+
+### V5 set10 — latest research
+
+V5 đổi mục tiêu vận hành từ ranking top-3 sang **chọn đúng 10 suffix khác nhau**, với strict success:
+
+```text
+WIN iff có >= 3 suffix khác nhau trong bộ 10 xuất hiện trong 27 vị trí XSMB
+```
+
+Random-set analytical baseline của điều kiện này là **43.89569%**. Spec đầy đủ: `V5_SPEC.md`. Code chính:
+
+- `src/walkforward_set10_v5.py`
+- `src/v5_daily_forecast.py`
+- `src/walkforward_top3_v2.py` — frozen feature/ranking dependency được V5 tái sử dụng.
+
+V5.0 hiện chọn scheme **`marginal_top10`**. Pair interaction và regime/reverse interaction đều **không qua ablation gate** (chỉ 2/6 fold dương), nên `pair_lambda=0` và `reverse_lambda=0`.
+
+Development selection (6 fold × 365 draw) của `marginal_top10`:
+
+```text
+median strict >=3/10 : 47.1233%
+mean strict >=3/10   : 46.5297%
+worst fold           : 42.4658%
+random baseline      : 43.8957%
+```
+
+Không được đọc các số trên như xác nhận độc lập. Burned benchmark từ 2025-08-11 đến 2026-09-09 chỉ đạt **40.1535%**, thấp hơn random baseline khoảng **3.74 điểm %**. Khoảng này đã tồn tại trước khi V5 được thiết kế nên chỉ dùng để báo cáo, không dùng làm confirmation set.
+
+Prospective ledger hiện có **5 forecast hợp lệ**, 3 WIN / 2 LOSS = **60%**, nhưng mẫu quá nhỏ; checkpoint đầu tiên được đặt ở **7 forecast hợp lệ**. Các ngày 2026-09-02 đến 2026-09-04 đang được đánh dấu missing/invalid và không được backfill.
+
+Artifacts:
+
+- `forecasts/v5_set10/YYYY-MM-DD.json` — immutable dated snapshots
+- `forecasts/set10_v5_next.json` — current generated candidate
+- `evaluation/v5_set10_prospective/` — prospective settlement ledger
+- `evaluation/walkforward_set10_v5_*` — development/burned diagnostics
+
+`src/v5_daily_forecast.py` có deadline 18:00 Asia/Ho_Chi_Minh và từ chối tạo retrospective snapshot nếu chưa có snapshot hợp lệ trước deadline. **Hiện V5 code đã ở `main`, nhưng chưa được gắn vào default scheduled workflow của `main`; không nên giả định có V5 forecast mới chỉ vì official daily workflow chạy.**
+
+## Các model/challenger khác
+
+- **V3 probability/ranking challenger:** vẫn được refresh để nghiên cứu multi-horizon; ranking score không phải calibrated probability.
+- **V4 `stable75_no_digit`:** archival/frozen development evidence được mô tả trong `MODEL_README.md`. Không tự dựng forecast V4 mới nếu source + frozen prospective manifest không tồn tại trên `main`.
+- **V1–V4 top3 walk-forward:** là lineage lịch sử dẫn tới V5; không phải branch vận hành riêng sau khi V5 đã được merge.
+
+## Dữ liệu
 
 Dự án tách hai tầng:
 
-- **Full history:** mirror dữ liệu chuẩn từ `khiemdoan/vietnam-lottery-xsmb-analysis`, hiện bắt đầu từ 2005. Dùng cho research, kiểm định thống kê, walk-forward và feature screening.
-- **Rolling live:** `data/parts/` giữ **1.095 ngày lịch gần nhất (~3 năm)**. Đây là dữ liệu dùng để fit/calibrate model hằng ngày.
+- **Full history:** mirror từ `khiemdoan/vietnam-lottery-xsmb-analysis`, bắt đầu từ 2005; dùng cho research/walk-forward.
+- **Rolling live:** `data/parts/`, khoảng **1.095 ngày (~3 năm)**; dùng cho fit/calibration live.
 
-Full-history canonical mirror dưới `data/upstream/` gồm:
+Canonical mirror dưới `data/upstream/`:
 
-- `xsmb.csv`: kết quả đầy đủ từng giải;
-- `xsmb-2-digits.csv`: đuôi 2 số của từng giải;
-- `xsmb-sparse.csv`: số nháy 00–99 theo ngày;
-- `metadata.json`: date range, số kỳ, checksum và kích thước file.
+- `xsmb.csv`
+- `xsmb-2-digits.csv`
+- `xsmb-sparse.csv`
+- `metadata.json`
 
-Nguồn upstream dùng MIT License; attribution và license được giữ trong `data/upstream/NOTICE.md` và `data/upstream/LICENSE_UPSTREAM`.
+Nguồn upstream dùng MIT License; attribution nằm trong `data/upstream/NOTICE.md` và `data/upstream/LICENSE_UPSTREAM`.
 
-## Ba target dự báo
+## Workflow trên `main`
 
-### 2 chữ số — `two_digit`
-
-Một bộ 00–99 là hit nếu xuất hiện ở đuôi 2 số của ít nhất một trong 27 giải. Baseline fair-draw:
-
-`1 - (99/100)^27 = 23.765729%`.
-
-### 3 chữ số — `suffix3_any`
-
-Một bộ 000–999 là hit nếu xuất hiện ở **3 số cuối** của bất kỳ giải nào có ít nhất 3 chữ số: ĐB, G1, G2, G3, G4, G5, G6. Tổng cộng 23 vị trí; G7 bị loại vì chỉ công bố 2 chữ số.
-
-Baseline fair-draw:
-
-`1 - (999/1000)^23 = 2.274876%`.
-
-### 3 chữ số — `g6_exact`
-
-Một bộ 000–999 là hit nếu trùng chính xác một trong ba kết quả G6.
-
-Baseline fair-draw:
-
-`1 - (999/1000)^3 = 0.2997001%`.
-
-## Predictive research và feature gate
-
-`src/research_predictive.py` chạy trên full history và chỉ sử dụng thông tin đứng trước kỳ cần đánh giá. Research hiện kiểm tra các nhóm signal như:
-
-- long-run Bayesian rate;
-- recent / rolling rate;
-- weekday-conditioned rate;
-- gap signal có giới hạn;
-- thống kê từng số với z-score, p-value và Benjamini–Hochberg q-value để hạn chế multiple-testing false positives.
-
-Signal muốn đi vào live model phải cải thiện **Brier score** tổng thể và thắng baseline ở ít nhất **60% các year-fold** trong walk-forward. Kết quả được ghi vào `research/feature_gate.json`.
-
-Live model sau đó còn làm một vòng validation/calibration trên rolling 3 năm. Vì thế feature dù được phép vẫn có thể nhận `blend = 0`, tức forecast quay hoàn toàn về baseline nếu không tái lập được predictive edge.
-
-Research đầu tiên trên full history cho thấy các recipe lịch sử thử nghiệm chưa thắng baseline một cách ổn định; feature gate hiện chỉ giữ `long_only` làm fallback tối thiểu và live calibration có quyền đưa tác động của nó về 0.
-
-## Models
-
-### 2 chữ số
-
-`src/xsmb_probability_v2.py` dùng pooled ridge logistic regression và đồng thời chọn:
-
-- feature set;
-- ridge regularization;
-- blend-to-baseline;
-
-bằng expanding-window validation.
-
-### 3 chữ số
-
-`src/xsmb_3digit.py` dùng empirical-Bayes ensemble phù hợp hơn với không gian 1.000 outcome thưa. Recipe và blend được chọn walk-forward riêng cho `suffix3_any` và `g6_exact`.
-
-## Pipeline live hằng ngày
-
-Forecast và settlement được tách hoàn toàn:
-
-1. **17:30 giờ Việt Nam:** tạo snapshot forecast trước giờ quay.
-2. Forecast chỉ được nhìn dữ liệu đến ngày hôm trước và từ chối tạo hồi tố nếu kết quả target date đã tồn tại upstream.
-3. Forecast live là immutable và có SHA-256 manifest.
-4. **20:30**, fallback **21:30:** settlement lấy kết quả thực, chấm Brier/log-loss, cập nhật rolling 3 năm và retrain.
-5. Theo dõi hiệu quả live trên cửa sổ 30/60/90 kỳ.
-
-2-digit outputs:
-
-- `forecasts/`
-- `evaluation/daily_metrics.csv`
-- `evaluation/rolling_summary.csv`
-- `evaluation/model_runs.csv`
-
-3-digit outputs:
-
-- `forecasts_3d/suffix3_any/`
-- `forecasts_3d/g6_exact/`
-- `evaluation/3d_daily_metrics.csv`
-- `evaluation/3d_rolling_summary.csv`
-- `evaluation/3d_model_runs.csv`
-
-## Workflows
-
-- `daily-forecast.yml`: live forecast 2D + 3D.
-- `daily-settle.yml`: settlement, rolling update, retrain và upstream mirror.
-- `full-research.yml`: full-history research hằng tuần.
-- `rebuild-rolling-3y.yml`: bootstrap/recovery rolling 1.095 ngày.
+- **15:00 VN — `Multi-horizon v3 challenger`** (`multihorizon-v3.yml`): refresh V3 probability/ranking research. Temporary immutable paper week đã kết thúc sau 2026-08-17; workflow hiện không tạo paper snapshot mới sau mốc đó.
+- **16:00 VN — `Daily pre-draw forecast`** (`daily-forecast.yml`): tạo immutable official 2D + 3D snapshots. Khi đánh giá prospective validity phải dùng thời điểm run/generation thực tế, không chỉ cron khai báo.
+- **20:30 VN, fallback 21:30 — `Daily post-draw settlement`** (`daily-settle.yml`): settle 2D/3D, cập nhật rolling data, retrain và mirror upstream.
+- `full-research.yml`: full-history research định kỳ.
+- `rebuild-rolling-3y.yml`: bootstrap/recovery rolling window.
 - `ci.yml`: pytest trên code changes.
 
-Mọi workflow có quyền ghi repo dùng cùng một concurrency lock và sync latest `main` trước khi tạo output để tránh hai GitHub Actions cùng lúc ghi đè dataset/model artifacts.
+Các workflow ghi repo dùng chung concurrency lock `xsmb-repo-write` để hạn chế race khi nhiều Actions cùng cập nhật `main`.
 
 ## Chạy thủ công
 
@@ -115,22 +102,32 @@ Mọi workflow có quyền ghi repo dùng cùng một concurrency lock và sync 
 python -m pip install -r requirements.txt
 pytest -q
 
-# Full-history mirror + research
+# Official research/live
 python src/sync_upstream.py
 python src/research_predictive.py
-
-# Bootstrap/rebuild rolling 3 năm
 python src/rebuild_rolling_3y.py
-
-# Live 2-digit
 python src/daily_pipeline_v2.py forecast
 python src/daily_pipeline_v2.py settle
-
-# Live 3-digit
 python src/daily_3digit_pipeline.py forecast
 python src/daily_3digit_pipeline.py settle
+
+# V5 set10 research
+python src/walkforward_set10_v5.py
+
+# V5 immutable daily forecast; chỉ chạy pre-draw
+python src/v5_daily_forecast.py
 ```
+
+## Branch policy
+
+- `main` là authoritative branch cho vận hành và phát triển tiếp theo.
+- Các branch `analysis/*`, `temp/*`, retrospective theo ngày và các branch V1–V4 riêng lẻ là lineage/experiment cũ; không dùng chúng làm nguồn forecast hiện tại.
+- Sau khi một research lineage được merge vào `main`, mọi thay đổi tiếp theo nên bắt đầu từ `main` thay vì tiếp tục phát triển trên branch cũ.
 
 ## Nguyên tắc diễn giải
 
-Mục tiêu của hệ thống là kiểm tra xem lịch sử có tạo ra **predictive edge ngoài mẫu** hay không. Tần suất cao, chuỗi gan, weekday pattern hay một p-value nhỏ không tự động có giá trị dự báo. Khi evidence không đủ, output đúng của model là quay về fair-draw baseline chứ không ép phải chọn ra “số đẹp”.
+Không có model nào được gọi là “có edge” chỉ vì một vài ngày trúng hoặc một backtest trung bình dương. Forecast cho ngày D chỉ được dùng thông tin trước D; snapshot prospective phải được khóa trước giờ quay; không backfill; không retune theo một ngày; không cherry-pick subset tốt.
+
+Nếu validation/calibration quay về fair baseline thì đó là output hợp lệ của hệ thống. V5 hiện là **latest set-level research**, nhưng burned benchmark đang dưới baseline và prospective sample mới có 5 ngày hợp lệ, vì vậy **chưa có đủ bằng chứng để khẳng định predictive edge hoặc lợi nhuận thực tế**.
+
+Chi tiết methodology và historical V4 assessment: `MODEL_README.md`.
