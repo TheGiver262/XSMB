@@ -1,0 +1,28 @@
+{
+  "target_date": "2026-09-11",
+  "model": "V5_set10_3plus",
+  "forecast_ref": "forecasts/v5_set10/2026-09-11.json",
+  "forecast_locked_pre_draw": true,
+  "generated_at_ict": "2026-09-11T13:40:44.158733+07:00",
+  "lock_deadline_ict": "2026-09-11T18:00:00+07:00",
+  "data_cutoff": "2026-09-10",
+  "top10": ["70","77","62","11","95","37","64","93","50","96"],
+  "nhay": {"70":0,"77":0,"62":0,"11":0,"95":0,"37":0,"64":1,"93":0,"50":0,"96":0},
+  "distinct_hits": 1,
+  "total_nhay": 1,
+  "mean_nhay_per_pick": 0.1,
+  "multi_hit_picks": 0,
+  "pair_cohits": 0,
+  "triple_cohits": 0,
+  "strict_success": false,
+  "result": "LOSS",
+  "result_suffixes": ["52","83","90","53","00","39","54","47","05","97","99","83","02","31","10","71","64","33","08","74","27","83","75","00","41","89","12"],
+  "provenance": {
+    "source": "xoso.com.vn direct source used by upstream pipeline",
+    "url": "https://xoso.com.vn/xsmb-11-09-2026.html",
+    "source_date": "2026-09-11",
+    "validated_positions": 27,
+    "upstream_repo_status_at_settlement": "latest data commit still 2026-09-10; direct-source fallback used per protocol"
+  },
+  "notes": "Prospective settlement only; one distinct hit: 64. Upstream repository had not yet committed 2026-09-11 at settlement time, so the exact source used by its fetch pipeline was used after validating all 27 positions. No model tuning; next review remains at 14 valid forecasts."
+}
