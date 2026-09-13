@@ -1,0 +1,27 @@
+{
+  "target_date": "2026-09-13",
+  "model": "V5_set10_3plus",
+  "forecast_ref": "forecasts/v5_set10/2026-09-13.json",
+  "forecast_locked_pre_draw": true,
+  "generated_at_ict": "2026-09-13T13:50:24.249497+07:00",
+  "lock_deadline_ict": "2026-09-13T18:00:00+07:00",
+  "data_cutoff": "2026-09-12",
+  "top10": ["62","70","64","77","99","93","39","52","95","10"],
+  "nhay": {"62":2,"70":0,"64":0,"77":0,"99":1,"93":0,"39":1,"52":0,"95":0,"10":0},
+  "distinct_hits": 3,
+  "total_nhay": 4,
+  "mean_nhay_per_pick": 0.4,
+  "multi_hit_picks": 1,
+  "pair_cohits": 3,
+  "triple_cohits": 1,
+  "strict_success": true,
+  "result": "WIN",
+  "result_suffixes": ["99","29","09","28","30","32","85","05","75","27","12","09","62","40","39","60","26","79","30","84","88","48","62","21","88","40","27"],
+  "provenance": {
+    "source": "xoso.com.vn XSMB 13/09/2026 (direct source used by upstream pipeline; upstream repo not yet committed 2026-09-13 at settlement time)",
+    "url": "https://xoso.com.vn/xsmb-13-09-2026.html",
+    "source_date": "2026-09-13",
+    "upstream_latest_commit_at_settlement": "Updated 2026-09-12"
+  },
+  "notes": "Prospective settlement only. Direct source validated with all 27 prize positions because upstream GitHub commit for 2026-09-13 was not yet available. One number counts once for distinct-hit metric even if repeated; 62 appeared twice but contributes one distinct hit. Pair/reverse bonuses remain disabled. Upstream 2026-09-12 data was reconciled before this settlement and matched the previously recorded 27 suffixes. Reconcile 2026-09-13 provenance once the upstream commit appears; report any mismatch rather than silently rewriting history."
+}
