@@ -21,7 +21,13 @@
     "source": "xoso.com.vn XSMB 13/09/2026 (direct source used by upstream pipeline; upstream repo not yet committed 2026-09-13 at settlement time)",
     "url": "https://xoso.com.vn/xsmb-13-09-2026.html",
     "source_date": "2026-09-13",
-    "upstream_latest_commit_at_settlement": "Updated 2026-09-12"
+    "upstream_latest_commit_at_settlement": "Updated 2026-09-12",
+    "upstream_reconciliation": {
+      "status": "MATCH",
+      "reconciled_against": "khiemdoan/vietnam-lottery-xsmb-analysis data/xsmb-2-digits.csv",
+      "upstream_commit_message": "Updated 2026-09-13",
+      "upstream_commit_sha": "26555a9b80c24f312ca2a11a71cd54b8e05bdbcc"
+    }
   },
-  "notes": "Prospective settlement only. Direct source validated with all 27 prize positions because upstream GitHub commit for 2026-09-13 was not yet available. One number counts once for distinct-hit metric even if repeated; 62 appeared twice but contributes one distinct hit. Pair/reverse bonuses remain disabled. Upstream 2026-09-12 data was reconciled before this settlement and matched the previously recorded 27 suffixes. Reconcile 2026-09-13 provenance once the upstream commit appears; report any mismatch rather than silently rewriting history."
+  "notes": "Prospective settlement only. Direct source was validated with all 27 prize positions because upstream GitHub commit for 2026-09-13 was not yet available at settlement time. One number counts once for distinct-hit metric even if repeated; 62 appeared twice but contributes one distinct hit. Pair/reverse bonuses remain disabled. Upstream 2026-09-13 later became available and all 27 suffixes matched this settlement; only provenance reconciliation metadata was added, with settlement metrics unchanged."
 }
