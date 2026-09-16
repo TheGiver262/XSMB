@@ -2,32 +2,32 @@
   "model": "V5_set10_3plus",
   "strict_rule": "WIN iff distinct_hits >= 3 among 10 selected suffixes",
   "random_baseline": 0.4389569,
-  "valid_forecasts": 11,
+  "valid_forecasts": 13,
   "wins": 6,
-  "losses": 5,
-  "win_rate": 0.5454545454545454,
-  "lift_pp_vs_random": 10.649764545454542,
-  "distribution_0_to_10": [0,4,1,3,3,0,0,0,0,0,0],
-  "total_nhay": 29,
-  "cumulative_mean_total_nhay": 2.6363636363636362,
-  "cumulative_mean_nhay_per_pick": 0.2636363636363636,
-  "cumulative_pair_cohits": 28,
-  "cumulative_pair_trials": 495,
-  "cumulative_pair_cohit_rate": 0.05656565656565657,
+  "losses": 7,
+  "win_rate": 0.46153846153846156,
+  "lift_pp_vs_random": 2.258156153846157,
+  "distribution_0_to_10": [0,5,2,3,3,0,0,0,0,0,0],
+  "total_nhay": 35,
+  "cumulative_mean_total_nhay": 2.6923076923076925,
+  "cumulative_mean_nhay_per_pick": 0.2692307692307692,
+  "cumulative_pair_cohits": 29,
+  "cumulative_pair_trials": 585,
+  "cumulative_pair_cohit_rate": 0.04957264957264957,
   "cumulative_triple_cohits": 15,
-  "cumulative_triple_trials": 1320,
-  "cumulative_triple_cohit_rate": 0.011363636363636364,
+  "cumulative_triple_trials": 1560,
+  "cumulative_triple_cohit_rate": 0.009615384615384616,
   "rolling_7": {
     "valid_forecasts": 7,
-    "wins": 4,
-    "win_rate": 0.5714285714285714,
-    "lift_pp_vs_random": 13.247167142857139,
-    "dates": ["2026-09-08","2026-09-09","2026-09-10","2026-09-11","2026-09-12","2026-09-13","2026-09-14"]
+    "wins": 2,
+    "win_rate": 0.2857142857142857,
+    "lift_pp_vs_random": -15.32426142857143,
+    "dates": ["2026-09-10","2026-09-11","2026-09-12","2026-09-13","2026-09-14","2026-09-15","2026-09-16"]
   },
   "review_checkpoint": {
     "last_review_valid_count": 7,
     "next_review_at_valid_count": 14,
-    "remaining_valid_forecasts": 3,
+    "remaining_valid_forecasts": 1,
     "decision": "KEEP_V5_UNCHANGED"
   },
   "model_status": {
@@ -37,5 +37,5 @@
     "pair_reverse_rejected_by_v5_0_ablation": true
   },
   "missing_or_invalid_dates": ["2026-09-02","2026-09-03","2026-09-04"],
-  "notes": "First 7-valid prospective checkpoint completed through 2026-09-10 and retained V5 unchanged. Forecast 2026-09-14 is valid prospective #11 and settled LOSS at 1/10 distinct hits with total_nhay=1. Cumulative is now 6/11 (54.55%); latest rolling 7 is 4/7 (57.14%). No tuning outside the 14-valid checkpoint. Upstream result repo had not yet committed 2026-09-14 at settlement time, so the settlement used and validated the same direct xoso.com.vn source used by that pipeline. The prior 2026-09-13 direct-source settlement has now been reconciled against the upstream 2026-09-13 commit with no mismatch."
+  "notes": "Through 2026-09-16 there are 13 valid prospective forecasts. 2026-09-15 settled LOSS at 2/10 distinct hits despite 5 total nhay (39x3, 27x2); 2026-09-16 settled LOSS at 1/10 with total_nhay=1. Cumulative is 6/13 (46.15%); latest rolling 7 is 2/7 (28.57%). No tuning before the 14-valid checkpoint. Direct xoso.com.vn source was used when upstream commit availability lagged; provenance must be reconciled against upstream when its commits appear, with mismatches reported rather than silently rewritten."
 }
