@@ -1,0 +1,26 @@
+{
+  "target_date": "2026-09-15",
+  "model": "V5_set10_3plus",
+  "forecast_ref": "forecasts/v5_set10/2026-09-15.json",
+  "forecast_locked_pre_draw": true,
+  "generated_at_ict": "2026-09-15T13:49:16.854538+07:00",
+  "lock_deadline_ict": "2026-09-15T18:00:00+07:00",
+  "data_cutoff": "2026-09-14",
+  "top10": ["62","39","99","70","93","48","27","71","64","77"],
+  "nhay": {"62":0,"39":3,"99":0,"70":0,"93":0,"48":0,"27":2,"71":0,"64":0,"77":0},
+  "distinct_hits": 2,
+  "total_nhay": 5,
+  "mean_nhay_per_pick": 0.5,
+  "multi_hit_picks": 2,
+  "pair_cohits": 1,
+  "triple_cohits": 0,
+  "strict_success": false,
+  "result": "LOSS",
+  "result_suffixes": ["29","41","39","89","80","79","19","96","66","39","82","90","27","22","22","63","04","78","58","14","19","52","39","27","15","44","13"],
+  "provenance": {
+    "source": "xoso.com.vn XSMB 15/09/2026 (direct source used by upstream pipeline; validated all 27 prize positions)",
+    "url": "https://xoso.com.vn/xsmb-15-09-2026.html",
+    "source_date": "2026-09-15"
+  },
+  "notes": "Prospective settlement only. Forecast was locked pre-draw. 39 appeared 3 times and 27 appeared 2 times, but each counts once for distinct_hits. Pair/reverse bonuses remain disabled."
+}
