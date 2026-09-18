@@ -2,34 +2,34 @@
   "model": "V5_set10_3plus",
   "strict_rule": "WIN iff distinct_hits >= 3 among 10 selected suffixes",
   "random_baseline": 0.4389569,
-  "valid_forecasts": 14,
+  "valid_forecasts": 15,
   "wins": 6,
-  "losses": 8,
-  "win_rate": 0.42857142857142855,
-  "lift_pp_vs_random": -1.038547142857145,
-  "distribution_0_to_10": [0,5,3,3,3,0,0,0,0,0,0],
-  "total_nhay": 37,
-  "cumulative_mean_total_nhay": 2.642857142857143,
-  "cumulative_mean_nhay_per_pick": 0.2642857142857143,
-  "cumulative_pair_cohits": 30,
-  "cumulative_pair_trials": 630,
-  "cumulative_pair_cohit_rate": 0.047619047619047616,
+  "losses": 9,
+  "win_rate": 0.4,
+  "lift_pp_vs_random": -3.89569,
+  "distribution_0_to_10": [0,5,4,3,3,0,0,0,0,0,0],
+  "total_nhay": 39,
+  "cumulative_mean_total_nhay": 2.6,
+  "cumulative_mean_nhay_per_pick": 0.26,
+  "cumulative_pair_cohits": 31,
+  "cumulative_pair_trials": 675,
+  "cumulative_pair_cohit_rate": 0.045925925925925926,
   "cumulative_triple_cohits": 15,
-  "cumulative_triple_trials": 1680,
-  "cumulative_triple_cohit_rate": 0.008928571428571428,
+  "cumulative_triple_trials": 1800,
+  "cumulative_triple_cohit_rate": 0.008333333333333333,
   "rolling_7": {
     "valid_forecasts": 7,
     "wins": 2,
     "win_rate": 0.2857142857142857,
     "lift_pp_vs_random": -15.32426142857143,
-    "dates": ["2026-09-11","2026-09-12","2026-09-13","2026-09-14","2026-09-15","2026-09-16","2026-09-17"]
+    "dates": ["2026-09-12","2026-09-13","2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-18"]
   },
   "review_checkpoint": {
     "last_review_valid_count": 14,
     "next_review_at_valid_count": 21,
-    "remaining_valid_forecasts": 7,
+    "remaining_valid_forecasts": 6,
     "decision": "KEEP_V5_UNCHANGED",
-    "reason": "Prospective 14-forecast strict win rate is 42.86%, slightly below the 43.89569% random baseline, and rolling 7 is 28.57%. Existing leakage-safe development multi-fold candidate summary still ranks marginal_top10 as the only ablation-eligible scheme and best robust score; pair/reverse candidates are ineligible and do not robustly outperform it. No candidate has passed a new nested/walk-forward OOS gate, so changing the model from these 14 prospective observations would be direct tuning on observed OOS."
+    "reason": "No review is due at forecast #15. The checkpoint-14 decision remains in force: no leakage-safe candidate has robustly passed the required nested/walk-forward OOS gate, so the model must not be tuned from newly observed prospective outcomes."
   },
   "model_status": {
     "scheme": "marginal_top10",
@@ -38,5 +38,5 @@
     "pair_reverse_rejected_by_v5_0_ablation": true
   },
   "missing_or_invalid_dates": ["2026-09-02","2026-09-03","2026-09-04"],
-  "notes": "Through 2026-09-17 there are 14 valid prospective forecasts. 2026-09-17 settled LOSS at 2/10 distinct hits (39x1, 64x1), total_nhay=2. Cumulative is 6/14 (42.86%), slightly below random baseline; latest rolling 7 is 2/7 (28.57%). Checkpoint 14 review keeps V5 unchanged because no leakage-safe candidate has robustly passed the required OOS gate. Direct xoso.com.vn source was used for 2026-09-17 because upstream data commit still ended at 2026-09-16; provenance must be reconciled when upstream commit appears, with mismatches reported rather than silently rewritten."
+  "notes": "Through 2026-09-18 there are 15 valid prospective forecasts. 2026-09-18 settled LOSS at 2/10 distinct hits (93x1, 77x1), total_nhay=2. Cumulative is 6/15 (40.00%), below random baseline by 3.89569 pp; latest rolling 7 is 2/7 (28.57%). Checkpoint-14 KEEP_V5_UNCHANGED remains active; next review is at 21 valid forecasts. Direct xoso.com.vn source was used for 2026-09-18 because upstream data commit still ended at 2026-09-17; provenance must be reconciled when upstream commit appears, with mismatches reported rather than silently rewritten."
 }
