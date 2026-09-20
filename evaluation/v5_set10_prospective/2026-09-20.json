@@ -1,0 +1,29 @@
+{
+  "target_date": "2026-09-20",
+  "model": "V5_set10_3plus",
+  "forecast_ref": "forecasts/v5_set10/2026-09-20.json",
+  "forecast_locked_pre_draw": true,
+  "generated_at_ict": "2026-09-20T14:08:41.530870+07:00",
+  "lock_deadline_ict": "2026-09-20T18:00:00+07:00",
+  "data_cutoff": "2026-09-19",
+  "top10": ["64","77","39","79","93","99","57","52","96","48"],
+  "nhay": {"64":2,"77":0,"39":0,"79":1,"93":0,"99":1,"57":0,"52":0,"96":0,"48":1},
+  "distinct_hits": 4,
+  "total_nhay": 5,
+  "mean_nhay_per_pick": 0.5,
+  "multi_hit_picks": 1,
+  "pair_cohits": 6,
+  "triple_cohits": 4,
+  "strict_success": true,
+  "result": "WIN",
+  "result_suffixes": ["38","48","71","12","68","24","92","34","35","44","17","40","55","85","46","66","64","74","99","79","64","15","65","50","28","71","35"],
+  "provenance": {
+    "source": "xoso.com.vn XSMB 20/09/2026 (direct source used by upstream pipeline; upstream latest data commit still at 2026-09-19; validated all 27 prize positions)",
+    "url": "https://xoso.com.vn/xsmb-20-09-2026.html",
+    "source_date": "2026-09-20",
+    "upstream_latest_data_commit": "c2981284e60d2a4385dfa78c0395d0364fce5469",
+    "upstream_latest_data_date": "2026-09-19",
+    "reconcile_required": true
+  },
+  "notes": "Prospective settlement only. Forecast was locked pre-draw. One number counts once for distinct-hit metric even if repeated. Pair/reverse bonuses remain disabled. This is valid prospective forecast #17; next model review remains at #21."
+}
