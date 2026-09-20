@@ -1,0 +1,29 @@
+{
+  "target_date": "2026-09-19",
+  "model": "V5_set10_3plus",
+  "forecast_ref": "forecasts/v5_set10/2026-09-19.json",
+  "forecast_locked_pre_draw": true,
+  "generated_at_ict": "2026-09-19T13:43:58.568724+07:00",
+  "lock_deadline_ict": "2026-09-19T18:00:00+07:00",
+  "data_cutoff": "2026-09-18",
+  "top10": ["39","93","64","99","77","96","62","48","40","37"],
+  "nhay": {"39":0,"93":0,"64":1,"99":0,"77":1,"96":0,"62":0,"48":0,"40":0,"37":0},
+  "distinct_hits": 2,
+  "total_nhay": 2,
+  "mean_nhay_per_pick": 0.2,
+  "multi_hit_picks": 0,
+  "pair_cohits": 1,
+  "triple_cohits": 0,
+  "strict_success": false,
+  "result": "LOSS",
+  "result_suffixes": ["12","14","98","06","24","52","56","79","83","72","77","86","78","59","79","83","90","14","45","55","75","72","57","73","55","76","64"],
+  "provenance": {
+    "source": "khiemdoan/vietnam-lottery-xsmb-analysis data/xsmb-2-digits.csv; direct xoso.com.vn cross-check",
+    "url": "https://xoso.com.vn/xsmb-19-09-2026.html",
+    "source_date": "2026-09-19",
+    "upstream_latest_data_commit": "c2981284e60d2a4385dfa78c0395d0364fce5469",
+    "upstream_latest_data_date": "2026-09-19",
+    "reconcile_required": false
+  },
+  "notes": "Prospective settlement only. Forecast was immutable and locked pre-draw; this records the previously evaluated 2026-09-19 result after upstream provenance became available. No forecast was backfilled."
+}
