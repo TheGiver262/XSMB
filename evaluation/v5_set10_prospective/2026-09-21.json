@@ -1,0 +1,20 @@
+{
+  "target_date": "2026-09-21",
+  "forecast_status": "valid",
+  "forecast_generated_at_ict": "2026-09-21T14:17:22.385635+07:00",
+  "data_cutoff": "2026-09-20",
+  "top10": ["64","77","79","39","99","48","52","40","93","96"],
+  "result_suffixes": ["32","99","31","90","08","14","48","30","86","32","29","68","96","72","59","83","54","16","46","93","13","00","32","56","78","32","75"],
+  "nhay_by_pick": {"64":0,"77":0,"79":0,"39":0,"99":1,"48":1,"52":0,"40":0,"93":1,"96":1},
+  "distinct_hits": 4,
+  "status": "WIN",
+  "total_nhay": 4,
+  "mean_nhay_per_pick": 0.4,
+  "multi_hit_picks": 0,
+  "pair_cohits": 6,
+  "pair_trials": 45,
+  "triple_cohits": 4,
+  "triple_trials": 120,
+  "result_provenance": {"source":"https://xoso.com.vn/xsmb-21-09-2026.html","mode":"upstream_direct_source_fallback","validated_positions":27,"upstream_reconcile_required":true},
+  "protocol_note": "Forecast was immutable and locked before 18:00 ICT. Upstream data was not yet confirmed for target date at settlement time; direct source used per upstream pipeline protocol."
+}
