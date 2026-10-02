@@ -1,0 +1,51 @@
+{
+  "target_date": "2026-10-02",
+  "forecast_status": "valid",
+  "forecast_generated_at_ict": "2026-10-02T14:35:33.065045+07:00",
+  "data_cutoff": "2026-10-01",
+  "top10": [
+    "34",
+    "65",
+    "92",
+    "55",
+    "37",
+    "49",
+    "90",
+    "91",
+    "39",
+    "50"
+  ],
+  "result_source": "https://xoso.com.vn/xsmb-02-10-2026.html",
+  "result_provenance": "upstream_pending_direct_source_fallback",
+  "upstream_latest_commit": "99ba9e1c920559f962a6ea8ca975b0192d601f7f",
+  "upstream_latest_date": "2026-10-01",
+  "reconcile_required": true,
+  "validated_positions": 27,
+  "nhay_by_pick": {
+    "34": 0,
+    "37": 1,
+    "39": 0,
+    "49": 0,
+    "50": 1,
+    "55": 0,
+    "65": 1,
+    "90": 0,
+    "91": 0,
+    "92": 0
+  },
+  "distinct_hits": 3,
+  "hit_numbers": [
+    "65",
+    "37",
+    "50"
+  ],
+  "outcome": "WIN",
+  "total_nhay": 3,
+  "mean_nhay_per_pick": 0.3,
+  "multi_hit_picks": 0,
+  "pair_cohits": 3,
+  "pair_trials": 45,
+  "triple_cohits": 1,
+  "triple_trials": 120,
+  "notes": "Leakage-safe settlement. Forecast locked before 18:00 ICT. Upstream latest commit is Updated 2026-10-01; direct source used after validating all 27 positions. Reconcile when upstream 2026-10-02 commit appears."
+}
