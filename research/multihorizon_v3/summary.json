@@ -12,7 +12,7 @@
   "mean_top3_hit_rate": 0.23710047576481616,
   "mean_top5_hit_rate": 0.23875301686248238,
   "promotion_eligible": false,
-  "target_date": "2026-10-05",
+  "target_date": "2026-10-06",
   "data_cutoff": "2026-10-04",
   "observed_draws": 7573,
   "theoretical_baseline": 0.23765728565289646,
