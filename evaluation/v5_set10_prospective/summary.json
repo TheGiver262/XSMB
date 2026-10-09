@@ -23,6 +23,8 @@
   "total_nhay": 97,
   "cumulative_mean_total_nhay": 2.7714285714285714,
   "cumulative_mean_nhay_per_pick": 0.27714285714285714,
+  "cumulative_multi_hit_picks": 11,
+  "cumulative_mean_multi_hit_picks_per_forecast": 0.3142857142857143,
   "cumulative_pair_cohits": 88,
   "cumulative_pair_trials": 1575,
   "cumulative_pair_cohit_rate": 0.05587301587301587,
@@ -87,6 +89,34 @@
     "2026-09-04",
     "2026-10-06"
   ],
+  "prospective_recompute_audit": {
+    "valid_immutable_snapshots_recomputed": 35,
+    "historical_summary_through_2026_10_02_matched": true,
+    "result_data_source": "upstream 2-digit dataset through 2026-10-08 plus direct-source fallback for 2026-10-09",
+    "upstream_latest_commit": "2f095fe8f91e0e580ad2894202206a6f4ba724f5",
+    "upstream_latest_date": "2026-10-08",
+    "missing_dates_excluded": [
+      "2026-09-02",
+      "2026-09-03",
+      "2026-09-04",
+      "2026-10-06"
+    ]
+  },
+  "pre_draw_scheduler": {
+    "workflow": "V5 set10 pre-draw forecast",
+    "configured_primary_ict": "09:00",
+    "configured_fallback_ict": "12:00",
+    "target_date": "2026-10-09",
+    "primary_run_number": 69,
+    "primary_run_started_at_ict": "2026-10-09T15:03:05+07:00",
+    "snapshot_generated_at_ict": "2026-10-09T15:03:55.087488+07:00",
+    "primary_conclusion": "success",
+    "fallback_run_number": 70,
+    "fallback_run_started_at_ict": "2026-10-09T18:41:20+07:00",
+    "fallback_conclusion": "success",
+    "status": "valid_lock_with_schedule_delay",
+    "note": "Both scheduled runs arrived later than configured times. The immutable snapshot was still generated before 18:00 ICT; the later retry preserved the existing snapshot and did not backfill."
+  },
   "latest_result_provenance": {
     "target_date": "2026-10-09",
     "status": "upstream_pending_direct_source_fallback",
@@ -94,5 +124,5 @@
     "upstream_latest_date": "2026-10-08",
     "reconcile_required": true
   },
-  "notes": "Checkpoint #35 review completed through 2026-10-09. The 2026-10-09 result was settled from the direct-source fallback after confirming upstream was still current only through 2026-10-08; all 27 positions validated. Reconcile this date when the upstream commit appears; do not silently rewrite history if values differ. 2026-10-06 has no immutable V5 snapshot and remains missing/invalid; no forecast was backfilled. Keep V5 unchanged; next checkpoint at 42 valid prospective forecasts."
+  "notes": "Recomputed all 35 valid immutable forecasts against upstream 2-digit results through 2026-10-08 plus the validated direct-source fallback for 2026-10-09. The prior summary through 2026-10-02 matched independent recomputation. The 2026-10-02 fallback was reconciled with upstream with no discrepancy. 2026-10-09 remains reconcile_required until the upstream commit includes that date; if the upstream row differs, report the discrepancy without silently rewriting history. 2026-10-06 has no immutable snapshot and remains missing/invalid; no forecast was backfilled. Checkpoint #35 says keep V5 unchanged; next checkpoint at 42 valid forecasts."
 }
