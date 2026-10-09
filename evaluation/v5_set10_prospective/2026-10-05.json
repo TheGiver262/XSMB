@@ -1,0 +1,51 @@
+{
+  "target_date": "2026-10-05",
+  "forecast_status": "valid",
+  "forecast_generated_at_ict": "2026-10-05T14:46:06.784244+07:00",
+  "data_cutoff": "2026-10-04",
+  "top10": [
+    "37",
+    "48",
+    "38",
+    "85",
+    "90",
+    "09",
+    "63",
+    "75",
+    "52",
+    "65"
+  ],
+  "result_source": "https://github.com/khiemdoan/vietnam-lottery-xsmb-analysis/blob/2f095fe8f91e0e580ad2894202206a6f4ba724f5/data/xsmb-2-digits.csv",
+  "result_provenance": "upstream_primary",
+  "upstream_latest_commit": "2f095fe8f91e0e580ad2894202206a6f4ba724f5",
+  "upstream_latest_date": "2026-10-08",
+  "reconcile_required": false,
+  "validated_positions": 27,
+  "nhay_by_pick": {
+    "37": 0,
+    "38": 1,
+    "48": 1,
+    "52": 1,
+    "63": 0,
+    "65": 0,
+    "75": 0,
+    "85": 0,
+    "90": 0,
+    "09": 0
+  },
+  "distinct_hits": 3,
+  "hit_numbers": [
+    "38",
+    "48",
+    "52"
+  ],
+  "outcome": "WIN",
+  "total_nhay": 3,
+  "mean_nhay_per_pick": 0.3,
+  "multi_hit_picks": 0,
+  "pair_cohits": 3,
+  "pair_trials": 45,
+  "triple_cohits": 1,
+  "triple_trials": 120,
+  "notes": "Leakage-safe settlement from the upstream 2-digit dataset at commit 2f095fe8f91e0e580ad2894202206a6f4ba724f5; 2026-10-05 has 27 validated positions. Forecast snapshot existed before the 18:00 ICT lock deadline. No forecast was generated or backfilled after the draw."
+}

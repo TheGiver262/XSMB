@@ -15,12 +15,13 @@
     "39",
     "50"
   ],
-  "result_source": "https://xoso.com.vn/xsmb-02-10-2026.html",
-  "result_provenance": "upstream_pending_direct_source_fallback",
-  "upstream_latest_commit": "99ba9e1c920559f962a6ea8ca975b0192d601f7f",
-  "upstream_latest_date": "2026-10-01",
-  "reconcile_required": true,
+  "result_source": "https://github.com/khiemdoan/vietnam-lottery-xsmb-analysis/blob/2f095fe8f91e0e580ad2894202206a6f4ba724f5/data/xsmb-2-digits.csv",
+  "result_provenance": "upstream_reconciled",
+  "upstream_latest_commit": "2f095fe8f91e0e580ad2894202206a6f4ba724f5",
+  "upstream_latest_date": "2026-10-08",
+  "reconcile_required": false,
   "validated_positions": 27,
+  "cross_check_source": "https://xoso.com.vn/xsmb-02-10-2026.html",
   "nhay_by_pick": {
     "34": 0,
     "37": 1,
@@ -35,9 +36,9 @@
   },
   "distinct_hits": 3,
   "hit_numbers": [
-    "65",
     "37",
-    "50"
+    "50",
+    "65"
   ],
   "outcome": "WIN",
   "total_nhay": 3,
@@ -47,5 +48,5 @@
   "pair_trials": 45,
   "triple_cohits": 1,
   "triple_trials": 120,
-  "notes": "Leakage-safe settlement. Forecast locked before 18:00 ICT. Upstream latest commit is Updated 2026-10-01; direct source used after validating all 27 positions. Reconcile when upstream 2026-10-02 commit appears."
+  "notes": "Provenance reconciliation: this date was initially settled using the upstream direct-source fallback while the upstream CSV ended at 2026-10-01. Upstream commit 2f095fe8f91e0e580ad2894202206a6f4ba724f5 now includes 2026-10-02. All 27 suffix positions were compared with the direct-source page; no discrepancy. Forecast and settlement metrics remain unchanged."
 }

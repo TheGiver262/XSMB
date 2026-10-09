@@ -2,17 +2,17 @@
   "model": "V5_set10_3plus",
   "strict_rule": "WIN iff distinct_hits >= 3 among 10 selected suffixes",
   "random_baseline": 0.4389569,
-  "valid_forecasts": 29,
-  "wins": 13,
-  "losses": 16,
-  "win_rate": 0.4482758620689655,
-  "lift_pp_vs_random": 0.9318962068965542,
+  "valid_forecasts": 34,
+  "wins": 16,
+  "losses": 18,
+  "win_rate": 0.47058823529411764,
+  "lift_pp_vs_random": 3.1631335294117657,
   "distribution_0_to_10": [
     2,
-    6,
+    7,
+    9,
     8,
     7,
-    5,
     1,
     0,
     0,
@@ -20,36 +20,42 @@
     0,
     0
   ],
-  "total_nhay": 78,
-  "cumulative_mean_total_nhay": 2.689655172413793,
-  "cumulative_mean_nhay_per_pick": 0.2689655172413793,
-  "cumulative_pair_cohits": 69,
-  "cumulative_pair_trials": 1305,
-  "cumulative_pair_cohit_rate": 0.052873563218390804,
-  "cumulative_triple_cohits": 37,
-  "cumulative_triple_trials": 3480,
-  "cumulative_triple_cohit_rate": 0.010632183908045977,
+  "total_nhay": 93,
+  "cumulative_mean_total_nhay": 2.735294117647059,
+  "cumulative_mean_nhay_per_pick": 0.2735294117647059,
+  "cumulative_pair_cohits": 85,
+  "cumulative_pair_trials": 1530,
+  "cumulative_pair_cohit_rate": 0.05555555555555555,
+  "cumulative_triple_cohits": 46,
+  "cumulative_triple_trials": 4080,
+  "cumulative_triple_cohit_rate": 0.011274509803921568,
   "rolling_7": {
     "valid_forecasts": 7,
-    "wins": 2,
-    "win_rate": 0.2857142857142857,
-    "lift_pp_vs_random": -15.324261428571429,
+    "wins": 4,
+    "win_rate": 0.5714285714285714,
+    "lift_pp_vs_random": 13.24716714285714,
     "dates": [
-      "2026-09-26",
-      "2026-09-27",
-      "2026-09-28",
-      "2026-09-29",
-      "2026-09-30",
       "2026-10-01",
-      "2026-10-02"
-    ]
+      "2026-10-02",
+      "2026-10-03",
+      "2026-10-04",
+      "2026-10-05",
+      "2026-10-07",
+      "2026-10-08"
+    ],
+    "total_nhay": 18,
+    "mean_total_nhay": 2.5714285714285716,
+    "pair_cohits": 19,
+    "pair_trials": 315,
+    "triple_cohits": 10,
+    "triple_trials": 840
   },
   "review_checkpoint": {
     "last_review_valid_count": 28,
     "next_review_at_valid_count": 35,
-    "remaining_valid_forecasts": 6,
+    "remaining_valid_forecasts": 1,
     "decision": "KEEP_V5_UNCHANGED",
-    "reason": "Checkpoint 28 already completed. 2026-10-02 is valid forecast #29; no model changes outside checkpoint. Keep V5 unchanged pending checkpoint 35 or new pre-specified leakage-safe nested/walk-forward OOS evidence."
+    "reason": "Checkpoint 28 already completed. Through 2026-10-08 there are 34 valid prospective forecasts; the next review is due at 35. Do not tune on recent outcomes; keep V5 unchanged pending the pre-specified leakage-safe checkpoint or stronger nested/walk-forward OOS evidence."
   },
   "model_status": {
     "scheme": "marginal_top10",
@@ -60,7 +66,8 @@
   "missing_or_invalid_dates": [
     "2026-09-02",
     "2026-09-03",
-    "2026-09-04"
+    "2026-09-04",
+    "2026-10-06"
   ],
-  "notes": "Through 2026-10-02 there are 29 valid prospective forecasts. 2026-10-02 settled WIN at 3/10, total_nhay=3. Upstream latest commit is Updated 2026-10-01, so 2026-10-02 used the upstream direct-source fallback and requires reconciliation. 2026-10-01 has been reconciled to upstream with no discrepancy. Rolling 7 is 2/7 (28.57%). V5 remains unchanged."
+  "notes": "Recomputed through 2026-10-08 using the existing prospective ledger through 2026-10-02 plus immutable snapshots and the upstream 2-digit dataset for 2026-10-03, 10-04, 10-05, 10-07 and 10-08. Upstream commit 2f095fe8f91e0e580ad2894202206a6f4ba724f5 is current through 2026-10-08. The 2026-10-02 direct-source fallback was reconciled with no discrepancy. 2026-10-06 has no immutable V5 snapshot and remains missing/invalid; no forecast was backfilled. Rolling 7 is 4/7 (57.14%). Keep V5 unchanged; next checkpoint at 35 valid prospective forecasts."
 }
