@@ -2,16 +2,16 @@
   "model": "V5_set10_3plus",
   "strict_rule": "WIN iff distinct_hits >= 3 among 10 selected suffixes",
   "random_baseline": 0.4389569,
-  "valid_forecasts": 34,
-  "wins": 16,
+  "valid_forecasts": 35,
+  "wins": 17,
   "losses": 18,
-  "win_rate": 0.47058823529411764,
-  "lift_pp_vs_random": 3.1631335294117657,
+  "win_rate": 0.4857142857142857,
+  "lift_pp_vs_random": 4.675738571428573,
   "distribution_0_to_10": [
     2,
     7,
     9,
-    8,
+    9,
     7,
     1,
     0,
@@ -20,42 +20,60 @@
     0,
     0
   ],
-  "total_nhay": 93,
-  "cumulative_mean_total_nhay": 2.735294117647059,
-  "cumulative_mean_nhay_per_pick": 0.2735294117647059,
-  "cumulative_pair_cohits": 85,
-  "cumulative_pair_trials": 1530,
-  "cumulative_pair_cohit_rate": 0.05555555555555555,
-  "cumulative_triple_cohits": 46,
-  "cumulative_triple_trials": 4080,
-  "cumulative_triple_cohit_rate": 0.011274509803921568,
+  "total_nhay": 97,
+  "cumulative_mean_total_nhay": 2.7714285714285714,
+  "cumulative_mean_nhay_per_pick": 0.27714285714285714,
+  "cumulative_pair_cohits": 88,
+  "cumulative_pair_trials": 1575,
+  "cumulative_pair_cohit_rate": 0.05587301587301587,
+  "cumulative_triple_cohits": 47,
+  "cumulative_triple_trials": 4200,
+  "cumulative_triple_cohit_rate": 0.01119047619047619,
+  "reference_ev": {
+    "note": "Research benchmark only; not an official or guaranteed payout. No stake/P&L is asserted.",
+    "pair": {
+      "observed_rate": 0.05587301587301587,
+      "break_even_rate_at_10x": 0.1,
+      "break_even_rate_at_12x": 0.08333333333333333,
+      "reference_ev_at_10x": -0.44126984126984126,
+      "reference_ev_at_12x": -0.32952380952380955
+    },
+    "triple": {
+      "observed_rate": 0.01119047619047619,
+      "break_even_rate_at_35x": 0.02857142857142857,
+      "break_even_rate_at_40x": 0.025,
+      "reference_ev_at_35x": -0.6083333333333334,
+      "reference_ev_at_40x": -0.5523809523809524
+    }
+  },
   "rolling_7": {
     "valid_forecasts": 7,
-    "wins": 4,
-    "win_rate": 0.5714285714285714,
-    "lift_pp_vs_random": 13.24716714285714,
+    "wins": 5,
+    "win_rate": 0.7142857142857143,
+    "lift_pp_vs_random": 27.532881428571432,
     "dates": [
-      "2026-10-01",
       "2026-10-02",
       "2026-10-03",
       "2026-10-04",
       "2026-10-05",
       "2026-10-07",
-      "2026-10-08"
+      "2026-10-08",
+      "2026-10-09"
     ],
-    "total_nhay": 18,
-    "mean_total_nhay": 2.5714285714285716,
-    "pair_cohits": 19,
+    "total_nhay": 22,
+    "mean_total_nhay": 3.142857142857143,
+    "multi_hit_picks": 2,
+    "pair_cohits": 22,
     "pair_trials": 315,
-    "triple_cohits": 10,
+    "triple_cohits": 11,
     "triple_trials": 840
   },
   "review_checkpoint": {
-    "last_review_valid_count": 28,
-    "next_review_at_valid_count": 35,
-    "remaining_valid_forecasts": 1,
+    "last_review_valid_count": 35,
+    "next_review_at_valid_count": 42,
+    "remaining_valid_forecasts": 7,
     "decision": "KEEP_V5_UNCHANGED",
-    "reason": "Checkpoint 28 already completed. Through 2026-10-08 there are 34 valid prospective forecasts; the next review is due at 35. Do not tune on recent outcomes; keep V5 unchanged pending the pre-specified leakage-safe checkpoint or stronger nested/walk-forward OOS evidence."
+    "reason": "Checkpoint #35 completed. Prospective strict success is 17/35 (48.57%, +4.68 pp vs random baseline), but the one-sided exact binomial tail probability under the baseline is 0.347 and the 95% Wilson interval is 32.99%-64.43%, which includes baseline. Development multi-fold marginal_top10 mean is 46.5297%, median 47.1233%, worst fold 42.4658%; burned benchmark is 40.1535% (-3.74 pp vs baseline). No robust OOS evidence justifies enabling pair/reverse or replacing V5."
   },
   "model_status": {
     "scheme": "marginal_top10",
@@ -69,5 +87,12 @@
     "2026-09-04",
     "2026-10-06"
   ],
-  "notes": "Recomputed through 2026-10-08 using the existing prospective ledger through 2026-10-02 plus immutable snapshots and the upstream 2-digit dataset for 2026-10-03, 10-04, 10-05, 10-07 and 10-08. Upstream commit 2f095fe8f91e0e580ad2894202206a6f4ba724f5 is current through 2026-10-08. The 2026-10-02 direct-source fallback was reconciled with no discrepancy. 2026-10-06 has no immutable V5 snapshot and remains missing/invalid; no forecast was backfilled. Rolling 7 is 4/7 (57.14%). Keep V5 unchanged; next checkpoint at 35 valid prospective forecasts."
+  "latest_result_provenance": {
+    "target_date": "2026-10-09",
+    "status": "upstream_pending_direct_source_fallback",
+    "upstream_latest_commit": "2f095fe8f91e0e580ad2894202206a6f4ba724f5",
+    "upstream_latest_date": "2026-10-08",
+    "reconcile_required": true
+  },
+  "notes": "Checkpoint #35 review completed through 2026-10-09. The 2026-10-09 result was settled from the direct-source fallback after confirming upstream was still current only through 2026-10-08; all 27 positions validated. Reconcile this date when the upstream commit appears; do not silently rewrite history if values differ. 2026-10-06 has no immutable V5 snapshot and remains missing/invalid; no forecast was backfilled. Keep V5 unchanged; next checkpoint at 42 valid prospective forecasts."
 }
