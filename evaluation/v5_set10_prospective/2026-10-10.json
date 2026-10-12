@@ -1,0 +1,50 @@
+{
+  "target_date": "2026-10-10",
+  "forecast_status": "valid",
+  "forecast_generated_at_ict": "2026-10-10T14:47:41.604307+07:00",
+  "data_cutoff": "2026-10-09",
+  "top10": [
+    "75",
+    "48",
+    "35",
+    "38",
+    "51",
+    "14",
+    "37",
+    "52",
+    "43",
+    "09"
+  ],
+  "result_source": "https://github.com/khiemdoan/vietnam-lottery-xsmb-analysis/blob/6c771acbadec84f464c5430d0552789503d7afc6/data/xsmb-2-digits.csv",
+  "result_provenance": "upstream_primary",
+  "upstream_latest_commit": "6c771acbadec84f464c5430d0552789503d7afc6",
+  "upstream_latest_date": "2026-10-11",
+  "upstream_reference": "https://github.com/khiemdoan/vietnam-lottery-xsmb-analysis/blob/6c771acbadec84f464c5430d0552789503d7afc6/data/xsmb-2-digits.csv",
+  "reconcile_required": false,
+  "validated_positions": 27,
+  "nhay_by_pick": {
+    "14": 0,
+    "35": 0,
+    "37": 0,
+    "38": 0,
+    "43": 1,
+    "48": 0,
+    "51": 0,
+    "52": 0,
+    "75": 0,
+    "09": 0
+  },
+  "distinct_hits": 1,
+  "hit_numbers": [
+    "43"
+  ],
+  "outcome": "LOSS",
+  "total_nhay": 1,
+  "mean_nhay_per_pick": 0.1,
+  "multi_hit_picks": 0,
+  "pair_cohits": 0,
+  "pair_trials": 45,
+  "triple_cohits": 0,
+  "triple_trials": 120,
+  "notes": "Leakage-safe settlement from the upstream canonical 2-digit dataset. The immutable forecast was generated before the target draw deadline. Exactly 27 result positions were present; no backfill or model change was performed."
+}
