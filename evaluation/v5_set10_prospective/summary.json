@@ -2,15 +2,15 @@
   "model": "V5_set10_3plus",
   "strict_rule": "WIN iff distinct_hits >= 3 among 10 selected suffixes",
   "random_baseline": 0.4389569,
-  "valid_forecasts": 39,
+  "valid_forecasts": 40,
   "wins": 19,
-  "losses": 20,
-  "win_rate": 0.48717948717948717,
-  "lift_pp_vs_random": 4.822258717948719,
+  "losses": 21,
+  "win_rate": 0.475,
+  "lift_pp_vs_random": 3.6043099999999995,
   "distribution_0_to_10": [
     2,
     8,
-    10,
+    11,
     10,
     7,
     2,
@@ -20,62 +20,45 @@
     0,
     0
   ],
-  "total_nhay": 111,
-  "cumulative_mean_total_nhay": 2.8461538461538463,
-  "cumulative_mean_nhay_per_pick": 0.2846153846153846,
+  "total_nhay": 113,
+  "cumulative_mean_total_nhay": 2.825,
+  "cumulative_mean_nhay_per_pick": 0.2825,
   "cumulative_multi_hit_picks": 14,
-  "cumulative_mean_multi_hit_picks_per_forecast": 0.358974358974359,
-  "cumulative_pair_cohits": 102,
-  "cumulative_pair_trials": 1755,
-  "cumulative_pair_cohit_rate": 0.05811965811965812,
+  "cumulative_mean_multi_hit_picks_per_forecast": 0.35,
+  "cumulative_pair_cohits": 103,
+  "cumulative_pair_trials": 1800,
+  "cumulative_pair_cohit_rate": 0.05722222222222222,
   "cumulative_triple_cohits": 58,
-  "cumulative_triple_trials": 4680,
-  "cumulative_triple_cohit_rate": 0.012393162393162393,
-  "reference_ev": {
-    "note": "Research benchmark only; not an official or guaranteed payout. No stake/P&L is asserted.",
-    "pair": {
-      "observed_rate": 0.05811965811965812,
-      "break_even_rate_at_10x": 0.1,
-      "break_even_rate_at_12x": 0.08333333333333333,
-      "reference_ev_at_10x": -0.41880341880341876,
-      "reference_ev_at_12x": -0.3025641025641026
-    },
-    "triple": {
-      "observed_rate": 0.012393162393162393,
-      "break_even_rate_at_35x": 0.02857142857142857,
-      "break_even_rate_at_40x": 0.025,
-      "reference_ev_at_35x": -0.5662393162393162,
-      "reference_ev_at_40x": -0.5042735042735043
-    }
-  },
+  "cumulative_triple_trials": 4800,
+  "cumulative_triple_cohit_rate": 0.012083333333333333,
   "rolling_7": {
     "valid_forecasts": 7,
-    "wins": 4,
-    "win_rate": 0.5714285714285714,
-    "lift_pp_vs_random": 13.24716714285714,
+    "wins": 3,
+    "win_rate": 0.42857142857142855,
+    "lift_pp_vs_random": -1.0385471428571436,
     "dates": [
-      "2026-10-07",
       "2026-10-08",
       "2026-10-09",
       "2026-10-10",
       "2026-10-11",
       "2026-10-12",
-      "2026-10-13"
+      "2026-10-13",
+      "2026-10-14"
     ],
-    "total_nhay": 25,
-    "mean_total_nhay": 3.5714285714285716,
-    "multi_hit_picks": 5,
-    "pair_cohits": 24,
+    "total_nhay": 22,
+    "mean_total_nhay": 3.142857142857143,
+    "multi_hit_picks": 4,
+    "pair_cohits": 19,
     "pair_trials": 315,
-    "triple_cohits": 16,
+    "triple_cohits": 12,
     "triple_trials": 840
   },
   "review_checkpoint": {
     "last_review_valid_count": 35,
     "next_review_at_valid_count": 42,
-    "remaining_valid_forecasts": 3,
+    "remaining_valid_forecasts": 2,
     "decision": "KEEP_V5_UNCHANGED",
-    "reason": "Checkpoint #35 completed. After reconciling prospective settlements through 2026-10-13, strict success is 19/39 (48.72%, +4.82 pp vs random baseline). This sample is not sufficient to establish robust edge; retain marginal_top10 and keep pair/reverse disabled until checkpoint #42 and leakage-safe candidate validation."
+    "reason": "Checkpoint #35 completed. Through 2026-10-14, strict success is 19/40 (47.50%, +3.60 percentage points versus the random baseline). The sample does not establish a robust predictive edge. Keep marginal_top10, pair_lambda=0 and reverse_lambda=0 until checkpoint #42 and leakage-safe challenger validation."
   },
   "model_status": {
     "scheme": "marginal_top10",
@@ -90,9 +73,9 @@
     "2026-10-06"
   ],
   "prospective_recompute_audit": {
-    "valid_immutable_snapshots_recomputed": 39,
+    "valid_immutable_snapshots_recomputed": 40,
     "historical_summary_through_2026_10_02_matched": true,
-    "result_data_source": "upstream canonical 2-digit dataset through 2026-10-13; settlements 2026-10-10 through 2026-10-13 appended from immutable snapshots and upstream data",
+    "result_data_source": "Upstream canonical 2-digit data through 2026-10-13 plus validated direct-source fallback for 2026-10-14.",
     "upstream_latest_commit": "c52fe5d762faf066c33910af9d013d5337b22e23",
     "upstream_latest_date": "2026-10-13",
     "missing_dates_excluded": [
@@ -118,11 +101,11 @@
     "note": "Latest scheduler run details verified in this report remain from 2026-10-09. Forecast snapshots for 2026-10-10 through 2026-10-13 are valid pre-draw locks, but their individual scheduler run IDs were not independently verified here. The scheduled runs were delayed relative to configured times."
   },
   "latest_result_provenance": {
-    "target_date": "2026-10-13",
-    "status": "upstream_primary",
+    "target_date": "2026-10-14",
+    "status": "upstream_pending_direct_source_fallback",
     "upstream_latest_commit": "c52fe5d762faf066c33910af9d013d5337b22e23",
     "upstream_latest_date": "2026-10-13",
-    "reconcile_required": false
+    "reconcile_required": true
   },
-  "notes": "Settled and committed prospective results for 2026-10-10 through 2026-10-13 from existing immutable forecasts. 2026-10-10 through 2026-10-13 upstream result data has 27 suffix positions per date. 2026-10-06 remains missing/invalid because no immutable forecast exists; no backfill was created. 2026-10-14 is not included in this summary because upstream canonical dataset is only updated through 2026-10-13 and a direct-source 27-position validation/reconciliation has not been completed in this write."
+  "notes": "Settlements through 2026-10-14 use immutable forecast snapshots. 2026-10-10 through 2026-10-13 use upstream canonical data. 2026-10-14 uses the validated direct-source fallback with 27 positions; reconcile when upstream includes this date and report discrepancies without silently rewriting history. 2026-10-06 remains missing/invalid because no immutable snapshot exists; no backfill was created."
 }
