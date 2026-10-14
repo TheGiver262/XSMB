@@ -83,22 +83,38 @@
       "2026-09-03",
       "2026-09-04",
       "2026-10-06"
-    ]
+    ],
+    "workflow_schedule_updated_at_commit": "de63bdbe00d1d9f2492f233137a3742e079ad704"
   },
   "pre_draw_scheduler": {
     "workflow": "V5 set10 pre-draw forecast",
-    "configured_primary_ict": "09:00",
-    "configured_fallback_ict": "12:00",
-    "target_date": "2026-10-09",
-    "primary_run_number": 69,
-    "primary_run_started_at_ict": "2026-10-09T15:03:05+07:00",
-    "snapshot_generated_at_ict": "2026-10-09T15:03:55.087488+07:00",
-    "primary_conclusion": "success",
-    "fallback_run_number": 70,
-    "fallback_run_started_at_ict": "2026-10-09T18:41:20+07:00",
-    "fallback_conclusion": "success",
-    "status": "valid_lock_with_schedule_delay",
-    "note": "Latest scheduler run details verified in this report remain from 2026-10-09. Forecast snapshots for 2026-10-10 through 2026-10-13 are valid pre-draw locks, but their individual scheduler run IDs were not independently verified here. The scheduled runs were delayed relative to configured times."
+    "configured_attempts_ict": [
+      "07:17",
+      "10:17",
+      "13:17",
+      "15:17"
+    ],
+    "configured_cron_utc": [
+      "17 0 * * *",
+      "17 3 * * *",
+      "17 6 * * *",
+      "17 8 * * *"
+    ],
+    "lock_deadline_ict": "18:00",
+    "write_once": true,
+    "retry_safe": true,
+    "last_verified_historical_run": {
+      "target_date": "2026-10-09",
+      "primary_run_number": 69,
+      "primary_run_started_at_ict": "2026-10-09T15:03:05+07:00",
+      "snapshot_generated_at_ict": "2026-10-09T15:03:55.087488+07:00",
+      "primary_conclusion": "success",
+      "fallback_run_number": 70,
+      "fallback_run_started_at_ict": "2026-10-09T18:41:20+07:00",
+      "fallback_conclusion": "success"
+    },
+    "status": "schedule_redundancy_improved_not_yet_verified",
+    "note": "Workflow updated to four staggered daily attempts at 07:17, 10:17, 13:17 and 15:17 ICT. GitHub Actions scheduled events can still be delayed; future run timing must be checked from actual workflow runs. The immutable snapshot guard prevents later attempts from changing a valid forecast."
   },
   "latest_result_provenance": {
     "target_date": "2026-10-14",
@@ -107,5 +123,22 @@
     "upstream_latest_date": "2026-10-13",
     "reconcile_required": true
   },
-  "notes": "Settlements through 2026-10-14 use immutable forecast snapshots. 2026-10-10 through 2026-10-13 use upstream canonical data. 2026-10-14 uses the validated direct-source fallback with 27 positions; reconcile when upstream includes this date and report discrepancies without silently rewriting history. 2026-10-06 remains missing/invalid because no immutable snapshot exists; no backfill was created."
+  "notes": "Settlements through 2026-10-14 use immutable forecast snapshots. 2026-10-10 through 2026-10-13 use upstream canonical data. 2026-10-14 uses the validated direct-source fallback with 27 positions; reconcile when upstream includes this date and report discrepancies without silently rewriting history. 2026-10-06 remains missing/invalid because no immutable snapshot exists; no backfill was created. The forecast workflow now has four staggered retries; verify actual future run times before treating scheduling as resolved.",
+  "reference_ev": {
+    "note": "Research benchmark only; uses the stated illustrative payout multiples, not an official payout guarantee. No stake/P&L is asserted.",
+    "pair": {
+      "observed_rate": 0.05722222222222222,
+      "break_even_rate_at_10x": 0.1,
+      "break_even_rate_at_12x": 0.08333333333333333,
+      "reference_ev_at_10x": -0.4277777777777778,
+      "reference_ev_at_12x": -0.31333333333333335
+    },
+    "triple": {
+      "observed_rate": 0.012083333333333333,
+      "break_even_rate_at_35x": 0.02857142857142857,
+      "break_even_rate_at_40x": 0.025,
+      "reference_ev_at_35x": -0.5770833333333334,
+      "reference_ev_at_40x": -0.5166666666666666
+    }
+  }
 }
