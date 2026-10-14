@@ -2,12 +2,15 @@ name: V5 set10 pre-draw forecast
 
 on:
   schedule:
-    # Primary 09:00 Vietnam time and fallback 12:00 Vietnam time.
-    # GitHub cron can be delayed by hours; both are intentionally well before
-    # the hard 18:00 prospective lock deadline. The wrapper is write-once and
-    # retry-safe, so the fallback is a no-op if the primary already succeeded.
-    - cron: '0 2 * * *'
-    - cron: '0 5 * * *'
+    # Four staggered attempts in Vietnam time: 07:17, 10:17, 13:17, 15:17.
+    # GitHub scheduled events may be delayed. Avoid minute 0 and keep multiple
+    # retries well before the hard 18:00 ICT lock deadline. The daily wrapper
+    # is write-once/idempotent: once a valid snapshot exists, later attempts
+    # verify it and do not change the forecast.
+    - cron: '17 0 * * *'
+    - cron: '17 3 * * *'
+    - cron: '17 6 * * *'
+    - cron: '17 8 * * *'
   workflow_dispatch:
 
 permissions:
