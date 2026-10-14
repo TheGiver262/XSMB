@@ -1,0 +1,52 @@
+{
+  "target_date": "2026-10-11",
+  "forecast_status": "valid",
+  "forecast_generated_at_ict": "2026-10-11T14:54:03.685781+07:00",
+  "data_cutoff": "2026-10-10",
+  "top10": [
+    "75",
+    "34",
+    "51",
+    "35",
+    "43",
+    "38",
+    "09",
+    "48",
+    "90",
+    "37"
+  ],
+  "result_source": "https://github.com/khiemdoan/vietnam-lottery-xsmb-analysis/blob/c52fe5d762faf066c33910af9d013d5337b22e23/data/xsmb-2-digits.csv",
+  "result_provenance": "upstream_primary",
+  "upstream_latest_commit": "c52fe5d762faf066c33910af9d013d5337b22e23",
+  "upstream_latest_date": "2026-10-13",
+  "upstream_reference": "https://github.com/khiemdoan/vietnam-lottery-xsmb-analysis/blob/c52fe5d762faf066c33910af9d013d5337b22e23/data/xsmb-2-digits.csv",
+  "reconcile_required": false,
+  "validated_positions": 27,
+  "nhay_by_pick": {
+    "34": 0,
+    "35": 0,
+    "37": 0,
+    "38": 0,
+    "43": 1,
+    "48": 0,
+    "51": 2,
+    "75": 1,
+    "90": 0,
+    "09": 0
+  },
+  "distinct_hits": 3,
+  "hit_numbers": [
+    "75",
+    "51",
+    "43"
+  ],
+  "outcome": "WIN",
+  "total_nhay": 4,
+  "mean_nhay_per_pick": 0.4,
+  "multi_hit_picks": 1,
+  "pair_cohits": 3,
+  "pair_trials": 45,
+  "triple_cohits": 1,
+  "triple_trials": 120,
+  "notes": "Leakage-safe settlement from the upstream canonical 2-digit dataset. Forecast snapshot was generated before the 18:00 ICT lock deadline. Exactly 27 suffix positions are present; no backfill or model change was performed."
+}
