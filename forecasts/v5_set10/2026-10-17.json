@@ -1,0 +1,110 @@
+{
+  "target_date": "2026-10-17",
+  "station": "Nam Dinh",
+  "model": "V5_set10_3plus",
+  "selected_scheme": {
+    "name": "marginal_top10",
+    "pair_lambda": 0.0,
+    "reverse_lambda": 0.0,
+    "requires": []
+  },
+  "top10": [
+    "45",
+    "53",
+    "75",
+    "63",
+    "86",
+    "96",
+    "81",
+    "66",
+    "43",
+    "09"
+  ],
+  "detail": [
+    {
+      "number": "45",
+      "base_score": 1.9963192386360893,
+      "is_double": false,
+      "reverse": "54",
+      "reverse_base_score": -0.24691627741802558,
+      "regime_reverse_z": 1.664446257607649
+    },
+    {
+      "number": "53",
+      "base_score": 1.9135790151973113,
+      "is_double": false,
+      "reverse": "35",
+      "reverse_base_score": 0.6344861685015629,
+      "regime_reverse_z": -2.6912711235633786
+    },
+    {
+      "number": "75",
+      "base_score": 1.875400575280557,
+      "is_double": false,
+      "reverse": "57",
+      "reverse_base_score": -0.7411027224391177,
+      "regime_reverse_z": 1.304189517435868
+    },
+    {
+      "number": "63",
+      "base_score": 1.3682081920379712,
+      "is_double": false,
+      "reverse": "36",
+      "reverse_base_score": -0.6792490183304707,
+      "regime_reverse_z": 1.2078015352169558
+    },
+    {
+      "number": "86",
+      "base_score": 1.1890517904189402,
+      "is_double": false,
+      "reverse": "68",
+      "reverse_base_score": -0.32085662311368207,
+      "regime_reverse_z": -0.7958436752728162
+    },
+    {
+      "number": "96",
+      "base_score": 1.1653059649379434,
+      "is_double": false,
+      "reverse": "69",
+      "reverse_base_score": 0.27781683811448954,
+      "regime_reverse_z": -1.3700654797828247
+    },
+    {
+      "number": "81",
+      "base_score": 1.099492052107449,
+      "is_double": false,
+      "reverse": "18",
+      "reverse_base_score": -0.58625516580818,
+      "regime_reverse_z": 0.2937132950028199
+    },
+    {
+      "number": "66",
+      "base_score": 1.0375798073529863,
+      "is_double": true,
+      "reverse": null,
+      "reverse_base_score": null,
+      "regime_reverse_z": 0.0
+    },
+    {
+      "number": "43",
+      "base_score": 1.016821328347806,
+      "is_double": false,
+      "reverse": "34",
+      "reverse_base_score": 0.9438232739952751,
+      "regime_reverse_z": 1.0080092506622038
+    },
+    {
+      "number": "09",
+      "base_score": 1.0147461624324592,
+      "is_double": false,
+      "reverse": "90",
+      "reverse_base_score": 0.048872710350370024,
+      "regime_reverse_z": -0.433035943235143
+    }
+  ],
+  "data_cutoff": "2026-10-16",
+  "generated_at_ict": "2026-10-17T11:23:54.647191+07:00",
+  "lock_deadline_ict": "2026-10-17T18:00:00+07:00",
+  "strict_success_rule": "at least 3 distinct selected suffixes appear among 27 positions",
+  "prospective_status": "valid_only_if_locked_before_target_draw"
+}
