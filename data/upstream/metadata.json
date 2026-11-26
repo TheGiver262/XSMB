@@ -4,20 +4,20 @@
   "integrity_policy": "append-only historical xsmb.csv; cross-file date equality; schema/value checks",
   "license": "MIT",
   "first_date": "2005-10-01",
-  "last_date": "2026-11-25",
-  "observed_draws": 7625,
+  "last_date": "2026-11-26",
+  "observed_draws": 7626,
   "files": {
     "xsmb.csv": {
-      "sha256": "a3b137dd042511bdfb6c5a6683c68371843c7c749c2d7718e0b4b72f5002366f",
-      "bytes": 1083620
+      "sha256": "1df7e26540760a511d5ac7f6f3dfee22ce2d7dd686299854cbeed61ec0830204",
+      "bytes": 1083764
     },
     "xsmb-2-digits.csv": {
-      "sha256": "8d394ab9d3e258cc5d821c9de176cd9bb78b9bc2cad2e208e112da048b3dc0e4",
-      "bytes": 681230
+      "sha256": "f40fc18e9b3d97384cf3af6a371e633b7628bdd5f73507e395ee6957223b4512",
+      "bytes": 681322
     },
     "xsmb-sparse.csv": {
-      "sha256": "2029c2b8a89843c2aa294fd5645bad802c6c1544aa7aa5436e90d14396129a5e",
-      "bytes": 1609180
+      "sha256": "447d91652c40530e1c537d031736f2c5ff6aa7cac79fc9847d006cce7857146d",
+      "bytes": 1609391
     }
   }
 }
